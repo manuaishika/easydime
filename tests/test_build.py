@@ -1,5 +1,5 @@
 import sys
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -38,3 +38,23 @@ def test_render_and_history(tmp_path, monkeypatch):
     assert "Acme Ltd" in out and "<polyline" in out and "▲" in out and "SME" in out
     assert "Small Ltd" in out.split("<h2>SME</h2>")[-1]
     assert "Small Ltd" not in out.split("<h2>SME</h2>")[0]
+
+
+def test_parse_end():
+    today = date(2026, 9, 30)
+    assert build.parse_end("28-5 Oct", today) == date(2026, 10, 5)
+    assert build.parse_end("23-25 Sep", today) == date(2026, 9, 25)
+    assert build.parse_end("30 Sep - 5 Oct", today) == date(2026, 10, 5)
+    assert build.parse_end("29-2 Jan", date(2026, 12, 30)) == date(2027, 1, 2)
+    assert build.parse_end("TBA", today) is None
+
+
+def test_verdict():
+    today = date(2026, 9, 30)
+    base = dict(gmp=1, gain=None, sme=False, status="Open", dates="30-5 Oct")
+    v = lambda **k: build.verdict({**base, **k}, today)[0]
+    assert v(gain=12) == "Apply" and v(gain=12, sme=True) == "Ignore" and v(gain=16, sme=True) == "Apply"
+    assert v(gain=-2) == "Don't apply" and v(gain=1) == "Don't apply" and v(gain=5) == "Ignore"
+    assert v(gain=None, gmp=None) == "Ignore" and v(gain=50, status="Closed") == "Closed"
+    assert v(gain=50, dates="23-25 Sep") == "Closed"
+    assert build.apply_by({**base}, today).endswith("5 Oct · 5d")

@@ -11,7 +11,7 @@ import json
 import re
 import sys
 import urllib.request
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from html.parser import HTMLParser
 from pathlib import Path
 
@@ -171,6 +171,48 @@ def update_history(ipos, now):
     return hist
 
 
+# ---------- apply-by date and verdict ----------
+MONTHS = {m: n for n, m in enumerate("jan feb mar apr may jun jul aug sep oct nov dec".split(), 1)}
+
+
+def parse_end(dates, today):
+    """'28-5 Oct' -> date(…, 10, 5); '30 Sep - 5 Oct' also works. None if unreadable."""
+    m = re.search(r"(\d{1,2})\s*([A-Za-z]{3})[A-Za-z]*\s*$", dates.strip())
+    if not m or m.group(2).lower() not in MONTHS:
+        return None
+    day, month = int(m.group(1)), MONTHS[m.group(2).lower()]
+    for year in (today.year, today.year + 1, today.year - 1):
+        try:
+            d = date(year, month, day)
+        except ValueError:
+            return None
+        if abs((d - today).days) <= 180:
+            return d
+    return None
+
+
+def is_closed(i, today):
+    end = parse_end(i["dates"], today)
+    return bool(re.search(r"clos|list|allot", i["status"], re.I)) or (end is not None and end < today)
+
+
+def verdict(i, today):
+    """Rule of thumb, not advice: Apply / Don't apply / Ignore, plus a short reason."""
+    if is_closed(i, today):
+        return "Closed", "bidding is over"
+    g = i["gain"]
+    if g is None or i["gmp"] is None:
+        return "Ignore", "no GMP yet"
+    need = 15 if i["sme"] else 10
+    if g >= need:
+        return "Apply", f"GMP gain {g:g}% is at least {need}%"
+    if g < 0:
+        return "Don't apply", "GMP is negative"
+    if g < 3:
+        return "Don't apply", f"GMP gain only {g:g}%"
+    return "Ignore", f"GMP gain {g:g}% is below the {need}% bar"
+
+
 # ---------- render ----------
 CSS = """
 :root{color-scheme:light dark;--bg:#fff;--fg:#111;--mut:#777;--line:#eee;--up:#0a8f4d;--down:#d0312d}
@@ -208,29 +250,45 @@ def sparkline(h):
             f'<span class="{color(d)}">{arrow}</span>')
 
 
-def row(i, hist):
+def apply_by(i, today):
+    end = parse_end(i["dates"], today)
+    if end is None:
+        return "–"
+    left = (end - today).days
+    note = "" if is_closed(i, today) else " · today" if left == 0 else f" · {left}d"
+    return f"{end.day} {end.strftime('%b')}{note}"
+
+
+def row(i, hist, today):
     e = html.escape
     h = hist.get(key_of(i["name"]), [])
+    label, why = verdict(i, today)
     est = f"₹{i['est_price']:g}" if i["est_price"] is not None else "–"
     bits = [f"Price band: {e(i['price_text'] or '–')}", f"Est. listing: {e(est)}",
-            f"Dates: {e(i['dates'] or '–')}"]
+            f"Dates: {e(i['dates'] or '–')}", f"Verdict: {e(why)}"]
     if i["size"]:
         bits.append(f"Size: {e(i['size'])}")
     history = ", ".join(f"{t[5:10]} ₹{v:g}" for t, v in h[-10:]) or "just started tracking"
     link = f' · <a href="{e(i["url"])}" target="_blank" rel="noopener">IPO Watch ↗</a>' if i["url"] else ""
-    return (f'<tr><td><details><summary>{e(i["name"])} <span class="mut">{e(i["status"])}</span></summary>'
+    cls = {"Apply": "up", "Don't apply": "down"}.get(label, "mut")
+    return (f'<tr><td><details><summary>{e(i["name"])}</summary>'
             f'<div class="det">{" · ".join(bits)}<br>GMP history: {history}{link}</div></details></td>'
+            f'<td>{e(apply_by(i, today))}</td>'
             f'<td>{sign(i["gmp"])}</td><td class="{color(i["gain"])}"><b>{sign(i["gain"], "%")}</b></td>'
-            f'<td>{sparkline(h)}</td></tr>')
+            f'<td>{sparkline(h)}</td><td class="{cls}"><b>{e(label)}</b></td></tr>')
 
 
 def render(ipos, hist, now):
+    today = now.date()
+
     def section(title, items):
         if not items:
             return ""
-        items = sorted(items, key=lambda i: i["gain"] if i["gain"] is not None else -1e9, reverse=True)
-        return (f"<h2>{title}</h2><table><thead><tr><th>IPO</th><th>GMP ₹</th><th>Gain</th><th>Trend</th></tr></thead>"
-                f"<tbody>{''.join(row(i, hist) for i in items)}</tbody></table>")
+        # open IPOs first (best gain on top), closed ones at the bottom
+        items = sorted(items, key=lambda i: (is_closed(i, today), -(i["gain"] if i["gain"] is not None else -1e9)))
+        return (f"<h2>{title}</h2><table><thead><tr><th>IPO</th><th>Apply by</th><th>GMP ₹</th><th>Gain</th>"
+                f"<th>Trend</th><th>Verdict</th></tr></thead>"
+                f"<tbody>{''.join(row(i, hist, today) for i in items)}</tbody></table>")
 
     body = section("Mainboard", [i for i in ipos if not i["sme"]]) + section("SME", [i for i in ipos if i["sme"]])
     if not body:
@@ -239,7 +297,8 @@ def render(ipos, hist, now):
             f'content="width=device-width,initial-scale=1"><title>IPO GMP</title><style>{CSS}</style></head><body><main>'
             f'<h1>IPO GMP</h1><div class="mut">Updated {now.strftime("%d %b %Y, %H:%M")} IST · tap an IPO for details</div>'
             f'{body}<p class="mut">Source: <a href="{SOURCE}">IPO Watch</a>. GMP is unofficial and moves fast; '
-            f'treat it as a rough signal only.</p></main></body></html>')
+            f'treat it as a rough signal only. Verdict is a simple rule (Apply: GMP gain ≥10%, ≥15% for SME; '
+            f'Don\'t apply: negative or under 3%; Ignore: in between or no GMP), not financial advice.</p></main></body></html>')
 
 
 # ---------- main ----------
