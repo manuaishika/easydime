@@ -5,19 +5,24 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 import build
 
-PAGE = """<p>intro</p><table><tr><th>IPO Name</th><th>Price Band</th><th>GMP</th><th>Open</th><th>Close</th><th>Listing Date</th></tr>
-<tr><td><a href="https://ipowatch.in/x">Acme Ltd IPO</a></td><td>₹95 to ₹100</td><td>₹25 (25%)</td><td>1 Oct</td><td>3 Oct</td><td>8 Oct</td></tr>
-<tr><td>Foo SME IPO</td><td>₹60</td><td>-₹5</td><td>1 Oct</td><td>3 Oct</td><td>8 Oct</td></tr>
-<tr><td>Bar IPO</td><td>₹50</td><td>-</td><td>-</td><td>-</td><td>-</td></tr></table>"""
+ROW = "<tr><td>{}</td><td>{}</td><td>🟢</td><td>{}</td><td>{}</td><td>30-5 Oct</td><td>Open</td></tr>"
+HEAD = "<tr><th>IPO Name</th><th>IPO GMP*</th><th>Trend</th><th>Price Band</th><th>Est. Listing</th><th>Date</th><th>Status</th></tr>"
+PAGE = ("<h2>Mainboard IPO GMP Today</h2><table>" + HEAD
+        + ROW.format('<a href="https://ipowatch.in/x">Acme Ltd IPO</a>', "₹25", "₹95 to ₹100", "₹125 (25.00%)")
+        + ROW.format("Loss Co", "-₹5", "₹60", "₹55 (-8.33%)")
+        + ROW.format("No Gmp", "-", "₹50", "–") + "</table>"
+        + "<h2>SME IPO GMP Today</h2><table>" + HEAD + ROW.format("Small Ltd", "₹7", "₹70", "₹77 (10.00%)") + "</table>")
 
 
 def test_parse():
     _, ipos = build.parse(PAGE)
-    a, f, b = ipos
-    assert (a["name"], a["gmp"], a["gain"], a["price"], a["sme"]) == ("Acme Ltd", 25, 25, 100, False)
+    a, loss, none, small = ipos
+    assert (a["name"], a["gmp"], a["gain"], a["price"], a["sme"]) == ("Acme Ltd", 25, 25.0, 100, False)
+    assert (a["est_price"], a["dates"], a["status"]) == (125, "30-5 Oct", "Open")
     assert a["url"] == "https://ipowatch.in/x"
-    assert (f["gmp"], f["gain"], f["sme"]) == (-5, -8.33, True)
-    assert (b["gmp"], b["gain"]) == (None, None)
+    assert (loss["gmp"], loss["gain"]) == (-5, -8.33)
+    assert (none["gmp"], none["gain"]) == (None, None)
+    assert (small["gain"], small["sme"]) == (10.0, True)
 
 
 def test_render_and_history(tmp_path, monkeypatch):
@@ -31,3 +36,5 @@ def test_render_and_history(tmp_path, monkeypatch):
     assert [v for _, v in hist["acmeltd"]] == [25, 30]
     out = build.render(ipos, hist, now)
     assert "Acme Ltd" in out and "<polyline" in out and "▲" in out and "SME" in out
+    assert "Small Ltd" in out.split("<h2>SME</h2>")[-1]
+    assert "Small Ltd" not in out.split("<h2>SME</h2>")[0]

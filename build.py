@@ -41,8 +41,12 @@ class TableParser(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.tables, self._rows, self._row, self._cell = [], None, None, None
         self._depth = 0
+        self.headings = []      # heading text preceding each kept table
+        self._last_heading, self._in_heading = "", None
 
     def handle_starttag(self, tag, attrs):
+        if tag in ("h1", "h2", "h3", "h4", "h5", "h6") and self._depth == 0:
+            self._in_heading = []
         if tag == "table":
             self._depth += 1
             if self._depth == 1:
@@ -56,10 +60,16 @@ class TableParser(HTMLParser):
                 self._cell["href"] = dict(attrs).get("href")
 
     def handle_endtag(self, tag):
+        if tag in ("h1", "h2", "h3", "h4", "h5", "h6") and self._in_heading is not None:
+            text = re.sub(r"\s+", " ", "".join(self._in_heading)).strip()
+            if text:
+                self._last_heading = text
+            self._in_heading = None
         if tag == "table":
             if self._depth == 1 and self._rows is not None:
                 if len(self._rows) > 1:
                     self.tables.append(self._rows)
+                    self.headings.append(self._last_heading)
                 self._rows = None
             self._depth = max(0, self._depth - 1)
         elif self._rows is not None and self._depth == 1:
@@ -73,6 +83,8 @@ class TableParser(HTMLParser):
                 self._row = None
 
     def handle_data(self, data):
+        if self._in_heading is not None:
+            self._in_heading.append(data)
         if self._cell is not None:
             self._cell["text"].append(data)
 
@@ -97,15 +109,14 @@ def key_of(name):
     return re.sub(r"[^a-z0-9]", "", name.lower())
 
 
-def table_to_ipos(rows):
+def table_to_ipos(rows, heading=""):
     head = [c[0].lower() for c in rows[0]]
 
     def find(pattern):
         return next((i for i, h in enumerate(head) if re.search(pattern, h)), -1)
 
     col = dict(name=find(r"ipo|company|name"), gmp=find(r"gmp|premium"), price=find(r"price|band"),
-               gain=find(r"gain|est|%"), open=find(r"open"), close=find(r"close"),
-               listing=find(r"listing|list date"), size=find(r"size|issue"))
+               est=find(r"est|listing"), date=find(r"date"), status=find(r"status"), size=find(r"size|issue"))
     if col["name"] < 0 or col["gmp"] < 0:
         return []
 
@@ -119,23 +130,22 @@ def table_to_ipos(rows):
             continue
         gmp_text = cell(r, col["gmp"])
         price_text = cell(r, col["price"])
+        est_text = cell(r, col["est"])
         prices = [float(x.replace(",", "")) for x in re.findall(r"\d[\d,]*(?:\.\d+)?", price_text)]
         upper = max(prices) if prices else None
         gmp = number(gmp_text)
         gain = None
-        if col["gain"] >= 0 and col["gain"] != col["gmp"]:
-            gain = number(cell(r, col["gain"]))
-        if gain is None:
-            m = re.search(r"(-?\d+(?:\.\d+)?)\s*%", gmp_text)
-            if m:
-                gain = float(m.group(1))
-        if gain is None and gmp is not None and upper:
+        m = re.search(r"(-?\d+(?:\.\d+)?)\s*%", est_text) or re.search(r"(-?\d+(?:\.\d+)?)\s*%", gmp_text)
+        if m:
+            gain = float(m.group(1))
+        elif gmp is not None and upper:
             gain = round(gmp / upper * 100, 2)
         out.append(dict(
-            name=clean_name(raw_name), sme=bool(re.search(r"\bsme\b", " ".join(c[0] for c in r), re.I)),
+            name=clean_name(raw_name),
+            sme=bool(re.search(r"\bsme\b", heading + " " + raw_name, re.I)),
             gmp=gmp, gain=gain, price=upper, price_text=price_text,
-            open=cell(r, col["open"]), close=cell(r, col["close"]),
-            listing=cell(r, col["listing"]), size=cell(r, col["size"]),
+            est_price=number(re.sub(r"\(.*?\)", "", est_text)),
+            dates=cell(r, col["date"]), status=cell(r, col["status"]), size=cell(r, col["size"]),
             url=r[col["name"]][1]))
     return out
 
@@ -144,7 +154,7 @@ def parse(page):
     p = TableParser()
     p.feed(page)
     p.close()
-    return p.tables, [i for t in p.tables for i in table_to_ipos(t)]
+    return p.tables, [i for t, h in zip(p.tables, p.headings) for i in table_to_ipos(t, h)]
 
 
 # ---------- history ----------
@@ -201,13 +211,14 @@ def sparkline(h):
 def row(i, hist):
     e = html.escape
     h = hist.get(key_of(i["name"]), [])
-    bits = [f"Price band: {e(i['price_text'] or '–')}", f"Open: {e(i['open'] or '–')}",
-            f"Close: {e(i['close'] or '–')}", f"Listing: {e(i['listing'] or '–')}"]
+    est = f"₹{i['est_price']:g}" if i["est_price"] is not None else "–"
+    bits = [f"Price band: {e(i['price_text'] or '–')}", f"Est. listing: {e(est)}",
+            f"Dates: {e(i['dates'] or '–')}"]
     if i["size"]:
         bits.append(f"Size: {e(i['size'])}")
     history = ", ".join(f"{t[5:10]} ₹{v:g}" for t, v in h[-10:]) or "just started tracking"
     link = f' · <a href="{e(i["url"])}" target="_blank" rel="noopener">IPO Watch ↗</a>' if i["url"] else ""
-    return (f'<tr><td><details><summary>{e(i["name"])}</summary>'
+    return (f'<tr><td><details><summary>{e(i["name"])} <span class="mut">{e(i["status"])}</span></summary>'
             f'<div class="det">{" · ".join(bits)}<br>GMP history: {history}{link}</div></details></td>'
             f'<td>{sign(i["gmp"])}</td><td class="{color(i["gain"])}"><b>{sign(i["gain"], "%")}</b></td>'
             f'<td>{sparkline(h)}</td></tr>')
@@ -241,6 +252,10 @@ def main(argv=None):
     page = Path(args.html).read_text() if args.html else fetch()
     tables, ipos = parse(page)
     if args.debug:
+        pp = TableParser()
+        pp.feed(page)
+        print("headings before tables:", pp.headings)
+        print("sme count:", sum(i["sme"] for i in ipos), "mainboard count:", sum(not i["sme"] for i in ipos))
         print(f"page bytes: {len(page)}  tables: {len(tables)}  ipos parsed: {len(ipos)}")
         for n, t in enumerate(tables):
             print(f"table {n}: {len(t)} rows, header = {[c[0] for c in t[0]]}")
