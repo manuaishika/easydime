@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IPO GMP</title>
+<style>
+:root{--bg:#fff;--fg:#111;--mut:#777;--line:#eee;--up:#0a8f4d;--down:#d0312d}
+@media(prefers-color-scheme:dark){:root{--bg:#111;--fg:#eee;--mut:#999;--line:#2a2a2a;--up:#3ddc84;--down:#ff6b66}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.4 system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:16px}
+header{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+h1{font-size:18px;margin:0;flex:1}
+button{background:none;border:1px solid var(--line);color:var(--fg);padding:5px 10px;border-radius:6px;cursor:pointer;font:inherit}
+button.on{background:var(--fg);color:var(--bg)}
+table{width:100%;border-collapse:collapse}
+th{font-weight:500;color:var(--mut);text-align:right;font-size:12px;padding:6px}
+th:first-child,td:first-child{text-align:left}
+td{padding:10px 6px;border-top:1px solid var(--line);text-align:right;white-space:nowrap}
+td.n{white-space:normal}
+tr.r{cursor:pointer}
+.up{color:var(--up)}.down{color:var(--down)}.mut{color:var(--mut);font-size:12px}
+.star{cursor:pointer;color:var(--mut);margin-right:6px}.star.on{color:#e6a700}
+.det td{text-align:left;color:var(--mut);font-size:13px;white-space:normal}
+#msg{color:var(--mut);padding:20px 0}
+</style>
+</head>
+<body><main>
+<header><h1>IPO GMP</h1>
+<button data-f="all" class="on">All</button><button data-f="mine">★ Mine</button>
+<button data-f="main">Mainboard</button><button data-f="sme">SME</button>
+<button id="ref">Refresh</button></header>
+<table><thead><tr><th>IPO</th><th>GMP ₹</th><th>Gain</th><th>Trend</th></tr></thead><tbody id="rows"></tbody></table>
+<div id="msg">Loading…</div>
+<div class="mut" id="foot"></div>
+</main>
+<script>
+const $=s=>document.querySelector(s);
+const get=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
+const set=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
+let data=[],filter='all',pins=get('pins',[]),hist=get('hist',{}),open=null;
+const key=n=>n.toLowerCase().replace(/[^a-z0-9]/g,'');
+const fmt=v=>v==null?'–':(v>0?'+':'')+v;
+const cls=v=>v>0?'up':v<0?'down':'';
+
+function spark(h){
+  if(!h||h.length<2)return '<span class="mut">–</span>';
+  const v=h.map(x=>x.g),mn=Math.min(...v),mx=Math.max(...v),r=mx-mn||1;
+  const pts=v.map((y,i)=>`${(i/(v.length-1)*50).toFixed(1)},${(14-(y-mn)/r*12).toFixed(1)}`).join(' ');
+  const d=v[v.length-1]-v[v.length-2],c=d>0?'var(--up)':d<0?'var(--down)':'var(--mut)';
+  return `<svg width="50" height="16"><polyline points="${pts}" fill="none" stroke="${c}" stroke-width="1.5"/></svg> <span class="${cls(d)}">${d>0?'▲':d<0?'▼':'–'}</span>`;
+}
+function snapshot(){
+  const day=new Date().toISOString().slice(0,10);
+  for(const i of data){
+    if(i.gmp==null)continue;
+    const h=hist[key(i.name)]=hist[key(i.name)]||[];
+    const last=h[h.length-1];
+    const e={t:day,g:i.gmp};
+    if(last&&last.t===day)h[h.length-1]=e;else h.push(e);
+    if(h.length>30)h.shift();
+  }
+  set('hist',hist);
+}
+function render(){
+  const list=data.filter(i=>filter==='mine'?pins.includes(key(i.name)):filter==='sme'?i.sme:filter==='main'?!i.sme:true)
+    .sort((a,b)=>(pins.includes(key(b.name))-pins.includes(key(a.name)))||((b.gain??-1e9)-(a.gain??-1e9)));
+  $('#rows').innerHTML=list.map(i=>{
+    const k=key(i.name),p=pins.includes(k),h=hist[k];
+    let s=`<tr class="r" data-k="${k}"><td class="n"><span class="star ${p?'on':''}" data-p="${k}">${p?'★':'☆'}</span>${i.name} <span class="mut">${i.sme?'SME':''}</span></td>
+    <td>${i.gmp==null?'–':i.gmp}</td><td class="${cls(i.gain)}"><b>${i.gain==null?'–':fmt(i.gain)+'%'}</b></td><td>${spark(h)}</td></tr>`;
+    if(open===k)s+=`<tr class="det"><td colspan="4">Price band: ${i.priceText||'–'} · Open ${i.open||'–'} · Close ${i.close||'–'} · Listing ${i.listing||'–'}${i.size?' · Size '+i.size:''}<br>
+      GMP history: ${(h||[]).map(x=>x.t.slice(5)+' ₹'+x.g).join(', ')||'builds up as you visit'}${i.url?`<br><a href="${i.url}" target="_blank" rel="noopener">Full details on IPO Watch ↗</a>`:''}</td></tr>`;
+    return s;
+  }).join('');
+  $('#msg').textContent=list.length?'':(data.length?'Nothing here yet — tap ☆ to pin IPOs.':'');
+}
+async function load(){
+  $('#msg').textContent='Loading…';
+  try{
+    const r=await fetch('/api/ipos');const j=await r.json();
+    if(!r.ok)throw new Error(j.error);
+    data=j.ipos;
+    if(!data.length){$('#msg').innerHTML='No IPOs parsed. Open <a href="/api/ipos?debug=1">/api/ipos?debug=1</a> to see what the scraper got.';}
+    snapshot();
+    $('#foot').textContent='Data: IPO Watch, updated '+new Date(j.updated).toLocaleString()+'. GMP is unofficial — a rough signal only.';
+    render();
+  }catch(e){$('#msg').textContent='Failed to load: '+e.message}
+}
+document.addEventListener('click',e=>{
+  const f=e.target.closest('[data-f]');if(f){filter=f.dataset.f;document.querySelectorAll('[data-f]').forEach(b=>b.classList.toggle('on',b===f));return render()}
+  const p=e.target.closest('[data-p]');if(p){const k=p.dataset.p;pins=pins.includes(k)?pins.filter(x=>x!==k):[...pins,k];set('pins',pins);return render()}
+  const r=e.target.closest('tr.r');if(r){open=open===r.dataset.k?null:r.dataset.k;render()}
+});
+$('#ref').onclick=load;
+load();
+</script>
+</body></html>
