@@ -1,4 +1,10 @@
-# easydime
-One-table IPO GMP tracker. Scrapes IPO Watch server-side (`api/ipos.js`, cached 15 min) and shows GMP, expected gain %, and a GMP trend. Pins and trend history are stored in your browser.
+# easydime — IPO GMP in one table
 
-Deploy: import this repo in Vercel (no build settings). If the table is empty, open `/api/ipos?debug=1`.
+Pure Python, no JavaScript. `build.py` scrapes GMP from [IPO Watch](https://ipowatch.in/ipo-grey-market-premium-latest-ipo-gmp/),
+keeps a GMP history in `data/history.json`, and writes a static `index.html` (name, GMP ₹, expected gain %, trend;
+tap an IPO for price band, dates and history).
+
+A GitHub Action (`.github/workflows/update.yml`) re-runs it four times a day and commits to `main`.
+
+- Serve: GitHub Pages (Settings → Pages → `main` / root) or Vercel/Netlify as a plain static site (no build command).
+- Run locally: `python build.py` (debug what was parsed: `python build.py --debug`). Tests: `pytest tests`.
