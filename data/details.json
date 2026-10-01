@@ -1,0 +1,1657 @@
+{
+ "vishalnirmiti": {
+  "financials": [
+   {
+    "period": "2023",
+    "revenue": 270.58,
+    "expense": 266.65,
+    "pat": 3.01,
+    "assets": 224.5
+   },
+   {
+    "period": "2024",
+    "revenue": 247.93,
+    "expense": 243.35,
+    "pat": 3.45,
+    "assets": 242.04
+   },
+   {
+    "period": "2025",
+    "revenue": 324.86,
+    "expense": 293.72,
+    "pat": 23.64,
+    "assets": 296.61
+   },
+   {
+    "period": "2026",
+    "revenue": 344.13,
+    "expense": 310.35,
+    "pat": 24.98,
+    "assets": 334.92
+   }
+  ],
+  "peers": [
+   {
+    "name": "GPT Infraprojects Limited",
+    "pe": 14.83
+   },
+   {
+    "name": "Indian Hume Pipe CompanyLimited",
+    "pe": 13.86
+   }
+  ],
+  "lot": {
+   "lots": 1.0,
+   "shares": 68.0,
+   "amount": 14960.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": 80909.0,
+    "pct": 1.0
+   },
+   "nii": {
+    "shares": 2346364.0,
+    "pct": 29.0
+   },
+   "retail": {
+    "shares": 5663636.0,
+    "pct": 70.0
+   }
+  },
+  "promoter": {
+   "pre": 73.42,
+   "post": 49.4
+  },
+  "purposes": [
+   {
+    "text": "Funding Working Capital Requirements",
+    "crore": 75.0
+   },
+   {
+    "text": "Repayment and/ or pre-payment, in part or full of term loans",
+    "crore": 19.0
+   },
+   {
+    "text": "General Corporate Purpose",
+    "crore": null
+   }
+  ],
+  "kpi": {
+   "roe": 33.67,
+   "roce": 28.02,
+   "ebitda_margin": 15.1,
+   "pat_margin": 7.37,
+   "de": 1.01,
+   "eps": 12.61,
+   "ronw": 33.87,
+   "nav": 43.61
+  },
+  "issue": {
+   "issue size": "Approx ₹178 Crores",
+   "fresh issue": "Approx ₹145 Crores",
+   "offer for sale": "Approx 15,00,000 Equity Shares",
+   "issue type": "Book Building Issue",
+   "ipo listing": "BSE, NSE"
+  },
+  "dates": {
+   "allotment": "2026-10-06",
+   "refund": "2026-10-07",
+   "listing": "2026-10-08"
+  }
+ },
+ "nityasgems": {
+  "financials": [
+   {
+    "period": "2023",
+    "revenue": 11.67,
+    "expense": 11.36,
+    "pat": 0.25,
+    "assets": 6.08
+   },
+   {
+    "period": "2024",
+    "revenue": 53.66,
+    "expense": 48.73,
+    "pat": 4.02,
+    "assets": 11.75
+   },
+   {
+    "period": "2025",
+    "revenue": 96.85,
+    "expense": 84.95,
+    "pat": 9.79,
+    "assets": 39.87
+   },
+   {
+    "period": "2026",
+    "revenue": 203.33,
+    "expense": 176.4,
+    "pat": 22.32,
+    "assets": 116.42
+   }
+  ],
+  "peers": [
+   {
+    "name": "Golkunda Diamonds & JewelleryLimited",
+    "pe": 16.61
+   },
+   {
+    "name": "Goldiam International Limited",
+    "pe": 21.69
+   },
+   {
+    "name": "Renaissance Global Limited",
+    "pe": 18.63
+   }
+  ],
+  "lot": {
+   "lots": 1.0,
+   "shares": 200.0,
+   "amount": 15000.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": 7178000.0,
+    "pct": 75.0
+   },
+   "nii": {
+    "shares": 2153400.0,
+    "pct": 15.0
+   },
+   "retail": {
+    "shares": 5024600.0,
+    "pct": 10.0
+   }
+  },
+  "promoter": {
+   "pre": 58.1,
+   "post": 43.51
+  },
+  "purposes": [
+   {
+    "text": "Funding Working Capital requirements of the Company",
+    "crore": 70.0
+   },
+   {
+    "text": "General Corporate Purpose",
+    "crore": null
+   }
+  ],
+  "kpi": {
+   "roe": 43.75,
+   "roce": 42.93,
+   "ebitda_margin": 15.27,
+   "pat_margin": 11.0,
+   "de": 0.29,
+   "eps": 5.52,
+   "ronw": 43.75,
+   "nav": 15.13
+  },
+  "issue": {
+   "issue size": "Approx ₹108.35 Crores",
+   "fresh issue": "Approx ₹108.35 Crores",
+   "issue type": "Book Building Issue",
+   "ipo listing": "BSE, NSE"
+  },
+  "dates": {
+   "allotment": "2026-10-06",
+   "refund": "2026-10-07",
+   "listing": "2026-10-08"
+  }
+ },
+ "rkfashion": {
+  "financials": [
+   {
+    "period": "2025",
+    "revenue": 17.82,
+    "expense": 15.02,
+    "pat": 2.0,
+    "assets": 16.88
+   },
+   {
+    "period": "2026",
+    "revenue": 31.54,
+    "expense": 23.25,
+    "pat": 6.29,
+    "assets": 23.88
+   }
+  ],
+  "peers": [
+   {
+    "name": "Banaras Beads Ltd.",
+    "pe": 46.34
+   }
+  ],
+  "lot": {
+   "lots": 2.0,
+   "shares": 3200.0,
+   "amount": 262400.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": null,
+    "pct": 50.0
+   },
+   "nii": {
+    "shares": null,
+    "pct": 15.0
+   },
+   "retail": {
+    "shares": null,
+    "pct": 35.0
+   }
+  },
+  "promoter": {
+   "pre": 99.67,
+   "post": 72.26
+  },
+  "purposes": [
+   {
+    "text": "To meet the working capital requirements",
+    "crore": 1.81
+   },
+   {
+    "text": "To Finance Establishment of-New plating facility at Baruipur, Kolkata West Bengal",
+    "crore": 8.8
+   },
+   {
+    "text": "To Finance Establishment of-Proposed new B2B showroom in Kolkata",
+    "crore": 5.37
+   },
+   {
+    "text": "To Finance Establishment of-Completion of B2C Stores in Kolkata",
+    "crore": 2.48
+   },
+   {
+    "text": "To Finance Establishment of-Inventory cost for the proposed new showroom and stores",
+    "crore": 5.6
+   },
+   {
+    "text": "General Corporate Purposes",
+    "crore": null
+   },
+   {
+    "text": "To meet the offer related expenses",
+    "crore": null
+   }
+  ],
+  "kpi": {
+   "roe": 48.4,
+   "roce": 57.74,
+   "ebitda_margin": 24.16,
+   "pat_margin": null,
+   "de": null,
+   "eps": 5.59,
+   "ronw": 38.9,
+   "nav": 14.37
+  },
+  "issue": {
+   "issue size": "Approx ₹34.99 Crores",
+   "fresh issue": "Approx ₹34.99 Crores",
+   "issue type": "Book Building Issue",
+   "ipo listing": "NSE SME"
+  },
+  "dates": {
+   "allotment": "2026-10-08",
+   "refund": "2026-10-09",
+   "listing": "2026-10-12"
+  }
+ },
+ "tnasolutions": {
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 36.32,
+    "expense": 32.18,
+    "pat": 2.69,
+    "assets": 24.33
+   },
+   {
+    "period": "2025",
+    "revenue": 84.13,
+    "expense": 74.75,
+    "pat": 6.66,
+    "assets": 57.47
+   },
+   {
+    "period": "2026",
+    "revenue": 110.45,
+    "expense": 97.56,
+    "pat": 9.58,
+    "assets": 94.21
+   }
+  ],
+  "peers": [
+   {
+    "name": "VTM Limited",
+    "pe": 41.84
+   },
+   {
+    "name": "Faze Three Limited",
+    "pe": 37.35
+   }
+  ],
+  "lot": {
+   "lots": 2.0,
+   "shares": 4000.0,
+   "amount": 280000.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": 1026000.0,
+    "pct": 18.97
+   },
+   "nii": {
+    "shares": 774000.0,
+    "pct": 14.31
+   },
+   "retail": {
+    "shares": 1798000.0,
+    "pct": 33.25
+   }
+  },
+  "promoter": {
+   "pre": 68.68,
+   "post": 46.56
+  },
+  "purposes": [
+   {
+    "text": "Funding of capital expenditure requirement towards civil construction of the new manufacturing unit and purchase of plant and machinery",
+    "crore": 6.76
+   },
+   {
+    "text": "Funding of Working Capital Requirements",
+    "crore": 20.0
+   },
+   {
+    "text": "General Corporate Purposes",
+    "crore": null
+   }
+  ],
+  "kpi": {
+   "roe": 32.6,
+   "roce": 42.84,
+   "ebitda_margin": 12.12,
+   "pat_margin": null,
+   "de": null,
+   "eps": 6.41,
+   "ronw": 32.6,
+   "nav": 119.8
+  },
+  "issue": {
+   "issue size": "Approx ₹37.86 Crores",
+   "fresh issue": "Approx ₹37.86 Crores",
+   "issue type": "Book build Issue",
+   "ipo listing": "BSE SME"
+  },
+  "dates": {
+   "allotment": "2026-10-07",
+   "refund": "2026-10-08",
+   "listing": "2026-10-09"
+  }
+ },
+ "acmeindiaindustries": {
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 215.02,
+    "expense": 189.08,
+    "pat": 19.21,
+    "assets": 217.6
+   },
+   {
+    "period": "2025",
+    "revenue": 213.45,
+    "expense": 189.32,
+    "pat": 16.46,
+    "assets": 272.45
+   },
+   {
+    "period": "2026",
+    "revenue": 267.89,
+    "expense": 234.67,
+    "pat": 24.36,
+    "assets": 382.79
+   }
+  ],
+  "peers": [
+   {
+    "name": "Powerica Limited",
+    "pe": 24.45
+   },
+   {
+    "name": "Cummins India Limited",
+    "pe": 64.13
+   },
+   {
+    "name": "Kirloskar Oil Engines Limited",
+    "pe": 43.24
+   },
+   {
+    "name": "NTPC Green Energy Limited",
+    "pe": 129.4
+   },
+   {
+    "name": "Acme Solar Holdings Limited",
+    "pe": 50.74
+   },
+   {
+    "name": "Adani Green Energy Limited",
+    "pe": 101.53
+   }
+  ],
+  "lot": {
+   "lots": 2.0,
+   "shares": 1200.0,
+   "amount": 235200.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": 1179000.0,
+    "pct": 18.99
+   },
+   "nii": {
+    "shares": 885600.0,
+    "pct": 14.26
+   },
+   "retail": {
+    "shares": 2064000.0,
+    "pct": 33.24
+   }
+  },
+  "promoter": {
+   "pre": 88.19,
+   "post": 64.46
+  },
+  "purposes": [
+   {
+    "text": "Funding to meet working capital requirements",
+    "crore": 38.0
+   },
+   {
+    "text": "Repayment and/or pre-payment, in full or part, of borrowing availed by Company",
+    "crore": 41.0
+   },
+   {
+    "text": "Funding Capital Expenditure towards purchase of additional plant & machinery",
+    "crore": 6.27
+   },
+   {
+    "text": "General Corporate Purposes",
+    "crore": null
+   }
+  ],
+  "kpi": {
+   "roe": 23.52,
+   "roce": 23.2,
+   "ebitda_margin": 15.1,
+   "pat_margin": 9.24,
+   "de": 0.82,
+   "eps": 14.1,
+   "ronw": 23.52,
+   "nav": 59.94
+  },
+  "issue": {
+   "issue size": "Approx ₹122 Crores",
+   "fresh issue": "Approx ₹105.98 Crores",
+   "offer for sale": "Approx 8,01,600 Equity Shares",
+   "issue type": "Book build Issue",
+   "ipo listing": "BSE SME"
+  },
+  "dates": {
+   "allotment": "2026-10-07",
+   "refund": "2026-10-08",
+   "listing": "2026-10-09"
+  }
+ },
+ "paramountsyntex": {
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 92.94,
+    "expense": 87.72,
+    "pat": 1.35,
+    "assets": 60.25
+   },
+   {
+    "period": "2025",
+    "revenue": 112.72,
+    "expense": 103.54,
+    "pat": 6.73,
+    "assets": 76.09
+   },
+   {
+    "period": "2026",
+    "revenue": 122.51,
+    "expense": 103.37,
+    "pat": 13.87,
+    "assets": 96.26
+   }
+  ],
+  "peers": [
+   {
+    "name": "Shiva Texyarn Limited",
+    "pe": 23.35
+   },
+   {
+    "name": "Sangam (India) Limited",
+    "pe": 33.15
+   },
+   {
+    "name": "Donear Industries Limited",
+    "pe": 9.83
+   }
+  ],
+  "lot": {
+   "lots": 2.0,
+   "shares": 2000.0,
+   "amount": 254000.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": 66000.0,
+    "pct": 1.08
+   },
+   "nii": {
+    "shares": 3015000.0,
+    "pct": 49.29
+   },
+   "retail": {
+    "shares": 3036000.0,
+    "pct": 49.63
+   }
+  },
+  "promoter": {
+   "pre": 91.74,
+   "post": 59.63
+  },
+  "purposes": [
+   {
+    "text": "Funding of capital expenditure requirements of our Company towards purchase of Machinery at existing facilities",
+    "crore": 61.68
+   },
+   {
+    "text": "General Corporate Purposes",
+    "crore": null
+   }
+  ],
+  "kpi": {
+   "roe": 32.5,
+   "roce": 29.18,
+   "ebitda_margin": 19.33,
+   "pat_margin": 11.36,
+   "de": 0.78,
+   "eps": 11.6,
+   "ronw": 32.5,
+   "nav": 35.68
+  },
+  "issue": {
+   "issue size": "Approx ₹82 Crores",
+   "fresh issue": "Approx ₹82 Crores",
+   "issue type": "Book build Issue",
+   "ipo listing": "BSE SME"
+  },
+  "dates": {
+   "allotment": "2026-10-07",
+   "refund": "2026-10-08",
+   "listing": "2026-10-09"
+  }
+ },
+ "sollfegesmartelectronics": {
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 19.84,
+    "expense": 17.23,
+    "pat": 1.76,
+    "assets": 12.3
+   },
+   {
+    "period": "2025",
+    "revenue": 21.28,
+    "expense": 18.41,
+    "pat": 2.13,
+    "assets": 24.83
+   },
+   {
+    "period": "2026",
+    "revenue": 22.22,
+    "expense": 19.25,
+    "pat": 2.19,
+    "assets": 30.37
+   }
+  ],
+  "peers": [
+   {
+    "name": "Powerica Limited",
+    "pe": 24.45
+   },
+   {
+    "name": "Cummins India Limited",
+    "pe": 64.13
+   },
+   {
+    "name": "Kirloskar Oil Engines Limited",
+    "pe": 43.24
+   },
+   {
+    "name": "NTPC Green Energy Limited",
+    "pe": 129.4
+   },
+   {
+    "name": "Acme Solar Holdings Limited",
+    "pe": 50.74
+   },
+   {
+    "name": "Adani Green Energy Limited",
+    "pe": 101.53
+   }
+  ],
+  "lot": {
+   "lots": 2.0,
+   "shares": 4000.0,
+   "amount": 220000.0
+  },
+  "categories": {
+   "nii": {
+    "shares": 1880000.0,
+    "pct": 50.0
+   },
+   "retail": {
+    "shares": 1880000.0,
+    "pct": 50.0
+   }
+  },
+  "promoter": {
+   "pre": 99.97,
+   "post": 60.38
+  },
+  "purposes": [
+   {
+    "text": "Funding Capital Expenditure for expansion of our Retail Network by launching 12 new Showrooms",
+    "crore": 8.54
+   },
+   {
+    "text": "Working Capital Requirements",
+    "crore": 9.67
+   },
+   {
+    "text": "General Corporate Expenses",
+    "crore": 1.8
+   }
+  ],
+  "kpi": {
+   "roe": 18.86,
+   "roce": 23.57,
+   "ebitda_margin": 18.02,
+   "pat_margin": 9.86,
+   "de": 0.6,
+   "eps": 3.63,
+   "ronw": 18.86,
+   "nav": 19.24
+  },
+  "issue": {
+   "issue size": "Approx ₹21.78 Crores",
+   "fresh issue": "Approx ₹21.78 Crores",
+   "issue type": "Fixed Price Issue",
+   "ipo listing": "BSE SME"
+  },
+  "dates": {
+   "allotment": "2026-10-06",
+   "refund": "2026-10-07",
+   "listing": "2026-10-08"
+  }
+ },
+ "omaraventures": {
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 23.19,
+    "expense": 22.77,
+    "pat": 0.31,
+    "assets": 26.44
+   },
+   {
+    "period": "2025",
+    "revenue": 23.52,
+    "expense": 19.85,
+    "pat": 2.73,
+    "assets": 29.46
+   },
+   {
+    "period": "2026",
+    "revenue": 45.87,
+    "expense": 33.13,
+    "pat": 9.37,
+    "assets": 47.25
+   }
+  ],
+  "peers": [
+   {
+    "name": "BlueStone Jewellery and Lifestyle Ltd",
+    "pe": 763.27
+   },
+   {
+    "name": "PNGS Reva Diamond JewelleryLimited",
+    "pe": 18.05
+   },
+   {
+    "name": "PN Gadgil Jewellers Limited",
+    "pe": 20.75
+   },
+   {
+    "name": "Advit Jewels Limited",
+    "pe": 23.82
+   }
+  ],
+  "lot": {
+   "lots": 2.0,
+   "shares": 800.0,
+   "amount": 248800.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": 256400.0,
+    "pct": 20.0
+   },
+   "nii": {
+    "shares": 512800.0,
+    "pct": 40.0
+   },
+   "retail": {
+    "shares": 512800.0,
+    "pct": 40.0
+   }
+  },
+  "promoter": {
+   "pre": 99.99,
+   "post": 69.03
+  },
+  "purposes": [
+   {
+    "text": "Funding capital expenditure requirements towards Renovation and Expansion of the Jewellery Boutique",
+    "crore": 2.0
+   },
+   {
+    "text": "Marketing and promotional expenses aimed at enhancing local brand awareness and visibility of the flagship brand, “OMARA”",
+    "crore": 2.0
+   },
+   {
+    "text": "Funding towards repayment or prepayment, in full or in part, of borrowings availed by the Company from bank and financial institutions",
+    "crore": 18.0
+   },
+   {
+    "text": "Funding the long-term working capital requirements of the Company",
+    "crore": 10.0
+   },
+   {
+    "text": "General Corporate Purpose",
+    "crore": null
+   }
+  ],
+  "kpi": {
+   "roe": 74.78,
+   "roce": 85.38,
+   "ebitda_margin": 31.45,
+   "pat_margin": 20.42,
+   "de": 1.79,
+   "eps": 31.11,
+   "ronw": 74.78,
+   "nav": 41.61
+  },
+  "issue": {
+   "issue size": "Approx ₹42 Crores",
+   "fresh issue": "Approx ₹42 Crores",
+   "issue type": "Book build Issue",
+   "ipo listing": "BSE SME"
+  },
+  "dates": {
+   "allotment": "2026-10-06",
+   "refund": "2026-10-07",
+   "listing": "2026-10-08"
+  }
+ },
+ "sjpultrasonics": {
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 15.22,
+    "expense": 10.48,
+    "pat": 3.4,
+    "assets": 16.97
+   },
+   {
+    "period": "2025",
+    "revenue": 21.15,
+    "expense": 15.65,
+    "pat": 4.17,
+    "assets": 27.06
+   },
+   {
+    "period": "2026",
+    "revenue": 26.63,
+    "expense": 19.58,
+    "pat": 5.24,
+    "assets": 35.2
+   }
+  ],
+  "peers": [],
+  "lot": {
+   "lots": 2.0,
+   "shares": 4000.0,
+   "amount": 268000.0
+  },
+  "categories": {
+   "nii": {
+    "shares": 1662000.0,
+    "pct": 50.0
+   },
+   "retail": {
+    "shares": 1662000.0,
+    "pct": 50.0
+   }
+  },
+  "promoter": {
+   "pre": 79.51,
+   "post": 58.0
+  },
+  "purposes": [
+   {
+    "text": "Funding Capital Expenditure towards the Purchase of Machineries",
+    "crore": 13.22
+   },
+   {
+    "text": "Funding working capital requirements of the Company",
+    "crore": 4.92
+   },
+   {
+    "text": "General Corporate Purposes",
+    "crore": 3.05
+   },
+   {
+    "text": "Issue Expenses",
+    "crore": 3.16
+   }
+  ],
+  "kpi": {
+   "roe": 30.01,
+   "roce": 38.49,
+   "ebitda_margin": 31.02,
+   "pat_margin": 19.74,
+   "de": 0.64,
+   "eps": 5.55,
+   "ronw": 26.1,
+   "nav": 21.28
+  },
+  "issue": {
+   "issue size": "Approx ₹23.45 Crores",
+   "fresh issue": "Approx ₹23.45 Crores",
+   "issue type": "Fixed Price Issue",
+   "ipo listing": "BSE SME"
+  },
+  "dates": {
+   "allotment": "2026-10-06",
+   "refund": "2026-10-07",
+   "listing": "2026-10-08"
+  }
+ },
+ "eventions": {
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 87.29,
+    "expense": 82.86,
+    "pat": 3.29,
+    "assets": 29.0
+   },
+   {
+    "period": "2025",
+    "revenue": 88.02,
+    "expense": 81.0,
+    "pat": 5.13,
+    "assets": 23.77
+   },
+   {
+    "period": "2026",
+    "revenue": 100.62,
+    "expense": 90.4,
+    "pat": 7.72,
+    "assets": 50.63
+   }
+  ],
+  "peers": [
+   {
+    "name": "Mach Conferences & Events Limited",
+    "pe": 22.44
+   },
+   {
+    "name": "E-Factor Experiences Limited",
+    "pe": 10.98
+   }
+  ],
+  "lot": {
+   "lots": 2.0,
+   "shares": 2400.0,
+   "amount": 283200.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": 162000.0,
+    "pct": null
+   },
+   "nii": {
+    "shares": 1051200.0,
+    "pct": 34.26
+   },
+   "retail": {
+    "shares": 1855200.0,
+    "pct": 60.46
+   }
+  },
+  "promoter": {
+   "pre": 99.96,
+   "post": 73.46
+  },
+  "purposes": [
+   {
+    "text": "Repayment and/or pre-payment, in full or part, of certain borrowings availed by the Company",
+    "crore": 7.0
+   },
+   {
+    "text": "Investment in Subsidiary",
+    "crore": 1.4
+   },
+   {
+    "text": "To meet working capital requirements",
+    "crore": 18.8
+   },
+   {
+    "text": "General Corporate Purpose",
+    "crore": null
+   }
+  ],
+  "kpi": {
+   "roe": 52.07,
+   "roce": 48.76,
+   "ebitda_margin": 10.22,
+   "pat_margin": 7.67,
+   "de": null,
+   "eps": 8.9,
+   "ronw": 55.16,
+   "nav": 20.92
+  },
+  "issue": {
+   "issue size": "Approx ₹38.12 Crores",
+   "fresh issue": "Approx ₹38.12 Crores",
+   "issue type": "Book build Issue",
+   "ipo listing": "NSE SME"
+  },
+  "dates": {
+   "allotment": "2026-10-06",
+   "refund": "2026-10-07",
+   "listing": "2026-10-08"
+  }
+ },
+ "dovesoft": {
+  "financials": [
+   {
+    "period": "2023",
+    "revenue": 73.77,
+    "expense": 67.3,
+    "pat": 4.82,
+    "assets": 46.51
+   },
+   {
+    "period": "2024",
+    "revenue": 119.79,
+    "expense": 106.06,
+    "pat": 10.27,
+    "assets": 85.56
+   },
+   {
+    "period": "2025",
+    "revenue": 188.26,
+    "expense": 166.07,
+    "pat": 16.54,
+    "assets": 108.99
+   },
+   {
+    "period": "2026",
+    "revenue": 274.74,
+    "expense": 244.51,
+    "pat": 23.4,
+    "assets": 164.4
+   }
+  ],
+  "peers": [
+   {
+    "name": "Route Mobile Ltd",
+    "pe": 13.21
+   },
+   {
+    "name": "Tanla Platforms Ltd",
+    "pe": 13.58
+   }
+  ],
+  "lot": {
+   "lots": 2.0,
+   "shares": 2400.0,
+   "amount": 266400.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": 64800.0,
+    "pct": 1.03
+   },
+   "nii": {
+    "shares": 3070800.0,
+    "pct": 48.98
+   },
+   "retail": {
+    "shares": 3134400.0,
+    "pct": 49.99
+   }
+  },
+  "promoter": {
+   "pre": 74.31,
+   "post": 52.86
+  },
+  "purposes": [
+   {
+    "text": "Funding working capital requirements of the Company",
+    "crore": 46.0
+   },
+   {
+    "text": "General Corporate Purpose",
+    "crore": null
+   }
+  ],
+  "kpi": {
+   "roe": 29.89,
+   "roce": 33.81,
+   "ebitda_margin": 11.96,
+   "pat_margin": 8.54,
+   "de": 0.1,
+   "eps": 12.01,
+   "ronw": 29.79,
+   "nav": 47.43
+  },
+  "issue": {
+   "issue size": "Approx ₹73.26 Crores",
+   "fresh issue": "Approx ₹59.14 Crores",
+   "offer for sale": "Approx 12,72,000 Equity Shares",
+   "issue type": "Book Building Issue",
+   "ipo listing": "BSE SME"
+  },
+  "dates": {
+   "allotment": "2026-10-06",
+   "refund": "2026-10-07",
+   "listing": "2026-10-08"
+  }
+ },
+ "everestimstechnologies": {
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 45.62,
+    "expense": 30.77,
+    "pat": 10.83,
+    "assets": 50.47
+   },
+   {
+    "period": "2025",
+    "revenue": 57.78,
+    "expense": 38.93,
+    "pat": 14.08,
+    "assets": 67.82
+   },
+   {
+    "period": "2026",
+    "revenue": 65.91,
+    "expense": 48.28,
+    "pat": 13.14,
+    "assets": 90.27
+   }
+  ],
+  "peers": [
+   {
+    "name": "Newgen Software Technologies Ltd",
+    "pe": 23.45
+   }
+  ],
+  "lot": {
+   "lots": 2.0,
+   "shares": 3200.0,
+   "amount": 272000.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": 1088000.0,
+    "pct": 19.09
+   },
+   "nii": {
+    "shares": 816000.0,
+    "pct": 14.31
+   },
+   "retail": {
+    "shares": 1897600.0,
+    "pct": 33.29
+   }
+  },
+  "promoter": {
+   "pre": 80.38,
+   "post": 58.2
+  },
+  "purposes": [
+   {
+    "text": "Purchase of IT hardware for setting up of Artificial Intelligence (AI) Innovation and Experience Laboratory",
+    "crore": 5.66
+   },
+   {
+    "text": "Working Capital Requirement",
+    "crore": 24.0
+   },
+   {
+    "text": "General Corporate Purposes",
+    "crore": null
+   }
+  ],
+  "kpi": {
+   "roe": 24.33,
+   "roce": 36.15,
+   "ebitda_margin": 35.41,
+   "pat_margin": 19.93,
+   "de": null,
+   "eps": 7.71,
+   "ronw": 21.69,
+   "nav": 35.55
+  },
+  "issue": {
+   "issue size": "Approx ₹48.46 Crores",
+   "fresh issue": "Approx ₹39.05 Crores",
+   "offer for sale": "Approx 11,07,200 Equity Shares",
+   "issue type": "Book build Issue",
+   "ipo listing": "BSE SME"
+  },
+  "dates": {
+   "allotment": "2026-10-06",
+   "refund": "2026-10-07",
+   "listing": "2026-10-08"
+  }
+ },
+ "papadmaljiagro": {
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 19.91,
+    "expense": 14.1,
+    "pat": 4.32,
+    "assets": 13.14
+   },
+   {
+    "period": "2025",
+    "revenue": 33.04,
+    "expense": 17.67,
+    "pat": 11.48,
+    "assets": 22.44
+   },
+   {
+    "period": "2026",
+    "revenue": 42.34,
+    "expense": 25.85,
+    "pat": 12.2,
+    "assets": 59.62
+   }
+  ],
+  "peers": [],
+  "lot": {
+   "lots": 2.0,
+   "shares": 1200.0,
+   "amount": 236400.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": 531000.0,
+    "pct": 18.99
+   },
+   "nii": {
+    "shares": 398400.0,
+    "pct": 15.0
+   },
+   "retail": {
+    "shares": 930000.0,
+    "pct": 35.0
+   }
+  },
+  "promoter": {
+   "pre": 98.6,
+   "post": 72.46
+  },
+  "purposes": [
+   {
+    "text": "Funding for securing Sales/Marketing mandates",
+    "crore": 7.0
+   },
+   {
+    "text": "Investment in Aurika Developers LLP, one of our Group Entity, for financing the development of its Ayodhya Project",
+    "crore": 25.0
+   },
+   {
+    "text": "General corporate purposes",
+    "crore": null
+   }
+  ],
+  "kpi": {
+   "roe": 46.03,
+   "roce": 40.12,
+   "ebitda_margin": 40.62,
+   "pat_margin": 29.11,
+   "de": 0.29,
+   "eps": 14.65,
+   "ronw": 37.4,
+   "nav": 39.17
+  },
+  "issue": {
+   "issue size": "Approx ₹55.08 Crores",
+   "fresh issue": "Approx ₹44.09 Crores",
+   "offer for sale": "Approx 5,58,000 Equity Shares",
+   "issue type": "Book Building Issue",
+   "ipo listing": "BSE SME"
+  },
+  "dates": {
+   "allotment": "2026-10-05",
+   "refund": "2026-10-06",
+   "listing": "2026-10-07"
+  }
+ },
+ "vanselectroengineerings": {
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 2.76,
+    "expense": 2.71,
+    "pat": 0.02,
+    "assets": 6.57
+   },
+   {
+    "period": "2025",
+    "revenue": 13.82,
+    "expense": 11.51,
+    "pat": 1.73,
+    "assets": 5.34
+   },
+   {
+    "period": "2026",
+    "revenue": 23.19,
+    "expense": 15.93,
+    "pat": 5.39,
+    "assets": 16.85
+   }
+  ],
+  "peers": [
+   {
+    "name": "Powerica Limited",
+    "pe": 24.45
+   },
+   {
+    "name": "Cummins India Limited",
+    "pe": 64.13
+   },
+   {
+    "name": "Kirloskar Oil Engines Limited",
+    "pe": 43.24
+   },
+   {
+    "name": "NTPC Green Energy Limited",
+    "pe": 129.4
+   },
+   {
+    "name": "Acme Solar Holdings Limited",
+    "pe": 50.74
+   },
+   {
+    "name": "Adani Green Energy Limited",
+    "pe": 101.53
+   }
+  ],
+  "lot": {
+   "lots": 2.0,
+   "shares": 2400.0,
+   "amount": 283200.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": 537600.0,
+    "pct": 18.67
+   },
+   "nii": {
+    "shares": 403200.0,
+    "pct": 14.0
+   },
+   "retail": {
+    "shares": 940800.0,
+    "pct": 32.67
+   }
+  },
+  "promoter": {
+   "pre": 90.75,
+   "post": 66.73
+  },
+  "purposes": [
+   {
+    "text": "To Meet Working Capital Requirements of the Company",
+    "crore": 25.0
+   },
+   {
+    "text": "General Corporate Purpose",
+    "crore": null
+   }
+  ],
+  "kpi": {
+   "roe": 83.27,
+   "roce": 63.96,
+   "ebitda_margin": 31.63,
+   "pat_margin": 23.61,
+   "de": 0.28,
+   "eps": 6.74,
+   "ronw": 58.79,
+   "nav": 11.46
+  },
+  "issue": {
+   "issue size": "Approx ₹34 Crores",
+   "fresh issue": "Approx ₹34 Crores",
+   "issue type": "Book build Issue",
+   "ipo listing": "BSE SME"
+  },
+  "dates": {
+   "allotment": "2026-10-05",
+   "refund": "2026-10-06",
+   "listing": "2026-10-07"
+  }
+ },
+ "blackopalconsultants": {
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 19.91,
+    "expense": 14.1,
+    "pat": 4.32,
+    "assets": 13.14
+   },
+   {
+    "period": "2025",
+    "revenue": 33.04,
+    "expense": 17.67,
+    "pat": 11.48,
+    "assets": 22.44
+   },
+   {
+    "period": "2026",
+    "revenue": 42.34,
+    "expense": 25.85,
+    "pat": 12.2,
+    "assets": 59.62
+   }
+  ],
+  "peers": [],
+  "lot": {
+   "lots": 2.0,
+   "shares": 1200.0,
+   "amount": 236400.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": 531000.0,
+    "pct": 18.99
+   },
+   "nii": {
+    "shares": 398400.0,
+    "pct": 15.0
+   },
+   "retail": {
+    "shares": 930000.0,
+    "pct": 35.0
+   }
+  },
+  "promoter": {
+   "pre": 98.6,
+   "post": 72.46
+  },
+  "purposes": [
+   {
+    "text": "Funding for securing Sales/Marketing mandates",
+    "crore": 7.0
+   },
+   {
+    "text": "Investment in Aurika Developers LLP, one of our Group Entity, for financing the development of its Ayodhya Project",
+    "crore": 25.0
+   },
+   {
+    "text": "General corporate purposes",
+    "crore": null
+   }
+  ],
+  "kpi": {
+   "roe": 46.03,
+   "roce": 40.12,
+   "ebitda_margin": 40.62,
+   "pat_margin": 29.11,
+   "de": 0.29,
+   "eps": 14.65,
+   "ronw": 37.4,
+   "nav": 39.17
+  },
+  "issue": {
+   "issue size": "Approx ₹55.08 Crores",
+   "fresh issue": "Approx ₹44.09 Crores",
+   "offer for sale": "Approx 5,58,000 Equity Shares",
+   "issue type": "Book Building Issue",
+   "ipo listing": "BSE SME"
+  },
+  "dates": {
+   "allotment": "2026-10-05",
+   "refund": "2026-10-06",
+   "listing": "2026-10-07"
+  }
+ },
+ "shreetnbpolymers": {
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 207.97,
+    "expense": 201.48,
+    "pat": 5.03,
+    "assets": 105.03
+   },
+   {
+    "period": "2025",
+    "revenue": 175.7,
+    "expense": 168.85,
+    "pat": 5.77,
+    "assets": 127.38
+   },
+   {
+    "period": "2026",
+    "revenue": 198.31,
+    "expense": 188.15,
+    "pat": 7.13,
+    "assets": 145.26
+   }
+  ],
+  "peers": [
+   {
+    "name": "Captain Pipes Limited",
+    "pe": 40.37
+   },
+   {
+    "name": "Texmo Pipes and Products Limited",
+    "pe": 15.69
+   },
+   {
+    "name": "Malpani Pipes and Fittings Limited",
+    "pe": 7.7
+   }
+  ],
+  "lot": {
+   "lots": 2.0,
+   "shares": 4000.0,
+   "amount": 208000.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": 1140000.0,
+    "pct": 19.0
+   },
+   "nii": {
+    "shares": 858000.0,
+    "pct": 14.3
+   },
+   "retail": {
+    "shares": 1996000.0,
+    "pct": 33.27
+   }
+  },
+  "promoter": {
+   "pre": null,
+   "post": null
+  },
+  "purposes": [
+   {
+    "text": "Capital Expenditure for purchase of machinery",
+    "crore": 15.86
+   },
+   {
+    "text": "Capital Expenditure for the purchase and installation of Solar panel/ Roof top",
+    "crore": 2.6
+   },
+   {
+    "text": "Part finances the capital expenditure for construction/ installation of Pre-Engineered Building (PEB) structure for new manufacturing facility",
+    "crore": 1.32
+   },
+   {
+    "text": "Repayment of certain borrowings",
+    "crore": 5.62
+   },
+   {
+    "text": "General Corporate Purpose",
+    "crore": null
+   }
+  ],
+  "kpi": {
+   "roe": 13.69,
+   "roce": 16.02,
+   "ebitda_margin": 9.69,
+   "pat_margin": 3.6,
+   "de": 0.8,
+   "eps": 4.65,
+   "ronw": 13.69,
+   "nav": 36.29
+  },
+  "issue": {
+   "issue size": "Approx ₹31.20 Crores",
+   "fresh issue": "Approx ₹31.20 Crores",
+   "issue type": "Book Building Issue",
+   "ipo listing": "BSE SME"
+  },
+  "dates": {
+   "allotment": "2026-10-06",
+   "refund": "2026-10-07",
+   "listing": "2026-10-08"
+  }
+ },
+ "greenasiaimpex": {
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 318.15,
+    "expense": 309.12,
+    "pat": 6.66,
+    "assets": 118.1
+   },
+   {
+    "period": "2025",
+    "revenue": 339.65,
+    "expense": 325.26,
+    "pat": 10.35,
+    "assets": 177.95
+   },
+   {
+    "period": "2026",
+    "revenue": 388.63,
+    "expense": 367.6,
+    "pat": 15.61,
+    "assets": 254.88
+   }
+  ],
+  "peers": [
+   {
+    "name": "Apex Frozen FoodsLimited",
+    "pe": 29.16
+   },
+   {
+    "name": "Kings Infra VenturesLimited",
+    "pe": 17.21
+   },
+   {
+    "name": "Essex Marine Limited",
+    "pe": 4.4
+   }
+  ],
+  "lot": {
+   "lots": 2.0,
+   "shares": 3200.0,
+   "amount": 288000.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": 1894400.0,
+    "pct": 28.34
+   },
+   "nii": {
+    "shares": 2572800.0,
+    "pct": 38.49
+   },
+   "retail": {
+    "shares": 2217600.0,
+    "pct": 33.17
+   }
+  },
+  "promoter": {
+   "pre": 94.65,
+   "post": 64.91
+  },
+  "purposes": [
+   {
+    "text": "Funding the capital expenditure for setting up the proposed seafood processing facility including purchase and installation of plant, machinery & equipment",
+    "crore": 40.03
+   },
+   {
+    "text": "General Corporate Purposes",
+    "crore": null
+   }
+  ],
+  "kpi": {
+   "roe": 46.43,
+   "roce": 19.69,
+   "ebitda_margin": 6.57,
+   "pat_margin": 4.07,
+   "de": 2.4,
+   "eps": 10.56,
+   "ronw": 46.43,
+   "nav": 28.01
+  },
+  "issue": {
+   "issue size": "Approx ₹60.10 Crores",
+   "fresh issue": "Approx ₹53.10 Crores",
+   "offer for sale": "Approx 7,77,777 Equity Shares",
+   "issue type": "Book Building Issue",
+   "ipo listing": "NSE SME"
+  },
+  "dates": {
+   "allotment": "2026-10-05",
+   "refund": "2026-10-06",
+   "listing": "2026-10-07"
+  }
+ }
+}
