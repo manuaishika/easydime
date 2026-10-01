@@ -66,17 +66,6 @@ def _rec(**k):
     return {**base, **k}
 
 
-def test_arithmetic_numbers():
-    rows = dict(build.arithmetic(_rec(price=220.0, gmp=6.0, gain=2.73)))
-    assert rows["Estimated listing price"] == "₹220 + ₹6 = ₹226"
-    assert rows["Expected gain"] == "₹6 ÷ ₹220 × 100 = 2.73%"
-    assert rows["If you invest about ₹15,000"] == "68 shares × ₹220 = ₹14,960"
-    assert rows["Estimated profit / loss"].startswith("68 × ₹6 = +₹408")
-    assert rows["GMP needed for ‘Apply’ (10%)"].startswith("₹220 × 10% = ₹22")
-    neg = dict(build.arithmetic(_rec(gmp=-5.0, gain=-5.0)))
-    assert neg["Estimated listing price"] == "₹100 − ₹5 = ₹95"
-
-
 def test_pages_split_open_and_closed(monkeypatch, tmp_path):
     monkeypatch.setattr(build, "ARCHIVE_FILE", tmp_path / "a.json")
     now = datetime(2026, 10, 1, 9, 0)
@@ -89,7 +78,7 @@ def test_pages_split_open_and_closed(monkeypatch, tmp_path):
     assert arch["oldco"]["end"] == "2026-09-25"
     assert "https://groww.in/ipo" in main and "https://zerodha.com/ipo/" in main
     assert "groww.in" not in past            # no apply links for closed IPOs
-    assert "The arithmetic" in main and "history.html" in main
+    assert "Financial analysis" in main and "history.html" in main
 
 
 def test_timing_labels():
@@ -130,3 +119,22 @@ def test_news_page():
     out = build.render_news(ipos, {}, {}, [{"t": "2026-09-30 08:00", "kind": "new", "text": "Hello bulletin"}], now)
     assert "Apply today" in out and "Closing soon" in out and "Hello bulletin" in out and "What to look for" in out
     assert "Apply early or late?" in out
+
+
+def test_every_ipo_has_a_clickable_chart_and_no_javascript():
+    now = datetime(2026, 10, 1, 9, 0)
+    hist = {"acmeltd": [["2026-09-30 08:00", 20.0], ["2026-09-30 14:00", 25.0], ["2026-10-01 08:00", 31.0]]}
+    ipos = [_rec(), _rec(name="No History Co", dates="30-5 Oct")]
+    out = build.render(ipos, hist, now)
+    for k in ("acmeltd", "nohistoryco"):
+        assert f'href="#c-{k}"' in out and f'id="c-{k}"' in out        # thumbnail links to its lightbox
+    assert out.count('class="lb"') == 2 and 'href="#!"' in out          # close link that does not scroll
+    assert "<polyline" in out and "Apply bar" in out and "<script" not in out
+
+
+def test_ipo_watch_credited_once():
+    now = datetime(2026, 10, 1, 9, 0)
+    main = build.render([_rec(url="https://x.test/a")], {}, now)
+    arch = {"oldco": {**_rec(name="Old Co", dates="23-25 Sep", status="Closed", url="https://x.test/b"), "end": "2026-09-25"}}
+    other = build.render_history(arch, {}, now) + build.render_news([_rec()], {}, arch, [], now)
+    assert main.count("IPO Watch") == 1 and "IPO Watch" not in other

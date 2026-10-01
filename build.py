@@ -10,10 +10,14 @@ import html
 import json
 import re
 import sys
+import time
 import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from html.parser import HTMLParser
 from pathlib import Path
+
+import charts
+import details
 
 ROOT = Path(__file__).parent
 SOURCE = "https://ipowatch.in/ipo-grey-market-premium-latest-ipo-gmp/"
@@ -23,6 +27,7 @@ OUT_FILE = ROOT / "index.html"
 HISTORY_PAGE = ROOT / "history.html"
 ARCHIVE_FILE = ROOT / "data" / "archive.json"
 NEWS_FILE = ROOT / "data" / "news.json"
+DETAILS_FILE = ROOT / "data" / "details.json"
 NEWS_PAGE = ROOT / "news.html"
 MAX_NEWS = 150
 IST = timezone(timedelta(hours=5, minutes=30))
@@ -231,8 +236,30 @@ def update_archive(ipos, now):
     return dict(sorted(arch.items(), key=lambda kv: kv[1]["end"] or "", reverse=True)[:MAX_ARCHIVE])
 
 
-# ---------- detail arithmetic ----------
-ILLUSTRATIVE = 15000   # ₹ invested in the worked example (illustrative, not the real lot size)
+# ---------- per-IPO detail pages ----------
+def update_details(ipos, archive, today, fetch_page=None, pause=0.4):
+    """Fetch each open IPO's own page (lot size, financials, peers...). Failures keep the previous copy."""
+    fetch_page = fetch_page or fetch
+    store = json.loads(DETAILS_FILE.read_text()) if DETAILS_FILE.exists() else {}
+    failed = []
+    for i in ipos:
+        if is_closed(i, today) or not i["url"]:
+            continue
+        try:
+            tables, _ = parse(fetch_page(i["url"]))
+            d = details.parse_tables(tables)
+            if d.get("lot") or d.get("financials") or d.get("kpi"):
+                store[key_of(i["name"])] = d
+            else:
+                failed.append(i["name"])
+        except Exception as ex:                                  # one bad page must not break the build
+            failed.append(f"{i['name']} ({ex})")
+        time.sleep(pause)
+    keep = {key_of(i["name"]) for i in ipos} | set(archive)
+    return {k: v for k, v in store.items() if k in keep}, failed
+
+
+# ---------- render helpers ----------
 BROKERS = [("Groww", "https://groww.in/ipo"), ("Zerodha", "https://zerodha.com/ipo/")]
 
 
@@ -244,42 +271,8 @@ def money(v):
     return f"₹{v:,.2f}".rstrip("0").rstrip(".")
 
 
-def arithmetic(i):
-    """Worked numbers behind the row, as a list of (label, value). Only uses figures we actually have."""
-    rows, p, g = [], i["price"], i["gmp"]
-    if p:
-        rows.append(("Issue price (top of band)", money(p)))
-    if g is not None:
-        rows.append(("GMP per share", f"{'+' if g > 0 else ''}{money(g)}"))
-    if p and g is not None:
-        rows.append(("Estimated listing price", f"{money(p)} {'+' if g >= 0 else '−'} {money(abs(g))} = {money(p + g)}"))
-        gain = g / p * 100
-        rows.append(("Expected gain", f"{money(g)} ÷ {money(p)} × 100 = {gain:.2f}%"))
-        shares = int(ILLUSTRATIVE // p)
-        if shares:
-            invested = shares * p
-            rows.append((f"If you invest about {money(ILLUSTRATIVE)}",
-                         f"{shares} shares × {money(p)} = {money(invested)}"))
-            rows.append(("Estimated profit / loss", f"{shares} × {money(g)} = {'+' if g >= 0 else '−'}{money(abs(shares * g))}"
-                         f" ({gain:+.2f}% on {money(invested)})"))
-        need = bar_for(i)
-        rows.append((f"GMP needed for ‘Apply’ ({need}%)",
-                     f"{money(p)} × {need}% = {money(p * need / 100)} (now {gain - need:+.2f} pts vs the bar)"))
-    return rows
-
-
-def trend_stats(h):
-    """First/last/high/low GMP and the change between updates, from our saved snapshots."""
-    if not h:
-        return []
-    vals = [v for _, v in h]
-    rows = [("GMP now", money(vals[-1])), ("Updates tracked", str(len(vals)))]
-    if len(vals) > 1:
-        rows += [(f"First seen ({h[0][0][:10]})", money(vals[0])),
-                 ("Change since first seen", f"{vals[-1] - vals[0]:+g}"),
-                 ("High / low", f"{money(max(vals))} / {money(min(vals))}"),
-                 ("Last move", f"{vals[-1] - vals[-2]:+g}")]
-    return rows
+def signed_money(v):
+    return f"{'+' if v >= 0 else '−'}{money(abs(v))}"
 
 
 def kv(rows):
@@ -287,15 +280,32 @@ def kv(rows):
     return "<table class='kv'>" + "".join(f"<tr><td>{e(k)}</td><td>{e(v)}</td></tr>" for k, v in rows) + "</table>"
 
 
-def history_table(h):
-    if not h:
-        return '<div class="mut">No history yet. It builds up with every update.</div>'
-    lines, prev = [], None
-    for t, v in h[-12:]:
-        ch = "" if prev is None else f"{v - prev:+g}"
-        lines.append(f"<tr><td>{html.escape(t)}</td><td>{money(v)}</td><td class='{color(v - prev if prev is not None else 0)}'>{ch}</td></tr>")
-        prev = v
-    return "<table class='kv'><tr><th>When (IST)</th><th>GMP</th><th>Change</th></tr>" + "".join(lines) + "</table>"
+def analysis_html(a):
+    """The financial analysis panel for one IPO."""
+    e, parts = html.escape, []
+    if a["bottom"]:
+        q = f" <span class='mut'>Fundamentals: {e(a['quality'])}</span>" if a["quality"] else ""
+        parts.append(f"<p><b>{e(a['bottom'])}</b>{q}</p>")
+    for title, rows in a["sections"]:
+        parts.append(f"<h4>{e(title)}</h4>{kv(rows)}")
+        if title == "What one application means" and a["scenarios"]:
+            parts.append("<h4>If it lists at…</h4><table class='kv'><tr><th>Scenario</th><th>Profit / loss</th><th>Return</th></tr>"
+                         + "".join(f"<tr><td>{e(lab)}</td><td class='{color(pl)}'>{e(signed_money(pl))}</td>"
+                                   f"<td class='{color(pc)}'>{pc:+.1f}%</td></tr>" for lab, pl, pc in a["scenarios"]) + "</table>")
+        if title == "Allotment odds" and a["odds"]:
+            parts.append("<table class='kv'><tr><th>If retail demand is…</th><th>Chance of a lot</th><th>Expected profit</th></tr>"
+                         + "".join(f"<tr><td>{n}× the quota</td><td>{'100%' if n == 1 else f'1 in {n}'}</td>"
+                                   f"<td>{e(signed_money(ev))}</td></tr>" for n, _, ev in a["odds"]) + "</table>")
+    if a["flags"]:
+        parts.append("<h4>Watch out for</h4><ul class='fl'>" + "".join(f"<li>⚠ {e(x)}</li>" for x in a["flags"]) + "</ul>")
+    if a["positives"]:
+        parts.append("<h4>In its favour</h4><ul class='fl'>" + "".join(f"<li>✓ {e(x)}</li>" for x in a["positives"]) + "</ul>")
+    if not a["has_details"]:
+        parts.append("<p class='mut'>Company details (lot size, financials, peers) are not available for this IPO yet.</p>")
+    parts.append(f"<div class='mut'>Assumes the minimum one-lot application, and a {details.FD_RATE:g}% fixed deposit as the "
+                 "safe alternative. Revenue and profit are in ₹ crore as listed. Allotment is a lottery when oversubscribed. "
+                 "Brokerage, charges and tax are not included. GMP is unofficial.</div>")
+    return "".join(parts)
 
 
 # ---------- render ----------
@@ -313,13 +323,26 @@ table{width:100%;border-collapse:collapse}
 details.ipo{border-top:1px solid var(--line)}summary{cursor:pointer;list-style:none}summary::-webkit-details-marker{display:none}
 summary .name::before{content:"▸ ";color:var(--mut)}details[open] summary .name::before{content:"▾ "}
 .up{color:var(--up)}.down{color:var(--down)}.mut{color:var(--mut);font-size:12px}a{color:inherit}
-.det{font-size:13px;padding:2px 6px 14px 20px;white-space:normal;text-align:left;max-width:520px}.det h3{font-size:12px;color:var(--mut);margin:12px 0 2px;
-text-transform:uppercase;letter-spacing:.05em}.kv td,.kv th{padding:3px 4px;border:0;text-align:left;white-space:normal;font-size:13px;vertical-align:top}
+.det{font-size:13px;padding:2px 6px 14px 20px;white-space:normal;text-align:left;max-width:560px}
+.det h3{font-size:12px;color:var(--mut);margin:14px 0 2px;text-transform:uppercase;letter-spacing:.05em}
+.det h4{font-size:13px;margin:12px 0 2px}.det p{margin:6px 0}
+.kv td,.kv th{padding:3px 4px;border:0;text-align:left;white-space:normal;font-size:13px;vertical-align:top}
+.kv th{color:var(--mut);font-weight:500;font-size:12px}
 .kv td:first-child{width:45%}.kv td:last-child,.kv th:last-child{text-align:right}.nav{display:flex;gap:14px;margin:8px 0 0;flex-wrap:wrap}
 .nav a{text-decoration:none;color:var(--mut)}.nav a.on{color:var(--fg);border-bottom:2px solid var(--fg)}
 .btn{display:inline-block;border:1px solid var(--line);border-radius:6px;padding:4px 10px;margin:4px 6px 0 0;text-decoration:none}
 .apply{margin:14px 0 0}
 ul{padding-left:18px;margin:4px 0}li{margin:6px 0}.feed{list-style:none;padding:0}.feed li{border-top:1px solid var(--line);padding:6px 0}
+.fl{list-style:none;padding:0}.fl li{margin:3px 0}
+.chart{width:100%;height:auto;display:block}.gl{stroke:var(--line);stroke-width:1}.zl{stroke:var(--mut);stroke-width:1}
+.bl{stroke:var(--up);stroke-width:1;stroke-dasharray:5 4}.ln{stroke:var(--up);stroke-width:2.2}.ln.dn{stroke:var(--down)}
+.pt{fill:var(--up)}.pt.dn{fill:var(--down)}.tx{fill:var(--mut);font-size:11px}.tx.v{fill:var(--fg)}
+a.spark{text-decoration:none;display:inline-flex;align-items:center;gap:4px}.mini{vertical-align:middle}
+a.zoom{display:block;text-decoration:none}.zoomhint{font-size:11px;color:var(--mut)}
+.lb{display:none;position:fixed;inset:0;z-index:50;align-items:center;justify-content:center;padding:14px}
+.lb:target{display:flex}.lb .bg{position:absolute;inset:0;background:rgba(0,0,0,.6)}
+.lb .box{position:relative;background:var(--bg);border-radius:10px;padding:14px 16px;width:min(760px,100%);max-height:100%;overflow:auto}
+.lb .x{float:right;text-decoration:none;color:var(--mut);font-size:13px}.lb h3{margin:0 0 6px;font-size:15px}
 """
 
 
@@ -333,18 +356,11 @@ def color(v):
     return "up" if v and v > 0 else "down" if v and v < 0 else ""
 
 
-def sparkline(h):
-    if len(h) < 2:
-        return '<span class="mut">–</span>'
-    vals = [v for _, v in h[-15:]]
-    lo, hi = min(vals), max(vals)
-    span = (hi - lo) or 1
-    pts = " ".join(f"{i / (len(vals) - 1) * 50:.1f},{14 - (v - lo) / span * 12:.1f}" for i, v in enumerate(vals))
-    d = vals[-1] - vals[-2]
-    c = "var(--up)" if d > 0 else "var(--down)" if d < 0 else "var(--mut)"
-    arrow = "▲" if d > 0 else "▼" if d < 0 else "–"
-    return (f'<svg width="50" height="16"><polyline points="{pts}" fill="none" stroke="{c}" stroke-width="1.5"/></svg> '
-            f'<span class="{color(d)}">{arrow}</span>')
+def sparkline(h, k):
+    """Row-sized graph; clicking it opens the full-size chart (pure CSS, :target)."""
+    mv = h[-1][1] - h[-2][1] if len(h) >= 2 else 0
+    arrow = f' <span class="{color(mv)}">{"▲" if mv > 0 else "▼" if mv < 0 else "–"}</span>' if len(h) >= 2 else ""
+    return f'<a class="spark" href="#c-{k}" title="Click to enlarge">{charts.mini(h)}{arrow}</a>'
 
 
 def apply_by(i, today):
@@ -363,48 +379,62 @@ def broker_links(live):
         f'<a class="btn" href="{u}" target="_blank" rel="noopener">{n} ↗</a>' for n, u in BROKERS) + "</div>")
 
 
-def row(i, hist, today, live=True):
+def lightbox(i, h, k):
+    bar = i["price"] * bar_for(i) / 100 if i["price"] else None
+    vals = [v for _, v in h]
+    stats = (f"First reading {h[0][0][:10]}: ₹{vals[0]:g} · now ₹{vals[-1]:g} · high ₹{max(vals):g} · low ₹{min(vals):g} · "
+             f"{len(vals)} readings") if vals else "No readings yet."
+    note = "" if len(vals) > 1 else " More readings are added with every update (about four a day)."
+    return (f'<div class="lb" id="c-{k}"><a class="bg" href="#!" aria-label="Close"></a><div class="box">'
+            f'<a class="x" href="#!">✕ Close</a><h3>{html.escape(i["name"])}: GMP over time (₹ per share)</h3>'
+            f'{charts.chart(h, bar, big=True)}<div class="mut">Dashed line: the GMP needed for an “Apply” '
+            f'({bar_for(i)}% of the issue price). {html.escape(stats)}{note}</div></div></div>')
+
+
+def row(i, hist, dets, today, live=True):
     e = html.escape
-    h = hist.get(key_of(i["name"]), [])
+    k = key_of(i["name"])
+    h = hist.get(k, [])
     label, why = verdict(i, today)
-    est = f"₹{i['est_price']:g}" if i["est_price"] is not None else "–"
+    a = details.analyse(i, dets.get(k), parse_end(i["dates"], today), today)
     facts = [("Price band", i["price_text"] or "–"), ("Dates", i["dates"] or "–"), ("Status", i["status"] or "–")]
     if i["est_price"] is not None:
-        facts.append(("Est. listing (IPO Watch)", est))
+        facts.append(("Estimated listing price", f"₹{i['est_price']:g}"))
     if i["size"]:
         facts.append(("Issue size", i["size"]))
-    link = f'<a href="{e(i["url"])}" target="_blank" rel="noopener">Full write-up on IPO Watch ↗</a>' if i["url"] else ""
+    link = f'<a href="{e(i["url"])}" target="_blank" rel="noopener">More details ↗</a>' if i["url"] else ""
     tm = timing(i, h, today)
     tm_html = f"<br><b>{e(tm[0])}.</b> {e(tm[1])}" if tm else ""
+    bar = i["price"] * bar_for(i) / 100 if i["price"] else None
     detail = (f'<div class="det"><h3>Advice</h3>{e(label)}: {e(why)}.{tm_html}'
-              f'<h3>The arithmetic</h3>{kv(arithmetic(i))}'
-              f'<h3>Trend</h3>{kv(trend_stats(h))}{history_table(h)}'
-              f'<h3>Facts</h3>{kv(facts)}'
-              f'<div class="mut">Illustrative only: real lot sizes differ, and brokerage, charges and tax are not included. '
-              f'GMP is unofficial.</div>{broker_links(live)}<div style="margin-top:8px">{link}</div></div>')
+              f'<h3>Financial analysis</h3>{analysis_html(a)}'
+              f'<h3>GMP trend</h3><a class="zoom" href="#c-{k}" title="Click to enlarge">{charts.chart(h, bar, big=False)}</a>'
+              f'<span class="zoomhint">Click the graph to enlarge it.</span>'
+              f'<h3>Facts</h3>{kv(facts)}{broker_links(live)}<div style="margin-top:8px">{link}</div></div>')
     cls = {"Apply": "up", "Don't apply": "down"}.get(label, "mut")
     tail = f'<span class="{cls}"><b>{e(label)}</b></span>' if live else ""
     return (f'<details class="ipo"><summary class="grid{"" if live else " g5"}"><span class="name">{e(i["name"])}</span>'
             f'<span>{e(apply_by(i, today))}</span><span>{sign(i["gmp"])}</span>'
-            f'<span class="{color(i["gain"])}"><b>{sign(i["gain"], "%")}</b></span><span>{sparkline(h)}</span>{tail}'
-            f'</summary>{detail}</details>')
+            f'<span class="{color(i["gain"])}"><b>{sign(i["gain"], "%")}</b></span><span>{sparkline(h, k)}</span>{tail}'
+            f'</summary>{detail}</details>{lightbox(i, h, k)}')
 
 
-def page(title, active, body, now):
+def page(title, active, body, now, source=False):
     def link(href, name, key):
         return f'<a href="{href}"{" class=on" if key == active else ""}>{name}</a>'
+    credit = f'Data: <a href="{SOURCE}">IPO Watch</a>. ' if source else ""
     return (f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" '
             f'content="width=device-width,initial-scale=1"><title>{title}</title><style>{CSS}</style></head><body><main>'
             f'<h1>IPO GMP</h1><div class="mut">Updated {now.strftime("%d %b %Y, %H:%M")} IST · tap an IPO for details</div>'
             f'<div class="nav">{link("index.html", "Open &amp; upcoming", "live")}{link("history.html", "Past IPOs", "past")}{link("news.html", "News &amp; advice", "news")}</div>'
-            f'{body}<p class="mut">Source: <a href="{SOURCE}">IPO Watch</a>. GMP is unofficial and moves fast; '
+            f'{body}<p class="mut">{credit}GMP is unofficial and moves fast; '
             f'treat it as a rough signal only. Verdict is a simple rule (Apply: GMP gain ≥10%, ≥15% for SME; '
-            f'Don\'t apply: negative or under 3%; Ignore: in between or no GMP), not financial advice.</p></main></body></html>')
+            f'Don\'t apply: negative or under 3%; Ignore: in between or no GMP). None of this is financial advice.</p></main></body></html>')
 
 
-def render(ipos, hist, now):
+def render(ipos, hist, now, dets=None):
     """Main page: only IPOs you can still apply to."""
-    today = now.date()
+    today, dets = now.date(), dets or {}
     live = [i for i in ipos if not is_closed(i, today)]
 
     def section(title, items):
@@ -413,22 +443,22 @@ def render(ipos, hist, now):
         items = sorted(items, key=lambda i: -(i["gain"] if i["gain"] is not None else -1e9))
         return (f"<h2>{title}</h2><div class='grid head'><span>IPO</span><span>Apply by</span><span>GMP ₹</span>"
                 f"<span>Gain</span><span>Trend</span><span>Verdict</span></div>"
-                f"{''.join(row(i, hist, today) for i in items)}")
+                f"{''.join(row(i, hist, dets, today) for i in items)}")
 
     body = (broker_links(True) + section("Mainboard", [i for i in live if not i["sme"]])
             + section("SME", [i for i in live if i["sme"]]))
     if not live:
         body += "<p>No IPOs are open right now. See Past IPOs.</p>"
-    return page("IPO GMP", "live", body, now)
+    return page("IPO GMP", "live", body, now, source=True)
 
 
-def render_history(archive, hist, now):
+def render_history(archive, hist, now, dets=None):
     """Past IPOs page: closed ones, newest first (end date comes from the archive)."""
-    today = now.date()
+    today, dets = now.date(), dets or {}
     items = list(archive.values())
     if not items:
         return page("Past IPOs", "past", "<p>Nothing here yet.</p>", now)
-    rows = "".join(row(i, hist, today, live=False) for i in items)
+    rows = "".join(row(i, hist, dets, today, live=False) for i in items)
     body = (f"<h2>Closed IPOs, last GMP we saw</h2><div class='grid g5 head'><span>IPO</span><span>Closed</span>"
             f"<span>GMP ₹</span><span>Gain</span><span>Trend</span></div>{rows}")
     return page("Past IPOs", "past", body, now)
@@ -625,10 +655,11 @@ def main(argv=None):
     NEWS_FILE.write_text(json.dumps(feed, indent=1, ensure_ascii=False))
     NEWS_PAGE.write_text(render_news(ipos, hist, archive, feed, now))
     ARCHIVE_FILE.write_text(json.dumps(archive, indent=1, ensure_ascii=False))
-    OUT_FILE.write_text(render(ipos, hist, now))
-    HISTORY_PAGE.write_text(render_history(archive, hist, now))
+    OUT_FILE.write_text(render(ipos, hist, now, dets))
+    HISTORY_PAGE.write_text(render_history(archive, hist, now, dets))
     print(f"wrote {OUT_FILE.name}, {HISTORY_PAGE.name}, {NEWS_PAGE.name}: {len(ipos)} IPOs, "
-          f"{len(archive)} archived, {len(feed)} news items")
+          f"{len(archive)} archived, {len(feed)} news items, "
+          f"details for {len(dets)} IPOs")
     return 0
 
 
