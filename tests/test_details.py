@@ -77,3 +77,27 @@ def test_analysis_without_details():
     a = details.analyse(dict(name="X", price=100.0, gmp=5.0, gain=5.0, sme=True), None, date(2026, 10, 5), date(2026, 10, 1))
     assert not a["has_details"] and a["quality"] is None and a["scenarios"] == []
     assert any(f.startswith("SME issue") for f in a["flags"])
+
+
+def test_page_for_a_different_ipo_is_rejected():
+    d = details.parse_tables(SRIT)                     # lot is ₹14,950 for 115 shares => issue price ₹130
+    assert details.matches(dict(price=130.0), d)
+    assert not details.matches(dict(price=72.0), d)    # e.g. Papadmalji Agro linked to Black Opal's page
+    a = details.analyse(dict(name="X", price=72.0, gmp=0.0, gain=0.0, sme=True), d, date(2026, 10, 1), date(2026, 9, 30))
+    assert not a["has_details"] and a["quality"] is None     # wrong company's numbers are never used
+
+
+def test_wording_and_quality():
+    d = details.parse_tables(SRIT)
+    a = details.analyse(dict(name="S", price=130.0, gmp=31.0, gain=23.85, sme=False), d, date(2026, 9, 30), date(2026, 9, 29))
+    app = dict(a["sections"][0][1])
+    assert app["Minimum application"].startswith("1 lot =")          # singular
+    assert "not repeatable" in app["Return if GMP holds, annualised"]
+    d2 = details.parse_tables(SRIT)
+    d2["lot"] = {"lots": 2.0, "shares": 230.0, "amount": 29900.0}
+    a2 = details.analyse(dict(name="S", price=130.0, gmp=31.0, gain=23.85, sme=True), d2, date(2026, 9, 30), date(2026, 9, 29))
+    assert dict(a2["sections"][0][1])["Minimum application"].startswith("2 lots =")
+    d["peers"] = d["peers"][:1]
+    v = dict(next(s for s in details.analyse(dict(name="S", price=130.0, gmp=31.0, gain=23.85, sme=False), d, date(2026, 9, 30),
+                                             date(2026, 9, 29))["sections"] if s[0] == "Valuation")[1])
+    assert "Listed peer's P/E" in v and v["Listed peer's P/E"].endswith("(1 peer)")

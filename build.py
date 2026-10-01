@@ -248,7 +248,10 @@ def update_details(ipos, archive, today, fetch_page=None, pause=0.4):
         try:
             tables, _ = parse(fetch_page(i["url"]))
             d = details.parse_tables(tables)
-            if d.get("lot") or d.get("financials") or d.get("kpi"):
+            if not details.matches(i, d):                         # the page belongs to a different IPO
+                store.pop(key_of(i["name"]), None)
+                failed.append(f"{i['name']} (linked page is for another IPO)")
+            elif d.get("lot") or d.get("financials") or d.get("kpi"):
                 store[key_of(i["name"])] = d
             else:
                 failed.append(i["name"])

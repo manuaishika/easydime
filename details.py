@@ -78,6 +78,16 @@ def parse_tables(tables):
     return d
 
 
+def matches(i, d):
+    """True unless this page clearly belongs to another IPO: lot value ÷ shares must equal the issue price.
+    (IPO Watch occasionally links one IPO to another's page; showing that data would be wrong.)"""
+    lot = (d or {}).get("lot") or {}
+    price = i.get("price")
+    if not (lot.get("amount") and lot.get("shares") and price):
+        return True                                   # nothing to compare, accept
+    return abs(lot["amount"] / lot["shares"] - price) / price < 0.01
+
+
 # ---------- analysis ----------
 def _pct(v):
     return f"{v:+.1f}%"
@@ -97,6 +107,8 @@ def analyse(i, d, close, today):
     """Financial read of one IPO. Returns {sections, flags, positives, quality, bottom, has_details}.
     i: parsed row (price, gmp, gain, sme, name). d: parse_tables() output or None. close: last bidding date."""
     price, gmp = i.get("price"), i.get("gmp")
+    if d and not matches(i, d):
+        d = None
     out = {"sections": [], "scenarios": [], "odds": [], "flags": [], "positives": [], "quality": None,
            "bottom": "", "has_details": bool(d)}
     d = d or {}
@@ -107,7 +119,7 @@ def analyse(i, d, close, today):
     amount, shares = lot.get("amount"), lot.get("shares")
     if amount and shares and gmp is not None and price:
         pnl = shares * gmp
-        rows = [("Minimum application", f"{int(lot['lots'])} lot = {int(shares):,} shares = {_inr(amount)}"),
+        rows = [("Minimum application", f"{int(lot['lots'])} lot{'s' if lot['lots'] != 1 else ''} = {int(shares):,} shares = {_inr(amount)}"),
                 ("Profit/loss if it lists at today's GMP", f"{'+' if pnl >= 0 else '−'}{_inr(abs(pnl))} ({gmp / price * 100:+.2f}%)")]
         dates = d.get("dates", {})
         free = parse_date_iso(dates.get("refund")) or parse_date_iso(dates.get("listing"))
@@ -116,7 +128,7 @@ def analyse(i, d, close, today):
             ann = gmp / price * 100 * 365 / days
             fd = amount * FD_RATE / 100 * days / 365
             rows += [("Money blocked", f"{days} days (bid closes {close:%d %b}, refund/listing {free:%d %b})"),
-                     ("Return if GMP holds, annualised", f"{ann:,.0f}% a year" if abs(ann) < 1e5 else "very high"),
+                     ("Return if GMP holds, annualised", f"{ann:,.0f}% a year (short-term rate, not repeatable)" if abs(ann) < 1e5 else "very high"),
                      (f"Same money in a {FD_RATE:g}% fixed deposit", f"{_inr(fd)} over {days} days"),
                      ("GMP profit beats the deposit by", f"{'+' if pnl - fd >= 0 else '−'}{_inr(abs(pnl - fd))}")]
         out["sections"].append(("What one application means", rows))
@@ -137,7 +149,7 @@ def analyse(i, d, close, today):
 
     # --- 2. valuation ---------------------------------------------------------------------------
     kpi = d.get("kpi", {})
-    rows, eps, nav = [], kpi.get("eps"), kpi.get("nav")
+    rows, eps, nav, val_score = [], kpi.get("eps"), kpi.get("nav"), 0
     if price and eps and eps > 0:
         pe = price / eps
         rows.append(("Price ÷ earnings at the issue price", f"{pe:.1f}×  (EPS ₹{eps:g})"))
@@ -147,8 +159,11 @@ def analyse(i, d, close, today):
         if peers:
             med = median(peers)
             prem = (pe / med - 1) * 100
-            rows.append(("Listed peers' median P/E", f"{med:.1f}×  ({len(peers)} peers)"))
+            rows.append(("Listed peers' median P/E" if len(peers) > 1 else "Listed peer's P/E",
+                         f"{med:.1f}×  ({len(peers)} peer{'s' if len(peers) != 1 else ''})"))
             rows.append(("Valuation vs peers", f"{abs(prem):.0f}% {'premium' if prem > 0 else 'discount'}"))
+            # SME peers are usually far bigger listed companies, so a "discount" says little: only score mainboard
+            val_score = 0 if i.get("sme") else -1 if prem > 30 else 1 if prem < -10 else 0
             if prem > 30:
                 flags.append(f"Priced at {pe:.0f}× earnings, {prem:.0f}% above its listed peers' median ({med:.0f}×).")
             elif prem < -10:
@@ -163,7 +178,7 @@ def analyse(i, d, close, today):
     # --- 3. growth and profitability --------------------------------------------------------------
     fy = sorted([f for f in d.get("financials", []) if re.fullmatch(r"\D*\d{4}\D*", f["period"])
                  and f["revenue"] is not None], key=lambda f: int(re.search(r"\d{4}", f["period"]).group()))
-    rows, score = [], 0
+    rows, score = [], val_score
     if len(fy) >= 2:
         yrs = len(fy) - 1
         rc = _cagr(fy[0]["revenue"], fy[-1]["revenue"], yrs)
@@ -245,7 +260,7 @@ def analyse(i, d, close, today):
 
     # --- 6. quality + bottom line ----------------------------------------------------------------
     if d.get("financials") or kpi:
-        out["quality"] = "Strong" if score >= 2 else "Weak" if score <= -1 else "Mixed"
+        out["quality"] = "Strong" if score >= (4 if i.get("sme") else 3) else "Weak" if score <= -1 else "Mixed"
     q, g = out["quality"], i.get("gain")
     need = 15 if i.get("sme") else 10
     if g is None:

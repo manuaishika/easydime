@@ -18,6 +18,8 @@ LIST = ("<h2>Mainboard</h2><table><tr><th>IPO Name</th><th>IPO GMP*</th><th>Tren
         "<th>Est. Listing</th><th>Date</th><th>Status</th></tr>"
         "<tr><td><a href='https://x.test/live'>Live Co</a></td><td>₹31</td><td>🟢</td><td>₹130</td><td>₹161 (23.85%)</td>"
         "<td>28-31 Dec</td><td>Open</td></tr>"
+        "<tr><td><a href='https://x.test/live'>Wrong Page Co</a></td><td>₹9</td><td>🟢</td><td>₹72</td><td>₹81 (12%)</td>"
+        "<td>28-31 Dec</td><td>Open</td></tr>"
         "<tr><td><a href='https://x.test/broken'>Broken Page Co</a></td><td>₹5</td><td>🟢</td><td>₹50</td><td>₹55 (10%)</td>"
         "<td>28-31 Dec</td><td>Open</td></tr>"
         "<tr><td>Done Co</td><td>₹2</td><td>🟢</td><td>₹50</td><td>₹52 (4%)</td><td>20-22 Dec</td><td>Closed</td></tr></table>")
@@ -42,6 +44,7 @@ def test_main_end_to_end(tmp_path, monkeypatch):
     assert "Live Co" in index and "Done Co" not in index and "Done Co" in hist
     assert "Financial analysis" in index and "115 shares" in index            # details were fetched and analysed
     dets = json.loads((tmp_path / "d.json").read_text())
+    assert "wrongpageco" not in dets                                            # page of another IPO (lot value != price)
     assert "liveco" in dets and "brokenpageco" not in dets                      # failed page skipped, build survived
     assert "News" in news and "<script" not in index + hist + news
     assert (index + hist + news).count("IPO Watch") == 1
