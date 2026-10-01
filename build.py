@@ -655,6 +655,12 @@ def main(argv=None):
     NEWS_FILE.write_text(json.dumps(feed, indent=1, ensure_ascii=False))
     NEWS_PAGE.write_text(render_news(ipos, hist, archive, feed, now))
     ARCHIVE_FILE.write_text(json.dumps(archive, indent=1, ensure_ascii=False))
+    dets, failed = ({}, []) if args.html else update_details(ipos, archive, now.date())
+    if args.html and DETAILS_FILE.exists():
+        dets = json.loads(DETAILS_FILE.read_text())
+    DETAILS_FILE.write_text(json.dumps(dets, indent=1, ensure_ascii=False))
+    if failed:
+        print(f"WARNING: no detail data for {len(failed)} IPO(s): {failed[:5]}", file=sys.stderr)
     OUT_FILE.write_text(render(ipos, hist, now, dets))
     HISTORY_PAGE.write_text(render_history(archive, hist, now, dets))
     print(f"wrote {OUT_FILE.name}, {HISTORY_PAGE.name}, {NEWS_PAGE.name}: {len(ipos)} IPOs, "
