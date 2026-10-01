@@ -90,3 +90,43 @@ def test_pages_split_open_and_closed(monkeypatch, tmp_path):
     assert "https://groww.in/ipo" in main and "https://zerodha.com/ipo/" in main
     assert "groww.in" not in past            # no apply links for closed IPOs
     assert "The arithmetic" in main and "history.html" in main
+
+
+def test_timing_labels():
+    today = date(2026, 9, 30)
+    h_up, h_down = [["a", 20], ["b", 25]], [["a", 30], ["b", 25]]
+    assert build.timing(_rec(gain=20, dates="28-30 Sep"), [], today)[0] == "Apply today"
+    assert build.timing(_rec(gain=20), h_up, today)[0] == "Apply early"
+    assert build.timing(_rec(gain=20), h_down, today)[0] == "Apply, but watch"
+    assert build.timing(_rec(gain=5), h_up, today)[0] == "Apply late, if at all"
+    assert build.timing(_rec(gain=5, dates="28-30 Sep"), [], today)[0] == "Skip"
+    assert build.timing(_rec(gain=-3, gmp=-3.0), [], today)[0] == "Skip"
+    assert build.timing(_rec(dates="23-25 Sep", status="Closed"), [], today) is None
+
+
+
+def test_events_and_feed(monkeypatch, tmp_path):
+    monkeypatch.setattr(build, "NEWS_FILE", tmp_path / "n.json")
+    now = datetime(2026, 9, 30, 9, 0)
+    old = [_rec(), _rec(name="Gone Co", gain=20.0), _rec(name="Flat Co", gain=5.0, gmp=5.0)]
+    new = [_rec(gain=5.0, gmp=5.0),                                     # fell 25% -> 5%: Apply -> Ignore
+           _rec(name="Gone Co", gain=20.0, status="Closed", dates="25-29 Sep"),
+           _rec(name="Flat Co", gain=5.0, gmp=5.0),                      # unchanged -> no event
+           _rec(name="Fresh Co", gain=30.0, gmp=30.0)]                    # new listing
+    texts = " | ".join(e["text"] for e in build.detect_events(old, new, {}, now))
+    assert "Acme Ltd: GMP falling" in texts and "verdict changed" in texts
+    assert "Gone Co: bidding closed" in texts and "New on the list: Fresh Co" in texts
+    assert "Flat Co" not in texts
+    feed = build.update_news(old, new, {}, now)
+    again = build.update_news(old, new, {}, now)   # same run twice must not duplicate
+    build.NEWS_FILE.write_text(__import__("json").dumps(feed))
+    assert len(build.update_news(old, new, {}, now)) == len(feed) == len(again)
+    assert build.detect_events([], new, {}, now) == [] or all(e["kind"] != "new" for e in build.detect_events([], new, {}, now))
+
+
+def test_news_page():
+    now = datetime(2026, 9, 30, 9, 0)
+    ipos = [_rec(gain=20.0, dates="28-30 Sep"), _rec(name="Flat Co", gain=5.0, gmp=5.0)]
+    out = build.render_news(ipos, {}, {}, [{"t": "2026-09-30 08:00", "kind": "new", "text": "Hello bulletin"}], now)
+    assert "Apply today" in out and "Closing soon" in out and "Hello bulletin" in out and "What to look for" in out
+    assert "Apply early or late?" in out

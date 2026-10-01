@@ -22,6 +22,9 @@ IPOS_FILE = ROOT / "data" / "ipos.json"
 OUT_FILE = ROOT / "index.html"
 HISTORY_PAGE = ROOT / "history.html"
 ARCHIVE_FILE = ROOT / "data" / "archive.json"
+NEWS_FILE = ROOT / "data" / "news.json"
+NEWS_PAGE = ROOT / "news.html"
+MAX_NEWS = 150
 IST = timezone(timedelta(hours=5, minutes=30))
 MAX_HISTORY = 60
 MAX_ARCHIVE = 200
@@ -316,6 +319,7 @@ text-transform:uppercase;letter-spacing:.05em}.kv td,.kv th{padding:3px 4px;bord
 .nav a{text-decoration:none;color:var(--mut)}.nav a.on{color:var(--fg);border-bottom:2px solid var(--fg)}
 .btn{display:inline-block;border:1px solid var(--line);border-radius:6px;padding:4px 10px;margin:4px 6px 0 0;text-decoration:none}
 .apply{margin:14px 0 0}
+ul{padding-left:18px;margin:4px 0}li{margin:6px 0}.feed{list-style:none;padding:0}.feed li{border-top:1px solid var(--line);padding:6px 0}
 """
 
 
@@ -370,7 +374,9 @@ def row(i, hist, today, live=True):
     if i["size"]:
         facts.append(("Issue size", i["size"]))
     link = f'<a href="{e(i["url"])}" target="_blank" rel="noopener">Full write-up on IPO Watch ↗</a>' if i["url"] else ""
-    detail = (f'<div class="det"><h3>Advice</h3>{e(label)}: {e(why)}.'
+    tm = timing(i, h, today)
+    tm_html = f"<br><b>{e(tm[0])}.</b> {e(tm[1])}" if tm else ""
+    detail = (f'<div class="det"><h3>Advice</h3>{e(label)}: {e(why)}.{tm_html}'
               f'<h3>The arithmetic</h3>{kv(arithmetic(i))}'
               f'<h3>Trend</h3>{kv(trend_stats(h))}{history_table(h)}'
               f'<h3>Facts</h3>{kv(facts)}'
@@ -390,7 +396,7 @@ def page(title, active, body, now):
     return (f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" '
             f'content="width=device-width,initial-scale=1"><title>{title}</title><style>{CSS}</style></head><body><main>'
             f'<h1>IPO GMP</h1><div class="mut">Updated {now.strftime("%d %b %Y, %H:%M")} IST · tap an IPO for details</div>'
-            f'<div class="nav">{link("index.html", "Open &amp; upcoming", "live")}{link("history.html", "Past IPOs", "past")}</div>'
+            f'<div class="nav">{link("index.html", "Open &amp; upcoming", "live")}{link("history.html", "Past IPOs", "past")}{link("news.html", "News &amp; advice", "news")}</div>'
             f'{body}<p class="mut">Source: <a href="{SOURCE}">IPO Watch</a>. GMP is unofficial and moves fast; '
             f'treat it as a rough signal only. Verdict is a simple rule (Apply: GMP gain ≥10%, ≥15% for SME; '
             f'Don\'t apply: negative or under 3%; Ignore: in between or no GMP), not financial advice.</p></main></body></html>')
@@ -428,6 +434,161 @@ def render_history(archive, hist, now):
     return page("Past IPOs", "past", body, now)
 
 
+# ---------- timing advice, briefing and news feed ----------
+def last_move(h):
+    return h[-1][1] - h[-2][1] if len(h) >= 2 else None
+
+
+def days_left(i, today):
+    end = parse_end(i["dates"], today)
+    return None if end is None else (end - today).days
+
+
+def timing(i, h, today):
+    """(label, explanation) on apply early / late / wait / skip. Rule of thumb built from GMP, its last move, days left."""
+    if is_closed(i, today):
+        return None
+    label, _ = verdict(i, today)
+    left, mv = days_left(i, today), last_move(h)
+    if label == "Apply":
+        if left == 0:
+            return ("Apply today", "Last day. Place the bid before the cut-off (usually around 5 pm; your broker or UPI "
+                    "can stop earlier, so do not leave it to the last hour).")
+        if mv is not None and mv < 0:
+            return ("Apply, but watch", f"GMP slipped by {money(-mv)} at the last update. It is still above the bar; "
+                    "re-check before the last day and bid then if it holds.")
+        return ("Apply early", "GMP is above the bar and not falling. Applying early does not raise your allotment chance "
+                "(retail allotment is a lottery), but it keeps you clear of last-day glitches.")
+    if label == "Ignore":
+        if left == 0:
+            return ("Skip", "Last day and GMP is below the bar.")
+        up = " GMP has been rising." if mv is not None and mv > 0 else ""
+        return ("Apply late, if at all", f"GMP is below the bar.{up} Re-check closer to the last day"
+                f"{'' if left is None else f' ({left}d left)'} and bid only if it improves.")
+    return ("Skip", "GMP is negative or very small. Only revisit if it jumps before the last day.")
+
+
+def briefing(ipos, hist, archive, today):
+    """Short bulletins computed from current data. Returns list of (heading, [lines])."""
+    live = [i for i in ipos if not is_closed(i, today)]
+    out = []
+    closing = [i for i in live if days_left(i, today) in (0, 1)]
+    if closing:
+        out.append(("Closing soon", [f"{i['name']} — {apply_by(i, today)} · {verdict(i, today)[0]}"
+                                     f" ({sign(i['gain'], '%')})" for i in sorted(closing, key=lambda i: days_left(i, today))]))
+    picks = sorted([i for i in live if verdict(i, today)[0] == "Apply"], key=lambda i: -(i["gain"] or 0))[:3]
+    if picks:
+        out.append(("Strongest GMP right now", [f"{i['name']} — {sign(i['gain'], '%')} (GMP {money(i['gmp'])})" for i in picks]))
+    moves = []
+    for i in live:
+        mv = last_move(hist.get(key_of(i["name"]), []))
+        if mv:
+            moves.append((mv, i))
+    movers = sorted(moves, key=lambda m: -abs(m[0]))[:3]
+    if movers:
+        out.append(("Biggest GMP moves at the last update", [f"{i['name']} — {'▲' if mv > 0 else '▼'} {money(abs(mv))} to {money(i['gmp'])}"
+                                                            for mv, i in movers]))
+    weak = [i for i in live if not i["sme"] and verdict(i, today)[0] == "Don't apply"]
+    if weak:
+        out.append(("Mainboard IPOs to be careful with", [f"{i['name']} — GMP {money(i['gmp'])} ({sign(i['gain'], '%')})" for i in weak]))
+    main_live = [i for i in live if not i["sme"] and i["gain"] is not None]
+    mood = []
+    if main_live:
+        pos = sum(1 for i in main_live if i["gain"] > 0)
+        mood.append(f"Open mainboard IPOs: {pos} of {len(main_live)} have a positive GMP, average expected gain "
+                    f"{sum(i['gain'] for i in main_live) / len(main_live):.1f}%.")
+    recent = [r for r in archive.values() if r["gain"] is not None][:10]
+    if recent:
+        mood.append(f"Last {len(recent)} closed IPOs: average GMP gain at close {sum(r['gain'] for r in recent) / len(recent):.1f}%, "
+                    f"{sum(1 for r in recent if r['gain'] > 0)} with a positive GMP.")
+    if mood:
+        out.append(("Market mood (from GMP only)", mood))
+    return out
+
+
+def detect_events(prev, ipos, hist, now):
+    """Compare this run with the previous snapshot and write bulletins for what changed."""
+    today, t = now.date(), now.strftime("%Y-%m-%d %H:%M")
+    before = {key_of(p["name"]): p for p in prev}
+    ev = []
+    for i in ipos:
+        k, p = key_of(i["name"]), before.get(key_of(i["name"]))
+        name = i["name"]
+        if is_closed(i, today):
+            if p is not None and not is_closed(p, today):
+                ev.append(("closed", f"{name}: bidding closed. Last GMP {money(i['gmp']) if i['gmp'] is not None else '–'} "
+                           f"({sign(i['gain'], '%')})."))
+            continue
+        lab = verdict(i, today)[0]
+        if p is None:
+            if prev:
+                ev.append(("new", f"New on the list: {name} ({'SME' if i['sme'] else 'Mainboard'}), GMP "
+                           f"{money(i['gmp']) if i['gmp'] is not None else '–'} ({sign(i['gain'], '%')}), apply by {apply_by(i, today)}. "
+                           f"Verdict: {lab}."))
+            continue
+        if i["gain"] is not None and p["gain"] is not None:
+            d = i["gain"] - p["gain"]
+            if abs(d) >= 3:
+                ev.append(("move", f"{name}: GMP {'rising' if d > 0 else 'falling'}, {sign(p['gain'], '%')} to {sign(i['gain'], '%')} "
+                           f"({money(p['gmp'])} to {money(i['gmp'])})."))
+        old = verdict(p, today)[0]
+        if old != lab and old != "Closed":
+            ev.append(("verdict", f"{name}: verdict changed from {old} to {lab} ({sign(i['gain'], '%')})."))
+        if days_left(i, today) == 0 and lab != "Don't apply":
+            ev.append(("last-day", f"Last day to apply: {name}. Verdict: {lab}."))
+    return [{"t": t, "kind": k, "text": x} for k, x in ev]
+
+
+def update_news(prev, ipos, hist, now):
+    feed = json.loads(NEWS_FILE.read_text()) if NEWS_FILE.exists() else []
+    seen = {(e["t"][:10], e["text"]) for e in feed}
+    fresh = [e for e in detect_events(prev, ipos, hist, now) if (e["t"][:10], e["text"]) not in seen]
+    return (fresh + feed)[:MAX_NEWS]
+
+
+LOOK_FOR = [
+    "Subscription numbers: check the day-by-day subscription (retail, HNI, QIB) in your broker app or on NSE/BSE. "
+    "Heavy QIB demand on the last day is a stronger sign than GMP alone. This site does not have that data.",
+    "GMP is unofficial and can be wrong or manipulated, especially for small SME issues. Treat it as one signal.",
+    "Issue size and how much is a fresh issue vs. offer for sale (OFS). A big OFS means promoters are selling.",
+    "Your money: the amount is blocked via UPI until allotment. SME issues usually need a much larger minimum amount than mainboard.",
+    "Dates: allotment and listing usually follow a few days after the close. Check them before you tie up funds.",
+    "Never apply only because GMP looks high. Read the company and what it plans to do with the money.",
+]
+
+
+def render_news(ipos, hist, archive, feed, now):
+    today, e = now.date(), html.escape
+    live = [i for i in ipos if not is_closed(i, today)]
+    parts = []
+    for head, lines in briefing(ipos, hist, archive, today):
+        parts.append(f"<h2>{e(head)}</h2><ul>" + "".join(f"<li>{e(x)}</li>" for x in lines) + "</ul>")
+    groups = {}
+    for i in live:
+        lab, why = timing(i, hist.get(key_of(i["name"]), []), today)
+        groups.setdefault(lab, []).append((i, why))
+    order = ["Apply today", "Apply early", "Apply, but watch", "Apply late, if at all", "Skip"]
+    g = []
+    for lab in order:
+        items = sorted(groups.get(lab, []), key=lambda x: -(x[0]["gain"] or -1e9))
+        if not items:
+            continue
+        label = lambda i: f"{e(i['name'])} <span class='mut'>({apply_by(i, today)}, {sign(i['gain'], '%')})</span>"
+        if len({why for _, why in items}) == 1:       # same advice for all: say it once
+            g.append(f"<li><b>{e(lab)}</b><div class='mut'>{e(items[0][1])}</div><div>"
+                     + "<br>".join(label(i) for i, _ in items) + "</div></li>")
+        else:
+            g.append(f"<li><b>{e(lab)}</b>" + "".join(
+                f"<div>{label(i)}<div class='mut'>{e(why)}</div></div>" for i, why in items) + "</li>")
+    if g:
+        parts.append("<h2>Apply early or late?</h2><ul>" + "".join(g) + "</ul>")
+    parts.append("<h2>What to look for</h2><ul>" + "".join(f"<li>{e(x)}</li>" for x in LOOK_FOR) + "</ul>")
+    items = "".join(f"<li><span class='mut'>{e(x['t'])}</span> {e(x['text'])}</li>" for x in feed) or \
+        "<li class='mut'>No changes recorded yet. New bulletins appear here after each update.</li>"
+    parts.append(f"<h2>Live feed</h2><ul class='feed'>{items}</ul>")
+    return page("News & advice", "news", "".join(parts), now)
+
+
 # ---------- main ----------
 def main(argv=None):
     ap = argparse.ArgumentParser()
@@ -457,12 +618,17 @@ def main(argv=None):
     hist = update_history(ipos, now)
     HISTORY_FILE.parent.mkdir(exist_ok=True)
     HISTORY_FILE.write_text(json.dumps(hist, indent=1))
+    prev = json.loads(IPOS_FILE.read_text()) if IPOS_FILE.exists() else []
     IPOS_FILE.write_text(json.dumps(ipos, indent=1, ensure_ascii=False))
     archive = update_archive(ipos, now)
+    feed = update_news(prev, ipos, hist, now)
+    NEWS_FILE.write_text(json.dumps(feed, indent=1, ensure_ascii=False))
+    NEWS_PAGE.write_text(render_news(ipos, hist, archive, feed, now))
     ARCHIVE_FILE.write_text(json.dumps(archive, indent=1, ensure_ascii=False))
     OUT_FILE.write_text(render(ipos, hist, now))
     HISTORY_PAGE.write_text(render_history(archive, hist, now))
-    print(f"wrote {OUT_FILE.name} and {HISTORY_PAGE.name}: {len(ipos)} IPOs, {len(archive)} archived")
+    print(f"wrote {OUT_FILE.name}, {HISTORY_PAGE.name}, {NEWS_PAGE.name}: {len(ipos)} IPOs, "
+          f"{len(archive)} archived, {len(feed)} news items")
     return 0
 
 

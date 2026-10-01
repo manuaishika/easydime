@@ -6,6 +6,8 @@ and writes two static pages:
 - `index.html` — open and upcoming IPOs: Apply by, GMP, expected gain %, trend, an Apply / Don't apply / Ignore verdict,
   a worked-arithmetic detail view (tap a row), and Groww / Zerodha links.
 - `history.html` — closed IPOs, kept in `data/archive.json`.
+- `news.html` — a news-style page: a daily briefing (closing soon, strongest GMP, biggest moves, market mood), an
+  "apply early or late?" guide per IPO, a "what to look for" checklist, and a live feed of changes (`data/news.json`).
 
 GMP snapshots are saved in `data/history.json`, so trends build up over time.
 A GitHub Action (`.github/workflows/update.yml`) re-runs it four times a day and commits to `main`.
