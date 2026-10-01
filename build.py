@@ -284,28 +284,29 @@ def kv(rows):
 
 
 def analysis_html(a):
-    """The financial analysis panel for one IPO."""
+    """The financial analysis for one IPO: the conclusion and red flags up front, detail sections collapsible."""
     e, parts = html.escape, []
     if a["bottom"]:
         q = f" <span class='mut'>Fundamentals: {e(a['quality'])}</span>" if a["quality"] else ""
-        parts.append(f"<p><b>{e(a['bottom'])}</b>{q}</p>")
-    for title, rows in a["sections"]:
-        parts.append(f"<h4>{e(title)}</h4>{kv(rows)}")
-        if title == "What one application means" and a["scenarios"]:
-            parts.append("<h4>If it lists at…</h4><table class='kv'><tr><th>Scenario</th><th>Profit / loss</th><th>Return</th></tr>"
-                         + "".join(f"<tr><td>{e(lab)}</td><td class='{color(pl)}'>{e(signed_money(pl))}</td>"
-                                   f"<td class='{color(pc)}'>{pc:+.1f}%</td></tr>" for lab, pl, pc in a["scenarios"]) + "</table>")
-        if title == "Allotment odds" and a["odds"]:
-            parts.append("<table class='kv'><tr><th>If retail demand is…</th><th>Chance of a lot</th><th>Expected profit</th></tr>"
-                         + "".join(f"<tr><td>{n}× the quota</td><td>{'100%' if n == 1 else f'1 in {n}'}</td>"
-                                   f"<td>{e(signed_money(ev))}</td></tr>" for n, _, ev in a["odds"]) + "</table>")
+        parts.append(f"<p class='bottom'><b>{e(a['bottom'])}</b>{q}</p>")
     if a["flags"]:
         parts.append("<h4>Watch out for</h4><ul class='fl'>" + "".join(f"<li>⚠ {e(x)}</li>" for x in a["flags"]) + "</ul>")
     if a["positives"]:
         parts.append("<h4>In its favour</h4><ul class='fl'>" + "".join(f"<li>✓ {e(x)}</li>" for x in a["positives"]) + "</ul>")
+    for n, (title, rows) in enumerate(a["sections"]):
+        body = kv(rows)
+        if title == "What one application means" and a["scenarios"]:
+            body += ("<h5>If it lists at…</h5><table class='kv three'><tr><th>Scenario</th><th>Profit / loss</th><th>Return</th></tr>"
+                     + "".join(f"<tr><td>{e(lab)}</td><td class='{color(pl)}'>{e(signed_money(pl))}</td>"
+                               f"<td class='{color(pc)}'>{pc:+.1f}%</td></tr>" for lab, pl, pc in a["scenarios"]) + "</table>")
+        if title == "Allotment odds" and a["odds"]:
+            body += ("<table class='kv three'><tr><th>If retail demand is…</th><th>Chance of a lot</th><th>Expected profit</th></tr>"
+                     + "".join(f"<tr><td>{n_}× the quota</td><td>{'100%' if n_ == 1 else f'1 in {n_}'}</td>"
+                               f"<td>{e(signed_money(ev))}</td></tr>" for n_, _, ev in a["odds"]) + "</table>")
+        parts.append(f"<details class='sec'{' open' if n == 0 else ''}><summary>{e(title)}</summary>{body}</details>")
     if not a["has_details"]:
         parts.append("<p class='mut'>Company details (lot size, financials, peers) are not available for this IPO yet.</p>")
-    parts.append(f"<div class='mut'>Assumes the minimum one-lot application, and a {details.FD_RATE:g}% fixed deposit as the "
+    parts.append(f"<div class='mut note'>Assumes the minimum one-lot application, and a {details.FD_RATE:g}% fixed deposit as the "
                  "safe alternative. Revenue and profit are in ₹ crore as listed. Allotment is a lottery when oversubscribed. "
                  "Brokerage, charges and tax are not included. GMP is unofficial.</div>")
     return "".join(parts)
@@ -313,39 +314,61 @@ def analysis_html(a):
 
 # ---------- render ----------
 CSS = """
-:root{color-scheme:light dark;--bg:#fff;--fg:#111;--mut:#777;--line:#eee;--up:#0a8f4d;--down:#d0312d}
-@media(prefers-color-scheme:dark){:root{--bg:#111;--fg:#eee;--mut:#999;--line:#2a2a2a;--up:#3ddc84;--down:#ff6b66}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.4 system-ui,sans-serif}
-main{max-width:760px;margin:0 auto;padding:16px}h1{font-size:18px;margin:0 0 4px}h2{font-size:13px;color:var(--mut);
-font-weight:500;margin:22px 0 4px;text-transform:uppercase;letter-spacing:.05em}
+:root{color-scheme:light dark;--bg:#fff;--fg:#111;--mut:#6b6b6b;--line:#e8e8e8;--card:#f6f6f6;--up:#0a8f4d;--down:#d0312d;
+--upbg:#e3f5ea;--downbg:#fbe6e5;--neutralbg:#ececec}
+@media(prefers-color-scheme:dark){:root{--bg:#111;--fg:#f1f1f1;--mut:#9a9a9a;--line:#2a2a2a;--card:#1b1b1b;--up:#3ddc84;--down:#ff6b66;
+--upbg:#12301f;--downbg:#3a1a19;--neutralbg:#2a2a2a}}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,sans-serif}
+main{max-width:640px;margin:0 auto;padding:18px 16px 40px}
+h1{font-size:22px;margin:0 0 2px;letter-spacing:-.01em}
+h2{font-size:13px;color:var(--mut);font-weight:600;margin:26px 0 8px;text-transform:uppercase;letter-spacing:.06em}
+a{color:inherit}.up{color:var(--up)}.down{color:var(--down)}.mut{color:var(--mut);font-size:13px}
+.nav{display:flex;gap:6px;margin:14px 0 4px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.nav a{flex:none;text-decoration:none;color:var(--mut);padding:8px 13px;border-radius:999px;font-size:14px;background:var(--card)}
+.nav a.on{background:var(--fg);color:var(--bg);font-weight:600}
+.apply{display:flex;align-items:center;gap:8px;margin:14px 0 0;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);background:var(--card);border-radius:10px;
+padding:10px 18px;text-decoration:none;font-weight:600;font-size:15px;min-height:44px}
+.apply .btn{flex:1 1 120px}
+details.ipo{background:var(--card);border-radius:14px;margin:0 0 10px;overflow:hidden}
+summary{list-style:none;cursor:pointer}summary::-webkit-details-marker{display:none}
+.card{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"name chip" "gain spark" "meta meta";
+gap:4px 12px;align-items:center;padding:14px 14px 12px}
+.card .name{grid-area:name;font-weight:650;font-size:17px;line-height:1.25}
+.card .chip{grid-area:chip;font-weight:650;font-size:13px;padding:5px 11px;border-radius:999px;white-space:nowrap;background:var(--neutralbg);color:var(--mut)}
+.chip.up{background:var(--upbg);color:var(--up)}.chip.down{background:var(--downbg);color:var(--down)}
+.card .gain{grid-area:gain;font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.card .sp{grid-area:spark;justify-self:end}
+.card .meta{grid-area:meta;color:var(--mut);font-size:14px}.meta b{color:var(--fg)}
+details[open]>summary .name::after{content:" ▾";color:var(--mut);font-weight:400}
+details:not([open])>summary .name::after{content:" ▸";color:var(--mut);font-weight:400}
+.det{font-size:15px;padding:2px 14px 16px;border-top:1px solid var(--line)}
+.det h3{font-size:12px;color:var(--mut);margin:20px 0 6px;text-transform:uppercase;letter-spacing:.06em}
+.det h4{font-size:15px;margin:16px 0 4px}.det p{margin:8px 0}
 table{width:100%;border-collapse:collapse}
-.grid{display:grid;grid-template-columns:minmax(0,2fr) 1.3fr .6fr .9fr .9fr 1fr;gap:4px;align-items:baseline;padding:10px 6px}
-.grid.g5{grid-template-columns:minmax(0,2fr) 1.3fr .6fr .9fr .9fr}
-.grid>*:not(:first-child){text-align:right;white-space:nowrap}
-.head{color:var(--mut);font-size:12px;padding:6px}
-details.ipo{border-top:1px solid var(--line)}summary{cursor:pointer;list-style:none}summary::-webkit-details-marker{display:none}
-summary .name::before{content:"▸ ";color:var(--mut)}details[open] summary .name::before{content:"▾ "}
-.up{color:var(--up)}.down{color:var(--down)}.mut{color:var(--mut);font-size:12px}a{color:inherit}
-.det{font-size:13px;padding:2px 6px 14px 20px;white-space:normal;text-align:left;max-width:560px}
-.det h3{font-size:12px;color:var(--mut);margin:14px 0 2px;text-transform:uppercase;letter-spacing:.05em}
-.det h4{font-size:13px;margin:12px 0 2px}.det p{margin:6px 0}
-.kv td,.kv th{padding:3px 4px;border:0;text-align:left;white-space:normal;font-size:13px;vertical-align:top}
-.kv th{color:var(--mut);font-weight:500;font-size:12px}
-.kv td:first-child{width:45%}.kv td:last-child,.kv th:last-child{text-align:right}.nav{display:flex;gap:14px;margin:8px 0 0;flex-wrap:wrap}
-.nav a{text-decoration:none;color:var(--mut)}.nav a.on{color:var(--fg);border-bottom:2px solid var(--fg)}
-.btn{display:inline-block;border:1px solid var(--line);border-radius:6px;padding:4px 10px;margin:4px 6px 0 0;text-decoration:none}
-.apply{margin:14px 0 0}
-ul{padding-left:18px;margin:4px 0}li{margin:6px 0}.feed{list-style:none;padding:0}.feed li{border-top:1px solid var(--line);padding:6px 0}
-.fl{list-style:none;padding:0}.fl li{margin:3px 0}
+.kv td,.kv th{padding:6px 0;border:0;text-align:left;font-size:14px;vertical-align:top;border-bottom:1px solid var(--line)}
+.kv tr:last-child td{border-bottom:0}.kv th{color:var(--mut);font-weight:500;font-size:12px}
+.kv td:first-child{width:46%;color:var(--mut);padding-right:10px}
+.kv td:last-child,.kv th:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.kv.three td:first-child{width:auto}
+details.sec{border-top:1px solid var(--line);margin-top:6px}details.sec>summary{font-weight:650;font-size:15px;padding:12px 0;display:flex;justify-content:space-between}
+details.sec>summary::after{content:"▸";color:var(--mut)}details.sec[open]>summary::after{content:"▾"}
+.det h5{font-size:12px;color:var(--mut);margin:14px 0 2px;text-transform:uppercase;letter-spacing:.06em}
+.bottom{font-size:16px;margin:4px 0 6px}.note{margin-top:14px}
+ul{padding-left:18px;margin:6px 0}li{margin:7px 0}.feed{list-style:none;padding:0}.feed li{border-top:1px solid var(--line);padding:10px 0}
+.fl{list-style:none;padding:0}.fl li{margin:6px 0;line-height:1.4}
 .chart{width:100%;height:auto;display:block}.gl{stroke:var(--line);stroke-width:1}.zl{stroke:var(--mut);stroke-width:1}
-.bl{stroke:var(--up);stroke-width:1;stroke-dasharray:5 4}.ln{stroke:var(--up);stroke-width:2.2}.ln.dn{stroke:var(--down)}
+.bl{stroke:var(--up);stroke-width:1;stroke-dasharray:5 4}.ln{stroke:var(--up);stroke-width:2.4}.ln.dn{stroke:var(--down)}
 .pt{fill:var(--up)}.pt.dn{fill:var(--down)}.tx{fill:var(--mut);font-size:11px}.tx.v{fill:var(--fg)}
-a.spark{text-decoration:none;display:inline-flex;align-items:center;gap:4px}.mini{vertical-align:middle}
-a.zoom{display:block;text-decoration:none}.zoomhint{font-size:11px;color:var(--mut)}
-.lb{display:none;position:fixed;inset:0;z-index:50;align-items:center;justify-content:center;padding:14px}
+a.spark{text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:6px 0 6px 10px;min-height:36px}.mini{display:block}
+a.zoom{display:block;text-decoration:none;background:var(--bg);border-radius:10px;padding:8px}.zoomhint{font-size:12px;color:var(--mut)}
+.lb{display:none;position:fixed;inset:0;z-index:50;align-items:flex-end;justify-content:center}
 .lb:target{display:flex}.lb .bg{position:absolute;inset:0;background:rgba(0,0,0,.6)}
-.lb .box{position:relative;background:var(--bg);border-radius:10px;padding:14px 16px;width:min(760px,100%);max-height:100%;overflow:auto}
-.lb .x{float:right;text-decoration:none;color:var(--mut);font-size:13px}.lb h3{margin:0 0 6px;font-size:15px}
+.lb .box{position:relative;background:var(--bg);border-radius:18px 18px 0 0;padding:16px 16px 22px;width:min(640px,100%);max-height:92vh;overflow:auto}
+.lb .x{float:right;text-decoration:none;color:var(--mut);font-size:15px;padding:4px 0 4px 12px}.lb h3{margin:0 0 8px;font-size:17px}
+.lb .chart{max-width:560px;margin:0 auto}
+@media(min-width:700px){.lb{align-items:center}.lb .box{border-radius:18px}}
 """
 
 
@@ -362,8 +385,8 @@ def color(v):
 def sparkline(h, k):
     """Row-sized graph; clicking it opens the full-size chart (pure CSS, :target)."""
     mv = h[-1][1] - h[-2][1] if len(h) >= 2 else 0
-    arrow = f' <span class="{color(mv)}">{"▲" if mv > 0 else "▼" if mv < 0 else "–"}</span>' if len(h) >= 2 else ""
-    return f'<a class="spark" href="#c-{k}" title="Click to enlarge">{charts.mini(h)}{arrow}</a>'
+    arrow = f'<span class="{color(mv)}">{"▲" if mv > 0 else "▼" if mv < 0 else ""}</span>' if len(h) >= 2 else ""
+    return f'<a class="spark" href="#c-{k}" title="Tap to enlarge">{charts.mini(h)}{arrow}</a>'
 
 
 def apply_by(i, today):
@@ -410,16 +433,22 @@ def row(i, hist, dets, today, live=True):
     tm_html = f"<br><b>{e(tm[0])}.</b> {e(tm[1])}" if tm else ""
     bar = i["price"] * bar_for(i) / 100 if i["price"] else None
     detail = (f'<div class="det"><h3>Advice</h3>{e(label)}: {e(why)}.{tm_html}'
+              f'<h3>GMP trend</h3><a class="zoom" href="#c-{k}" title="Tap to enlarge">{charts.chart(h, bar, big=False)}</a>'
+              f'<span class="zoomhint">Tap the graph to enlarge it.</span>'
               f'<h3>Financial analysis</h3>{analysis_html(a)}'
-              f'<h3>GMP trend</h3><a class="zoom" href="#c-{k}" title="Click to enlarge">{charts.chart(h, bar, big=False)}</a>'
-              f'<span class="zoomhint">Click the graph to enlarge it.</span>'
-              f'<h3>Facts</h3>{kv(facts)}{broker_links(live)}<div style="margin-top:8px">{link}</div></div>')
-    cls = {"Apply": "up", "Don't apply": "down"}.get(label, "mut")
-    tail = f'<span class="{cls}"><b>{e(label)}</b></span>' if live else ""
-    return (f'<details class="ipo"><summary class="grid{"" if live else " g5"}"><span class="name">{e(i["name"])}</span>'
-            f'<span>{e(apply_by(i, today))}</span><span>{sign(i["gmp"])}</span>'
-            f'<span class="{color(i["gain"])}"><b>{sign(i["gain"], "%")}</b></span><span>{sparkline(h, k)}</span>{tail}'
-            f'</summary>{detail}</details>{lightbox(i, h, k)}')
+              f'<h3>Facts</h3>{kv(facts)}{broker_links(live)}<div style="margin-top:12px">{link}</div></div>')
+    cls = {"Apply": "up", "Don't apply": "down"}.get(label, "")
+    if live:
+        chip = f'<span class="chip {cls}">{e(label)}</span>'
+        gmp = "–" if i["gmp"] is None else f"₹{i['gmp']:g}"
+        meta = f'GMP {gmp} · Apply by <b>{e(apply_by(i, today))}</b>'
+    else:
+        chip = f'<span class="chip">Closed {e(apply_by(i, today))}</span>'
+        meta = "Last GMP " + ("–" if i["gmp"] is None else f"₹{i['gmp']:g}")
+    gain = "–" if i["gain"] is None else (f"{i['gain']:+.1f}%" if round(i["gain"], 1) else "0%")
+    return (f'<details class="ipo"><summary class="card"><span class="name">{e(i["name"])}</span>{chip}'
+            f'<span class="gain {color(i["gain"])}">{gain}</span><span class="sp">{sparkline(h, k)}</span>'
+            f'<span class="meta">{meta}</span></summary>{detail}</details>{lightbox(i, h, k)}')
 
 
 def page(title, active, body, now, source=False):
@@ -428,8 +457,8 @@ def page(title, active, body, now, source=False):
     credit = f'Data: <a href="{SOURCE}">IPO Watch</a>. ' if source else ""
     return (f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" '
             f'content="width=device-width,initial-scale=1"><title>{title}</title><style>{CSS}</style></head><body><main>'
-            f'<h1>IPO GMP</h1><div class="mut">Updated {now.strftime("%d %b %Y, %H:%M")} IST · tap an IPO for details</div>'
-            f'<div class="nav">{link("index.html", "Open &amp; upcoming", "live")}{link("history.html", "Past IPOs", "past")}{link("news.html", "News &amp; advice", "news")}</div>'
+            f'<h1>IPO GMP</h1><div class="mut">Updated {now.strftime("%d %b, %H:%M")} IST</div>'
+            f'<div class="nav">{link("index.html", "Open IPOs", "live")}{link("history.html", "Past IPOs", "past")}{link("news.html", "News &amp; advice", "news")}</div>'
             f'{body}<p class="mut">{credit}GMP is unofficial and moves fast; '
             f'treat it as a rough signal only. Verdict is a simple rule (Apply: GMP gain ≥10%, ≥15% for SME; '
             f'Don\'t apply: negative or under 3%; Ignore: in between or no GMP). None of this is financial advice.</p></main></body></html>')
@@ -444,11 +473,9 @@ def render(ipos, hist, now, dets=None):
         if not items:
             return ""
         items = sorted(items, key=lambda i: -(i["gain"] if i["gain"] is not None else -1e9))
-        return (f"<h2>{title}</h2><div class='grid head'><span>IPO</span><span>Apply by</span><span>GMP ₹</span>"
-                f"<span>Gain</span><span>Trend</span><span>Verdict</span></div>"
-                f"{''.join(row(i, hist, dets, today) for i in items)}")
+        return f"<h2>{title} · {len(items)}</h2>" + "".join(row(i, hist, dets, today) for i in items)
 
-    body = (broker_links(True) + section("Mainboard", [i for i in live if not i["sme"]])
+    body = (broker_links(True) + '<p class="mut" style="margin:12px 0 0">Tap an IPO for its full analysis.</p>' + section("Mainboard", [i for i in live if not i["sme"]])
             + section("SME", [i for i in live if i["sme"]]))
     if not live:
         body += "<p>No IPOs are open right now. See Past IPOs.</p>"
@@ -462,8 +489,7 @@ def render_history(archive, hist, now, dets=None):
     if not items:
         return page("Past IPOs", "past", "<p>Nothing here yet.</p>", now)
     rows = "".join(row(i, hist, dets, today, live=False) for i in items)
-    body = (f"<h2>Closed IPOs, last GMP we saw</h2><div class='grid g5 head'><span>IPO</span><span>Closed</span>"
-            f"<span>GMP ₹</span><span>Gain</span><span>Trend</span></div>{rows}")
+    body = f"<h2>Closed IPOs · {len(items)}</h2>{rows}"
     return page("Past IPOs", "past", body, now)
 
 

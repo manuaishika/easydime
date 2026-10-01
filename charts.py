@@ -25,7 +25,7 @@ def _fmt(v):
 
 def chart(h, bar=None, big=True):
     """h = [[ 'YYYY-MM-DD HH:MM', gmp ], ...]; bar = GMP rupee level that earns an 'Apply'. Returns an <svg> string."""
-    W, H = (640, 340) if big else (320, 140)
+    W, H = (440, 320) if big else (320, 150)
     L, R, T, B = (52, 16, 16, 34) if big else (38, 10, 10, 22)
     if not h:
         return (f'<svg class="chart" viewBox="0 0 {W} {H}" role="img" aria-label="No GMP readings yet">'
@@ -69,31 +69,36 @@ def chart(h, bar=None, big=True):
     for k, (x, (_, v, t)) in enumerate(zip(xs, pts)):
         last = k == n - 1
         out.append(f'<circle class="pt{" dn" if v < 0 else ""}" cx="{x:.1f}" cy="{y(v):.1f}" r="{4 if last else 2.5}"/>')
-        if big and (last or n <= 10):
+        if big and (last or n <= 7):
             out.append(f'<text class="tx v" x="{x:.1f}" y="{y(v) - 8:.1f}" text-anchor="middle">₹{_fmt(v)}</text>')
     if big:                                           # x-axis date labels
         span_days = (t1 - t0) / 86400
         want = min(n, 5)
+        seen = None
         for idx in sorted({round(k * (n - 1) / max(want - 1, 1)) for k in range(want)}):
             t = pts[idx][2]
             lab = t[11:16] if span_days < 1 else datetime.strptime(t, "%Y-%m-%d %H:%M").strftime("%d %b")
+            if lab == seen:                       # two readings on one day: label the day once
+                continue
+            seen = lab
             out.append(f'<text class="tx" x="{xs[idx]:.1f}" y="{H - 10}" text-anchor="middle">{html.escape(lab)}</text>')
     out.append("</svg>")
     return "".join(out)
 
 
 def mini(h):
-    """Tiny inline trend graph for table rows. A single reading is drawn as a dot so every IPO has a graph."""
+    """Small inline trend graph for cards. A single reading is drawn as a dot so every IPO has a graph."""
+    W, H = 84, 28
+    base = f'<svg class="mini" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="GMP trend">'
     vals = [float(v) for _, v in h[-15:]]
+    flat = f'<line class="gl" x1="3" x2="{W - 3}" y1="{H / 2}" y2="{H / 2}"/>'
     if not vals:
-        return '<svg class="mini" width="56" height="18" viewBox="0 0 56 18"><line class="gl" x1="2" x2="54" y1="9" y2="9"/></svg>'
+        return base + flat + "</svg>"
+    if len(vals) == 1:
+        return base + flat + f'<circle class="pt" cx="{W / 2}" cy="{H / 2}" r="3.5"/></svg>'
     lo, hi = min(vals), max(vals)
     span = (hi - lo) or 1
-    if len(vals) == 1:
-        return ('<svg class="mini" width="56" height="18" viewBox="0 0 56 18"><line class="gl" x1="2" x2="54" y1="9" y2="9"/>'
-                '<circle class="pt" cx="28" cy="9" r="3"/></svg>')
-    pts = " ".join(f"{2 + i / (len(vals) - 1) * 52:.1f},{16 - (v - lo) / span * 14:.1f}" for i, v in enumerate(vals))
+    pts = [(4 + i / (len(vals) - 1) * (W - 8), H - 5 - (v - lo) / span * (H - 10)) for i, v in enumerate(vals)]
     cls = "ln" if vals[-1] >= vals[0] else "ln dn"
-    ex, ey = pts.split()[-1].split(",")
-    return (f'<svg class="mini" width="56" height="18" viewBox="0 0 56 18"><polyline class="{cls}" fill="none" points="{pts}"/>'
-            f'<circle class="pt" cx="{ex}" cy="{ey}" r="2.2"/></svg>')
+    return (base + f'<polyline class="{cls}" fill="none" stroke-linejoin="round" stroke-linecap="round" points="'
+            + " ".join(f"{x:.1f},{y:.1f}" for x, y in pts) + f'"/><circle class="pt" cx="{pts[-1][0]:.1f}" cy="{pts[-1][1]:.1f}" r="3"/></svg>')

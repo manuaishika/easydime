@@ -22,3 +22,9 @@ def test_single_reading_and_empty_still_draw():
 def test_negative_gmp_is_drawn_below_zero_and_red():
     svg = charts.chart([["2026-09-30 08:00", 2.0], ["2026-09-30 14:00", -3.0]], bar=None)
     assert 'class="ln dn"' in svg and 'class="zl"' in svg
+
+
+def test_same_day_readings_do_not_repeat_the_date_label():
+    h = [["2026-09-28 09:00", 1.0], ["2026-09-28 18:00", 2.0], ["2026-09-30 09:00", 3.0]]
+    svg = charts.chart(h, None)
+    assert svg.count(">28 Sep<") == 1 and ">30 Sep<" in svg

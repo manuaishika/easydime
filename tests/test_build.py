@@ -36,8 +36,8 @@ def test_render_and_history(tmp_path, monkeypatch):
     assert [v for _, v in hist["acmeltd"]] == [25, 30]
     out = build.render(ipos, hist, now)
     assert "Acme Ltd" in out and "<polyline" in out and "▲" in out and "SME" in out
-    assert "Small Ltd" in out.split("<h2>SME</h2>")[-1]
-    assert "Small Ltd" not in out.split("<h2>SME</h2>")[0]
+    assert "Small Ltd" in out.split("<h2>SME · 1</h2>")[-1]
+    assert "Small Ltd" not in out.split("<h2>SME · 1</h2>")[0]
 
 
 def test_parse_end():

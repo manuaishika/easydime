@@ -127,8 +127,8 @@ def analyse(i, d, close, today):
             days = (free - close).days
             ann = gmp / price * 100 * 365 / days
             fd = amount * FD_RATE / 100 * days / 365
-            rows += [("Money blocked", f"{days} days (bid closes {close:%d %b}, refund/listing {free:%d %b})"),
-                     ("Return if GMP holds, annualised", f"{ann:,.0f}% a year (short-term rate, not repeatable)" if abs(ann) < 1e5 else "very high"),
+            rows += [("Money blocked", f"{days} days ({close:%d %b} → {free:%d %b})"),
+                     ("Return if GMP holds, annualised", f"{ann:,.0f}% a year (not repeatable)" if abs(ann) < 1e5 else "very high"),
                      (f"Same money in a {FD_RATE:g}% fixed deposit", f"{_inr(fd)} over {days} days"),
                      ("GMP profit beats the deposit by", f"{'+' if pnl - fd >= 0 else '−'}{_inr(abs(pnl - fd))}")]
         out["sections"].append(("What one application means", rows))
