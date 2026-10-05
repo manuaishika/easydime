@@ -283,7 +283,7 @@
    "listing": "2026-10-07"
   }
  },
- "vishalnirmitio": {
+ "vishalnirmitiopen": {
   "financials": [
    {
     "period": "2023",
@@ -384,7 +384,7 @@
    "listing": "2026-10-08"
   }
  },
- "nityasgemso": {
+ "nityasgemsclosed": {
   "financials": [
    {
     "period": "2023",
@@ -484,7 +484,7 @@
    "listing": "2026-10-08"
   }
  },
- "rkfashionu": {
+ "rkfashionopen": {
   "financials": [
    {
     "period": "2025",
@@ -589,7 +589,7 @@
    "listing": "2026-10-12"
   }
  },
- "tnasolutionso": {
+ "tnasolutionsopen": {
   "financials": [
    {
     "period": "2024",
@@ -682,7 +682,7 @@
    "listing": "2026-10-09"
   }
  },
- "acmeindiaindustrieso": {
+ "acmeindiaindustriesopen": {
   "financials": [
    {
     "period": "2024",
@@ -796,7 +796,7 @@
    "listing": "2026-10-09"
   }
  },
- "paramountsyntexo": {
+ "paramountsyntexopen": {
   "financials": [
    {
     "period": "2024",
@@ -889,7 +889,7 @@
    "listing": "2026-10-09"
   }
  },
- "sollfegesmartelectronicso": {
+ "sollfegesmartelectronicsopen": {
   "financials": [
    {
     "period": "2024",
@@ -994,7 +994,7 @@
    "listing": "2026-10-08"
   }
  },
- "omaraventureso": {
+ "omaraventuresopen": {
   "financials": [
    {
     "period": "2024",
@@ -1103,7 +1103,7 @@
    "listing": "2026-10-08"
   }
  },
- "sjpultrasonico": {
+ "sjpultrasonicopen": {
   "financials": [
    {
     "period": "2024",
@@ -1187,7 +1187,7 @@
    "listing": "2026-10-08"
   }
  },
- "eventionso": {
+ "eventionsopen": {
   "financials": [
    {
     "period": "2024",
@@ -1284,7 +1284,7 @@
    "listing": "2026-10-08"
   }
  },
- "dovesofto": {
+ "dovesoftopen": {
   "financials": [
    {
     "period": "2023",
@@ -1381,7 +1381,7 @@
    "listing": "2026-10-08"
   }
  },
- "everestimstechnologieso": {
+ "everestimstechnologiesopen": {
   "financials": [
    {
     "period": "2024",
@@ -1463,111 +1463,6 @@
    "fresh issue": "Approx ₹39.05 Crores",
    "offer for sale": "Approx 11,07,200 Equity Shares",
    "issue type": "Book build Issue",
-   "ipo listing": "BSE SME"
-  },
-  "dates": {
-   "allotment": "2026-10-06",
-   "refund": "2026-10-07",
-   "listing": "2026-10-08"
-  }
- },
- "shreetnbpolymersc": {
-  "financials": [
-   {
-    "period": "2024",
-    "revenue": 207.97,
-    "expense": 201.48,
-    "pat": 5.03,
-    "assets": 105.03
-   },
-   {
-    "period": "2025",
-    "revenue": 175.7,
-    "expense": 168.85,
-    "pat": 5.77,
-    "assets": 127.38
-   },
-   {
-    "period": "2026",
-    "revenue": 198.31,
-    "expense": 188.15,
-    "pat": 7.13,
-    "assets": 145.26
-   }
-  ],
-  "peers": [
-   {
-    "name": "Captain Pipes Limited",
-    "pe": 40.37
-   },
-   {
-    "name": "Texmo Pipes and Products Limited",
-    "pe": 15.69
-   },
-   {
-    "name": "Malpani Pipes and Fittings Limited",
-    "pe": 7.7
-   }
-  ],
-  "lot": {
-   "lots": 2.0,
-   "shares": 4000.0,
-   "amount": 208000.0
-  },
-  "categories": {
-   "anchor": {
-    "shares": 1140000.0,
-    "pct": 19.0
-   },
-   "nii": {
-    "shares": 858000.0,
-    "pct": 14.3
-   },
-   "retail": {
-    "shares": 1996000.0,
-    "pct": 33.27
-   }
-  },
-  "promoter": {
-   "pre": null,
-   "post": null
-  },
-  "purposes": [
-   {
-    "text": "Capital Expenditure for purchase of machinery",
-    "crore": 15.86
-   },
-   {
-    "text": "Capital Expenditure for the purchase and installation of Solar panel/ Roof top",
-    "crore": 2.6
-   },
-   {
-    "text": "Part finances the capital expenditure for construction/ installation of Pre-Engineered Building (PEB) structure for new manufacturing facility",
-    "crore": 1.32
-   },
-   {
-    "text": "Repayment of certain borrowings",
-    "crore": 5.62
-   },
-   {
-    "text": "General Corporate Purpose",
-    "crore": null
-   }
-  ],
-  "kpi": {
-   "roe": 13.69,
-   "roce": 16.02,
-   "ebitda_margin": 9.69,
-   "pat_margin": 3.6,
-   "de": 0.8,
-   "eps": 4.65,
-   "ronw": 13.69,
-   "nav": 36.29
-  },
-  "issue": {
-   "issue size": "Approx ₹31.20 Crores",
-   "fresh issue": "Approx ₹31.20 Crores",
-   "issue type": "Book Building Issue",
    "ipo listing": "BSE SME"
   },
   "dates": {

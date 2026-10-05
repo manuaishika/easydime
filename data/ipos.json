@@ -1,8 +1,8 @@
 [
  {
-  "name": "Jio Platform (U)",
+  "name": "Jio Platform Upcoming",
   "sme": false,
-  "gmp": 145.0,
+  "gmp": 150.0,
   "gain": 0.0,
   "price": null,
   "price_text": "₹-",
@@ -13,7 +13,7 @@
   "url": "/jio-platforms-ipo/"
  },
  {
-  "name": "Vishal Nirmiti (O)",
+  "name": "Vishal Nirmiti Open",
   "sme": false,
   "gmp": 20.0,
   "gain": 9.09,
@@ -26,7 +26,7 @@
   "url": "https://ipowatch.in/vishal-nirmiti-ipo/"
  },
  {
-  "name": "Nityas Gems (O)",
+  "name": "Nityas Gems Closed",
   "sme": false,
   "gmp": 3.0,
   "gain": 4.0,
@@ -39,33 +39,33 @@
   "url": "https://ipowatch.in/nityas-gems-jewellery-ipo/"
  },
  {
-  "name": "SRIT India (C)",
+  "name": "SRIT India Closed",
   "sme": false,
-  "gmp": 53.0,
-  "gain": 40.77,
+  "gmp": 50.0,
+  "gain": 38.46,
   "price": 130.0,
   "price_text": "₹130",
-  "est_price": 183.0,
+  "est_price": 180.0,
   "dates": "28-30 Sep",
   "status": "",
   "size": "",
   "url": "https://ipowatch.in/srit-india-ipo/"
  },
  {
-  "name": "Shah Investor's (C)",
+  "name": "Shah Investor's Closed",
   "sme": false,
-  "gmp": 16.0,
-  "gain": 9.58,
+  "gmp": 17.0,
+  "gain": 10.18,
   "price": 167.0,
   "price_text": "₹167",
-  "est_price": 183.0,
+  "est_price": 184.0,
   "dates": "28-30 Sep",
   "status": "",
   "size": "",
   "url": "https://ipowatch.in/shah-investors-home-ipo/"
  },
  {
-  "name": "Acevector (C)",
+  "name": "Acevector Closed",
   "sme": false,
   "gmp": 1.0,
   "gain": 3.12,
@@ -78,20 +78,20 @@
   "url": "https://ipowatch.in/acevector-ipo/"
  },
  {
-  "name": "German Green Steel (C)",
+  "name": "German Green Steel Closed",
   "sme": false,
-  "gmp": 12.0,
-  "gain": 8.63,
+  "gmp": 10.0,
+  "gain": 7.19,
   "price": 139.0,
   "price_text": "₹139",
-  "est_price": 151.0,
+  "est_price": 149.0,
   "dates": "25-29 Sep",
   "status": "",
   "size": "",
   "url": "https://ipowatch.in/german-green-steel-ipo/"
  },
  {
-  "name": "Runwal Enterprises (C)",
+  "name": "Runwal Enterprises Closed",
   "sme": false,
   "gmp": 0.0,
   "gain": 0.0,
@@ -104,7 +104,7 @@
   "url": "https://ipowatch.in/runwal-enterprises-ipo/"
  },
  {
-  "name": "Orient Cables (C)",
+  "name": "Orient Cables Closed",
   "sme": false,
   "gmp": 123.0,
   "gain": 45.22,
@@ -117,7 +117,7 @@
   "url": "https://ipowatch.in/orient-cables-ipo/"
  },
  {
-  "name": "R.K.Fashion (U)",
+  "name": "R.K.Fashion Open",
   "sme": true,
   "gmp": 0.0,
   "gain": 0.0,
@@ -130,33 +130,33 @@
   "url": "https://ipowatch.in/rkfashion-accessories-ipo/"
  },
  {
-  "name": "TNA Solutions (O)",
+  "name": "TNA Solutions Open",
   "sme": true,
-  "gmp": 6.0,
-  "gain": 8.57,
+  "gmp": 10.0,
+  "gain": 14.29,
   "price": 70.0,
   "price_text": "₹70",
-  "est_price": 76.0,
+  "est_price": 86.0,
   "dates": "30-6 Oct",
   "status": "",
   "size": "",
   "url": "https://ipowatch.in/tna-solutions-ipo/"
  },
  {
-  "name": "Acme India Industries (O)",
+  "name": "Acme India Industries Open",
   "sme": true,
-  "gmp": 25.0,
-  "gain": 12.76,
+  "gmp": 30.0,
+  "gain": 15.31,
   "price": 196.0,
   "price_text": "₹196",
-  "est_price": 221.0,
+  "est_price": 226.0,
   "dates": "30-6 Oct",
   "status": "",
   "size": "",
   "url": "https://ipowatch.in/acme-india-industries-ipo/"
  },
  {
-  "name": "Paramount Syntex (O)",
+  "name": "Paramount Syntex Open",
   "sme": true,
   "gmp": 0.0,
   "gain": 0.0,
@@ -169,7 +169,7 @@
   "url": "https://ipowatch.in/paramount-syntex-ipo/"
  },
  {
-  "name": "Sollfege Smart Electronics (O)",
+  "name": "Sollfege Smart Electronics Open",
   "sme": true,
   "gmp": 0.0,
   "gain": 0.0,
@@ -182,7 +182,7 @@
   "url": "https://ipowatch.in/sollfege-smart-electronics-ipo/"
  },
  {
-  "name": "Omara Ventures (O)",
+  "name": "Omara Ventures Open",
   "sme": true,
   "gmp": 0.0,
   "gain": 0.0,
@@ -195,7 +195,7 @@
   "url": "https://ipowatch.in/omara-ventures-ipo/"
  },
  {
-  "name": "SJP Ultrasonic (O)",
+  "name": "SJP Ultrasonic Open",
   "sme": true,
   "gmp": 0.0,
   "gain": 0.0,
@@ -208,7 +208,7 @@
   "url": "https://ipowatch.in/sjp-ultrasonic-ipo/"
  },
  {
-  "name": "Eventions (O)",
+  "name": "Eventions Open",
   "sme": true,
   "gmp": 0.0,
   "gain": 0.0,
@@ -221,7 +221,7 @@
   "url": "https://ipowatch.in/eventions-ipo/"
  },
  {
-  "name": "Dove Soft (O)",
+  "name": "Dove Soft Open",
   "sme": true,
   "gmp": 0.0,
   "gain": 0.0,
@@ -234,7 +234,7 @@
   "url": "https://ipowatch.in/dove-soft-ipo/"
  },
  {
-  "name": "EverestIMS Technologies (O)",
+  "name": "EverestIMS Technologies Open",
   "sme": true,
   "gmp": 40.0,
   "gain": 47.06,
@@ -247,7 +247,7 @@
   "url": "https://ipowatch.in/everestims-technologies-ipo/"
  },
  {
-  "name": "Papadmalji Agro (C)",
+  "name": "Papadmalji Agro Closed",
   "sme": true,
   "gmp": 0.0,
   "gain": 0.0,
@@ -260,7 +260,7 @@
   "url": "https://ipowatch.in/papadmalji-agro-ipo/"
  },
  {
-  "name": "Vans Electroengineerings (C)",
+  "name": "Vans Electroengineerings Closed",
   "sme": true,
   "gmp": 70.0,
   "gain": 59.32,
@@ -273,85 +273,85 @@
   "url": "https://ipowatch.in/vans-electroengineerings-ipo/"
  },
  {
-  "name": "Black Opal Consultants (C)",
+  "name": "Black Opal Consultants Closed",
   "sme": true,
-  "gmp": 78.0,
-  "gain": 39.59,
+  "gmp": 100.0,
+  "gain": 50.76,
   "price": 197.0,
   "price_text": "₹197",
-  "est_price": 275.0,
+  "est_price": 297.0,
   "dates": "29-1 Oct",
   "status": "",
   "size": "",
   "url": "https://ipowatch.in/black-opal-consultants-ipo/"
  },
  {
-  "name": "Shree TNB Polymers (C)",
+  "name": "₹0",
   "sme": true,
-  "gmp": 0.0,
-  "gain": 0.0,
+  "gmp": null,
+  "gain": null,
   "price": 52.0,
-  "price_text": "₹52",
-  "est_price": 52.0,
-  "dates": "28-5 Oct",
+  "price_text": "₹52 (0.00%)",
+  "est_price": 28.0,
+  "dates": "",
   "status": "",
   "size": "",
-  "url": "https://ipowatch.in/shree-tnb-polymers-ipo/"
+  "url": null
  },
  {
-  "name": "Acme Universal (C)",
+  "name": "Acme Universal Closed",
   "sme": true,
-  "gmp": 11.0,
-  "gain": 15.49,
+  "gmp": 15.0,
+  "gain": 21.13,
   "price": 71.0,
   "price_text": "₹71",
-  "est_price": 82.0,
+  "est_price": 86.0,
   "dates": "28-30 Sep",
   "status": "",
   "size": "",
   "url": "https://ipowatch.in/acme-universal-ipo/"
  },
  {
-  "name": "Pind Hospitality (C)",
+  "name": "₹1",
   "sme": true,
-  "gmp": 1.0,
-  "gain": 1.01,
-  "price": 99.0,
-  "price_text": "₹99",
-  "est_price": 100.0,
-  "dates": "28-30 Sep",
+  "gmp": null,
+  "gain": null,
+  "price": 100.0,
+  "price_text": "₹100 (1.01%)",
+  "est_price": 28.0,
+  "dates": "",
   "status": "",
   "size": "",
-  "url": "https://ipowatch.in/pind-hospitality-ipo/"
+  "url": null
  },
  {
-  "name": "Shivchem Agro (C)",
+  "name": "Shivchem Agro Closed",
   "sme": true,
-  "gmp": 1.0,
-  "gain": 1.61,
+  "gmp": 2.0,
+  "gain": 3.23,
   "price": 62.0,
   "price_text": "₹62",
-  "est_price": 63.0,
+  "est_price": 64.0,
   "dates": "28-30 Sep",
   "status": "",
   "size": "",
   "url": "https://ipowatch.in/shivchem-agro-ipo/"
  },
  {
-  "name": "Dudani Retail (C)",
+  "name": "₹1",
   "sme": true,
-  "gmp": 1.0,
-  "gain": 3.45,
-  "price": 29.0,
-  "price_text": "₹29",
-  "est_price": 30.0,
-  "dates": "25-29 Sep",
+  "gmp": null,
+  "gain": null,
+  "price": 30.0,
+  "price_text": "₹30 (3.45%)",
+  "est_price": 25.0,
+  "dates": "",
   "status": "",
   "size": "",
-  "url": "https://ipowatch.in/dudani-retail-ipo/"
+  "url": null
  },
  {
-  "name": "Bench Mark Infotech (C)",
+  "name": "Bench Mark Infotech Closed",
   "sme": true,
   "gmp": 26.0,
   "gain": 23.64,
@@ -364,20 +364,20 @@
   "url": "https://ipowatch.in/bench-mark-infotech-services-ipo/"
  },
  {
-  "name": "Sai Urja (C)",
+  "name": "₹32",
   "sme": true,
-  "gmp": 10.0,
-  "gain": 8.85,
-  "price": 113.0,
-  "price_text": "₹113",
-  "est_price": 123.0,
-  "dates": "25-29 Sep",
+  "gmp": null,
+  "gain": null,
+  "price": 145.0,
+  "price_text": "₹145 (28.32%)",
+  "est_price": 25.0,
+  "dates": "",
   "status": "",
   "size": "",
-  "url": "https://ipowatch.in/sai-urja-ipo/"
+  "url": null
  },
  {
-  "name": "Himalayan Solar (C)",
+  "name": "Himalayan Solar Closed",
   "sme": true,
   "gmp": 0.0,
   "gain": 0.0,
@@ -390,7 +390,7 @@
   "url": "https://ipowatch.in/himalayan-solar-ipo/"
  },
  {
-  "name": "Green Asia Impex (C)",
+  "name": "Green Asia Impex Closed",
   "sme": true,
   "gmp": 0.0,
   "gain": 0.0,
