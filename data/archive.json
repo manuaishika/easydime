@@ -1,4 +1,46 @@
 {
+ "tnasolutionsopen": {
+  "name": "TNA Solutions Open",
+  "sme": true,
+  "gmp": 10.0,
+  "gain": 14.29,
+  "price": 70.0,
+  "price_text": "₹70",
+  "est_price": 86.0,
+  "dates": "30-6 Oct",
+  "status": "",
+  "size": "",
+  "url": "https://ipowatch.in/tna-solutions-ipo/",
+  "end": "2026-10-06"
+ },
+ "acmeindiaindustriesopen": {
+  "name": "Acme India Industries Open",
+  "sme": true,
+  "gmp": 40.0,
+  "gain": 20.41,
+  "price": 196.0,
+  "price_text": "₹196",
+  "est_price": 236.0,
+  "dates": "30-6 Oct",
+  "status": "",
+  "size": "",
+  "url": "https://ipowatch.in/acme-india-industries-ipo/",
+  "end": "2026-10-06"
+ },
+ "paramountsyntexopen": {
+  "name": "Paramount Syntex Open",
+  "sme": true,
+  "gmp": 0.0,
+  "gain": 0.0,
+  "price": 127.0,
+  "price_text": "₹127",
+  "est_price": 127.0,
+  "dates": "30-6 Oct",
+  "status": "",
+  "size": "",
+  "url": "https://ipowatch.in/paramount-syntex-ipo/",
+  "end": "2026-10-06"
+ },
  "vishalnirmitiopen": {
   "name": "Vishal Nirmiti Open",
   "sme": false,
