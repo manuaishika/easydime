@@ -1,4 +1,18 @@
 {
+ "rkfashionopen": {
+  "name": "R.K.Fashion Open",
+  "sme": true,
+  "gmp": 15.0,
+  "gain": 18.29,
+  "price": 82.0,
+  "price_text": "₹82",
+  "est_price": 97.0,
+  "dates": "5-7 Oct",
+  "status": "",
+  "size": "",
+  "url": "https://ipowatch.in/rkfashion-accessories-ipo/",
+  "end": "2026-10-07"
+ },
  "tnasolutionsopen": {
   "name": "TNA Solutions Open",
   "sme": true,
