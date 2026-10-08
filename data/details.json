@@ -1470,5 +1470,122 @@
    "refund": "2026-10-07",
    "listing": "2026-10-08"
   }
+ },
+ "ravitaengineeringupcoming": {
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 13.53,
+    "expense": 11.44,
+    "pat": 1.51,
+    "assets": 9.8
+   },
+   {
+    "period": "2025",
+    "revenue": 109.3,
+    "expense": 93.49,
+    "pat": 11.83,
+    "assets": 9.08
+   },
+   {
+    "period": "2026",
+    "revenue": 277.82,
+    "expense": 240.35,
+    "pat": 28.04,
+    "assets": 58.24
+   },
+   {
+    "period": "June 2026",
+    "revenue": 97.45,
+    "expense": 83.92,
+    "pat": 10.13,
+    "assets": 146.68
+   }
+  ],
+  "peers": [
+   {
+    "name": "Powerica Limited",
+    "pe": 24.45
+   },
+   {
+    "name": "Cummins India Limited",
+    "pe": 64.13
+   },
+   {
+    "name": "Kirloskar Oil Engines Limited",
+    "pe": 43.24
+   },
+   {
+    "name": "NTPC Green Energy Limited",
+    "pe": 129.4
+   },
+   {
+    "name": "Acme Solar Holdings Limited",
+    "pe": 50.74
+   },
+   {
+    "name": "Adani Green Energy Limited",
+    "pe": 101.53
+   }
+  ],
+  "lot": {
+   "lots": 2.0,
+   "shares": 2400.0,
+   "amount": 268800.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": null,
+    "pct": 50.0
+   },
+   "nii": {
+    "shares": null,
+    "pct": 15.0
+   },
+   "retail": {
+    "shares": null,
+    "pct": 35.0
+   }
+  },
+  "promoter": {
+   "pre": 73.74,
+   "post": null
+  },
+  "purposes": [
+   {
+    "text": "To meet long-term working capital requirements of the Company",
+    "crore": 66.0
+   },
+   {
+    "text": "Funding capital expenditure requirements of our Company towards purchase of certain heavy equipment",
+    "crore": 25.09
+   },
+   {
+    "text": "General Corporate Purposes",
+    "crore": null
+   }
+  ],
+  "kpi": {
+   "roe": 48.9,
+   "roce": 48.65,
+   "ebitda_margin": 14.43,
+   "pat_margin": 10.09,
+   "de": 0.19,
+   "eps": 11.05,
+   "ronw": 48.9,
+   "nav": 36.44
+  },
+  "issue": {
+   "issue size": "Approx ₹116.05 Crores",
+   "fresh issue": "Approx ₹116.05 Crores",
+   "offer for sale": "Approx [.] Equity Shares",
+   "issue type": "Book Building Issue",
+   "ipo listing": "NSE SME"
+  },
+  "dates": {
+   "allotment": "2026-10-16",
+   "refund": "2026-10-19",
+   "listing": "2026-10-21"
+  }
  }
 }
