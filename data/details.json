@@ -1678,5 +1678,180 @@
    "refund": "2026-10-21",
    "listing": "2026-10-22"
   }
+ },
+ "zetwerkmanufacturingupcoming": {
+  "lot": {
+   "lots": null,
+   "shares": null,
+   "amount": null
+  },
+  "categories": {
+   "anchor": {
+    "shares": null,
+    "pct": 75.0
+   },
+   "nii": {
+    "shares": null,
+    "pct": 15.0
+   },
+   "retail": {
+    "shares": null,
+    "pct": 10.0
+   }
+  },
+  "promoter": {
+   "pre": null,
+   "post": null
+  },
+  "purposes": [
+   {
+    "text": "Repayment/prepayment, in part or full, of certain of or all of borrowings availed by the company",
+    "crore": 1250.0
+   },
+   {
+    "text": "Repayment/prepayment, in part or full, of certain of or all of borrowings availed by certain of the Subsidiaries, namely, (i) Sharp Tanks and Structurals Private Limited; (ii) Terra91International Private Limited; (iii) Smile Electronics Limited; (iv) Kryfs Power ComponentsLimited; (v) Kryfs Transformers Private Limited; (vi) Unimacts Global LLC; (vii) ZetwerkManufacturing SG Pte. Ltd.; (viii) Zap91 Solar India Private Limited; and (ix) Zet Town IndiaPrivate Limited through investments in such Subsidiaries; and",
+    "crore": 550.0
+   },
+   {
+    "text": "Funding inorganic growth through unidentified acquisitions and other strategic acquisitions, and general corporate purposes",
+    "crore": null
+   }
+  ],
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 12523.46,
+    "expense": 12847.55,
+    "pat": 917.95,
+    "assets": 10330.85
+   },
+   {
+    "period": "2025",
+    "revenue": 11492.23,
+    "expense": 11552.03,
+    "pat": 370.71,
+    "assets": 10355.43
+   },
+   {
+    "period": "2026",
+    "revenue": 16100.63,
+    "expense": 16141.73,
+    "pat": 1606.17,
+    "assets": 13384.63
+   }
+  ],
+  "kpi": {
+   "roe": null,
+   "roce": null,
+   "ebitda_margin": null,
+   "pat_margin": null,
+   "de": null,
+   "eps": 6.69,
+   "ronw": 21.11,
+   "nav": 31.26
+  },
+  "issue": {
+   "issue size": "Approx ₹[.] Crores",
+   "fresh issue": "Approx ₹2600 Crores",
+   "offer for sale": "Approx 96,837,45 Equity Shares",
+   "issue type": "Book built Issue",
+   "ipo listing": "BSE, NSE"
+  },
+  "dates": {
+   "allotment": "2026-10-21",
+   "refund": "2026-10-22",
+   "listing": "2026-10-23"
+  }
+ },
+ "bonfigliolitransmissionsupcoming": {
+  "lot": {
+   "lots": null,
+   "shares": null,
+   "amount": null
+  },
+  "categories": {
+   "anchor": {
+    "shares": null,
+    "pct": 50.0
+   },
+   "nii": {
+    "shares": null,
+    "pct": 15.0
+   },
+   "retail": {
+    "shares": null,
+    "pct": 35.0
+   }
+  },
+  "promoter": {
+   "pre": null,
+   "post": null
+  },
+  "purposes": [
+   {
+    "text": "–",
+    "crore": null
+   },
+   {
+    "text": "–",
+    "crore": null
+   },
+   {
+    "text": "–",
+    "crore": null
+   }
+  ],
+  "financials": [
+   {
+    "period": "Dec 2022",
+    "revenue": 1570.33,
+    "expense": 1345.21,
+    "pat": 171.45,
+    "assets": 1221.75
+   },
+   {
+    "period": "Dec 2023",
+    "revenue": 1701.98,
+    "expense": 1492.74,
+    "pat": 149.53,
+    "assets": 1395.87
+   },
+   {
+    "period": "Dec 2024",
+    "revenue": 1871.05,
+    "expense": 1626.47,
+    "pat": 194.69,
+    "assets": 1269.75
+   },
+   {
+    "period": "Sep 2025",
+    "revenue": 1467.95,
+    "expense": 1246.11,
+    "pat": 165.19,
+    "assets": 1379.08
+   }
+  ],
+  "peers": [],
+  "kpi": {
+   "roe": null,
+   "roce": null,
+   "ebitda_margin": null,
+   "pat_margin": null,
+   "de": null,
+   "eps": null,
+   "ronw": null,
+   "nav": null
+  },
+  "issue": {
+   "issue size": "Approx ₹[.] Crores",
+   "offer for sale": "Approx 4,69,98,959 Equity Shares",
+   "issue type": "Book Building Issue",
+   "ipo listing": "BSE, NSE"
+  },
+  "dates": {
+   "allotment": "2026-10-21",
+   "refund": "2026-10-22",
+   "listing": "2026-10-23"
+  }
  }
 }
