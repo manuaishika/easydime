@@ -2,7 +2,7 @@
  {
   "name": "Jio Platforms Upcoming",
   "sme": false,
-  "gmp": 177.0,
+  "gmp": 175.0,
   "gain": 0.0,
   "price": null,
   "price_text": "₹-",
@@ -13,9 +13,22 @@
   "url": "/jio-platforms-ipo-gmp-grey-market-premium/"
  },
  {
+  "name": "Fusion CX Upcoming",
+  "sme": false,
+  "gmp": 40.0,
+  "gain": 13.84,
+  "price": 289.0,
+  "price_text": "₹289",
+  "est_price": 329.0,
+  "dates": "14-16 Oct",
+  "status": "",
+  "size": "",
+  "url": "https://ipowatch.in/fusion-cx-ipo/"
+ },
+ {
   "name": "HD Fire Protect Upcoming",
   "sme": false,
-  "gmp": 55.0,
+  "gmp": 65.0,
   "gain": 20.29,
   "price": 271.0,
   "price_text": "₹271",
@@ -63,44 +76,5 @@
   "status": "",
   "size": "",
   "url": "https://ipowatch.in/rkfashion-accessories-ipo/"
- },
- {
-  "name": "TNA Solutions Closed",
-  "sme": true,
-  "gmp": 0.0,
-  "gain": 0.0,
-  "price": 70.0,
-  "price_text": "₹70",
-  "est_price": 70.0,
-  "dates": "30-6 Oct",
-  "status": "",
-  "size": "",
-  "url": "https://ipowatch.in/tna-solutions-ipo/"
- },
- {
-  "name": "Acme India Industries Closed",
-  "sme": true,
-  "gmp": 33.0,
-  "gain": 16.84,
-  "price": 196.0,
-  "price_text": "₹196",
-  "est_price": 229.0,
-  "dates": "30-6 Oct",
-  "status": "",
-  "size": "",
-  "url": "https://ipowatch.in/acme-india-industries-ipo/"
- },
- {
-  "name": "Paramount Syntex Closed",
-  "sme": true,
-  "gmp": 0.0,
-  "gain": 0.0,
-  "price": 127.0,
-  "price_text": "₹127",
-  "est_price": 127.0,
-  "dates": "30-6 Oct",
-  "status": "",
-  "size": "",
-  "url": "https://ipowatch.in/paramount-syntex-ipo/"
  }
 ]

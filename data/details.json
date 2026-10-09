@@ -1472,62 +1472,6 @@
   }
  },
  "ravitaengineeringupcoming": {
-  "financials": [
-   {
-    "period": "2024",
-    "revenue": 13.53,
-    "expense": 11.44,
-    "pat": 1.51,
-    "assets": 9.8
-   },
-   {
-    "period": "2025",
-    "revenue": 109.3,
-    "expense": 93.49,
-    "pat": 11.83,
-    "assets": 9.08
-   },
-   {
-    "period": "2026",
-    "revenue": 277.82,
-    "expense": 240.35,
-    "pat": 28.04,
-    "assets": 58.24
-   },
-   {
-    "period": "June 2026",
-    "revenue": 97.45,
-    "expense": 83.92,
-    "pat": 10.13,
-    "assets": 146.68
-   }
-  ],
-  "peers": [
-   {
-    "name": "Powerica Limited",
-    "pe": 24.45
-   },
-   {
-    "name": "Cummins India Limited",
-    "pe": 64.13
-   },
-   {
-    "name": "Kirloskar Oil Engines Limited",
-    "pe": 43.24
-   },
-   {
-    "name": "NTPC Green Energy Limited",
-    "pe": 129.4
-   },
-   {
-    "name": "Acme Solar Holdings Limited",
-    "pe": 50.74
-   },
-   {
-    "name": "Adani Green Energy Limited",
-    "pe": 101.53
-   }
-  ],
   "lot": {
    "lots": 2.0,
    "shares": 2400.0,
@@ -1565,6 +1509,36 @@
     "crore": null
    }
   ],
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 13.53,
+    "expense": 11.44,
+    "pat": 1.51,
+    "assets": 9.8
+   },
+   {
+    "period": "2025",
+    "revenue": 109.3,
+    "expense": 93.49,
+    "pat": 11.83,
+    "assets": 9.08
+   },
+   {
+    "period": "2026",
+    "revenue": 277.82,
+    "expense": 240.35,
+    "pat": 28.04,
+    "assets": 58.24
+   },
+   {
+    "period": "June 2026",
+    "revenue": 97.45,
+    "expense": 83.92,
+    "pat": 10.13,
+    "assets": 146.68
+   }
+  ],
   "kpi": {
    "roe": 48.9,
    "roce": 48.65,
@@ -1586,6 +1560,123 @@
    "allotment": "2026-10-16",
    "refund": "2026-10-19",
    "listing": "2026-10-21"
+  }
+ },
+ "fusioncxupcoming": {
+  "lot": {
+   "lots": 1.0,
+   "shares": 51.0,
+   "amount": 14739.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": null,
+    "pct": 75.0
+   },
+   "nii": {
+    "shares": null,
+    "pct": 15.0
+   },
+   "retail": {
+    "shares": null,
+    "pct": 10.0
+   }
+  },
+  "promoter": {
+   "pre": 99.03,
+   "post": 81.82
+  },
+  "purposes": [
+   {
+    "text": "Repayment/prepayment, in full or in part, of certain outstanding borrowings availed by (i) Company; (ii) certain Subsidiaries (direct and certain step-down subsidiaries)",
+    "crore": 275.7
+   },
+   {
+    "text": "Investment in step-down subsidiaries, Omind Technologies Inc. and Omind Technologies Pvt.Ltd., for upgrading IT tools i.e. Arya and MindVoice",
+    "crore": 61.15
+   },
+   {
+    "text": "Pursuing inorganic growth through unidentified acquisitions and other strategic initiatives and general corporate purposes",
+    "crore": null
+   }
+  ],
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 1021.53,
+    "expense": 984.84,
+    "pat": 36.26,
+    "assets": 768.02
+   },
+   {
+    "period": "2025",
+    "revenue": 1352.03,
+    "expense": 1274.29,
+    "pat": 74.31,
+    "assets": 1143.25
+   },
+   {
+    "period": "2026",
+    "revenue": 1851.83,
+    "expense": 1662.53,
+    "pat": 169.84,
+    "assets": 1385.15
+   },
+   {
+    "period": "Jun 2026",
+    "revenue": 503.85,
+    "expense": 441.03,
+    "pat": 55.7,
+    "assets": 1367.85
+   }
+  ],
+  "peers": [
+   {
+    "name": "FirstSource Solutions Limited",
+    "pe": 22.27
+   },
+   {
+    "name": "eClerx Services Limited",
+    "pe": 19.65
+   },
+   {
+    "name": "Alldigi Tech Limited",
+    "pe": 14.12
+   },
+   {
+    "name": "Inventurus KnowledgeSolutions Limited",
+    "pe": 31.41
+   },
+   {
+    "name": "Sagility India Limited",
+    "pe": 21.66
+   },
+   {
+    "name": "Hinduja GlobalSolutions Limited",
+    "pe": 51.07
+   }
+  ],
+  "kpi": {
+   "roe": 30.3,
+   "roce": 71.59,
+   "ebitda_margin": 19.48,
+   "pat_margin": 9.34,
+   "de": 1.25,
+   "eps": 13.47,
+   "ronw": 30.74,
+   "nav": 43.73
+  },
+  "issue": {
+   "issue size": "Approx ₹702.00 Crores",
+   "fresh issue": "Approx ₹500 Crores",
+   "offer for sale": "Approx 69,89,619 Equity Shares",
+   "issue type": "Book Building Issue",
+   "ipo listing": "BSE, NSE"
+  },
+  "dates": {
+   "allotment": "2026-10-19",
+   "refund": "2026-10-21",
+   "listing": "2026-10-22"
   }
  }
 }
