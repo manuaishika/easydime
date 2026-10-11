@@ -1,5 +1,30 @@
 [
  {
+  "t": "2026-10-11 23:14",
+  "kind": "move",
+  "text": "Jio Platforms Upcoming: GMP falling, +15.19% to 0% (₹171 to ₹155)."
+ },
+ {
+  "t": "2026-10-11 23:14",
+  "kind": "verdict",
+  "text": "Jio Platforms Upcoming: verdict changed from Apply to Don't apply (0%)."
+ },
+ {
+  "t": "2026-10-11 23:14",
+  "kind": "move",
+  "text": "HD Fire Protect Upcoming: GMP falling, +27.67% to +20.29% (₹75 to ₹55)."
+ },
+ {
+  "t": "2026-10-11 23:14",
+  "kind": "move",
+  "text": "Ravita Engineering Upcoming: GMP falling, +10.71% to 0% (₹12 to ₹0)."
+ },
+ {
+  "t": "2026-10-11 23:14",
+  "kind": "verdict",
+  "text": "Ravita Engineering Upcoming: verdict changed from Ignore to Don't apply (0%)."
+ },
+ {
   "t": "2026-10-11 14:38",
   "kind": "move",
   "text": "Fusion CX Upcoming: GMP falling, +19.03% to +15.57% (₹55 to ₹45)."
