@@ -1,21 +1,8 @@
 [
  {
-  "name": "Tonbo Imaging Upcoming",
-  "sme": false,
-  "gmp": 0.0,
-  "gain": 0.0,
-  "price": null,
-  "price_text": "₹-",
-  "est_price": null,
-  "dates": "TBA",
-  "status": "",
-  "size": "",
-  "url": "/tonbo-imaging-india-ipo/"
- },
- {
   "name": "Jio Platforms Upcoming",
   "sme": false,
-  "gmp": 170.0,
+  "gmp": 171.0,
   "gain": 15.19,
   "price": 1119.0,
   "price_text": "₹1,119*",
@@ -24,6 +11,19 @@
   "status": "",
   "size": "",
   "url": "/jio-platforms-ipo-gmp-grey-market-premium/"
+ },
+ {
+  "name": "Tonbo Imaging Upcoming",
+  "sme": false,
+  "gmp": 0.0,
+  "gain": 0.0,
+  "price": null,
+  "price_text": "₹-",
+  "est_price": null,
+  "dates": "15-19 Oct",
+  "status": "",
+  "size": "",
+  "url": "/tonbo-imaging-india-ipo/"
  },
  {
   "name": "Sahajanand Medical Upcoming",
@@ -54,7 +54,7 @@
  {
   "name": "Bonfiglioli Transmissions Upcoming",
   "sme": false,
-  "gmp": 70.0,
+  "gmp": 140.0,
   "gain": 0.0,
   "price": null,
   "price_text": "₹-",
@@ -67,11 +67,11 @@
  {
   "name": "Fusion CX Upcoming",
   "sme": false,
-  "gmp": 55.0,
-  "gain": 19.03,
+  "gmp": 45.0,
+  "gain": 15.57,
   "price": 289.0,
   "price_text": "₹289",
-  "est_price": 344.0,
+  "est_price": 334.0,
   "dates": "14-16 Oct",
   "status": "",
   "size": "",
@@ -106,11 +106,11 @@
  {
   "name": "Ravita Engineering Upcoming",
   "sme": true,
-  "gmp": 10.0,
-  "gain": 8.93,
+  "gmp": 12.0,
+  "gain": 10.71,
   "price": 112.0,
   "price_text": "₹112",
-  "est_price": 122.0,
+  "est_price": 124.0,
   "dates": "13-15 Oct",
   "status": "",
   "size": "",
