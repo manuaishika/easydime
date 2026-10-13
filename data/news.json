@@ -1,5 +1,35 @@
 [
  {
+  "t": "2026-10-13 15:07",
+  "kind": "move",
+  "text": "Tonbo Imaging Upcoming: GMP rising, +53.57% to +61% (₹375 to ₹427)."
+ },
+ {
+  "t": "2026-10-13 15:07",
+  "kind": "move",
+  "text": "Zetwerk Upcoming: GMP rising, +8.61% to +11.92% (₹13 to ₹18)."
+ },
+ {
+  "t": "2026-10-13 15:07",
+  "kind": "verdict",
+  "text": "Zetwerk Upcoming: verdict changed from Ignore to Apply (+11.92%)."
+ },
+ {
+  "t": "2026-10-13 15:07",
+  "kind": "new",
+  "text": "New on the list: HD Fire Protect (O) (Mainboard), GMP ₹86 (+31.73%), apply by 15 Oct · 2d. Verdict: Apply."
+ },
+ {
+  "t": "2026-10-13 15:07",
+  "kind": "move",
+  "text": "Ravita Engineering Upcoming: GMP falling, +8.93% to +3.57% (₹10 to ₹4)."
+ },
+ {
+  "t": "2026-10-13 15:07",
+  "kind": "new",
+  "text": "New on the list: Vaibhav Vyapaar (O) (SME), GMP ₹0 (0%), apply by 15 Oct · 2d. Verdict: Don't apply."
+ },
+ {
   "t": "2026-10-13 02:51",
   "kind": "move",
   "text": "Bonfiglioli Transmissions Upcoming: GMP falling, +29.86% to +25.6% (₹175 to ₹150)."
