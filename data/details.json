@@ -1470,5 +1470,1302 @@
    "refund": "2026-10-07",
    "listing": "2026-10-08"
   }
+ },
+ "jioplatforms": {
+  "lot": {
+   "lots": 1.0,
+   "shares": 12.0,
+   "amount": 13428.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": null,
+    "pct": 50.0
+   },
+   "nii": {
+    "shares": null,
+    "pct": 15.0
+   },
+   "retail": {
+    "shares": null,
+    "pct": 35.0
+   }
+  },
+  "promoter": {
+   "pre": 66.43,
+   "post": 64.48
+  },
+  "purposes": [
+   {
+    "text": "Prepayment, in full or in part, of certain outstanding borrowings availed by the Material Subsidiary, namely, RJIL.",
+    "crore": null
+   },
+   {
+    "text": "General Corporate Purpose",
+    "crore": null
+   }
+  ],
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 110175.4,
+    "expense": 81367.4,
+    "pat": 21434.0,
+    "assets": 539580.4
+   },
+   {
+    "period": "2025",
+    "revenue": 129333.0,
+    "expense": 94205.7,
+    "pat": 26120.3,
+    "assets": 581233.8
+   },
+   {
+    "period": "2026",
+    "revenue": 149759.1,
+    "expense": 109406.0,
+    "pat": 30052.7,
+    "assets": 615594.0
+   }
+  ],
+  "peers": [
+   {
+    "name": "Bharti Airtel Limited",
+    "pe": 42.27
+   },
+   {
+    "name": "Vodafone Idea Limited",
+    "pe": 4.65
+   }
+  ],
+  "kpi": {
+   "roe": null,
+   "roce": 10.76,
+   "ebitda_margin": 51.91,
+   "pat_margin": 20.46,
+   "de": null,
+   "eps": 33.63,
+   "ronw": 9.42,
+   "nav": 373.66
+  },
+  "issue": {
+   "issue size": "Approx ₹30,213 Crores, 27,00,00,000 Equity Shares",
+   "fresh issue": "Approx ₹30,213 Crores, 27,00,00,000 Equity Shares",
+   "issue type": "Book Building Issue",
+   "ipo listing": "BSE, NSE"
+  },
+  "dates": {
+   "allotment": "2026-10-26",
+   "refund": "2026-10-27",
+   "listing": "2026-10-28"
+  },
+  "gmp_days": [
+   [
+    "2026-10-02",
+    150.0,
+    "17:22"
+   ],
+   [
+    "2026-10-03",
+    125.0,
+    "16:30"
+   ],
+   [
+    "2026-10-04",
+    145.0,
+    "16:30"
+   ],
+   [
+    "2026-10-05",
+    160.0,
+    "17:10"
+   ],
+   [
+    "2026-10-06",
+    168.0,
+    "17:24"
+   ],
+   [
+    "2026-10-07",
+    185.0,
+    "18:20"
+   ],
+   [
+    "2026-10-08",
+    177.0,
+    "20:00"
+   ],
+   [
+    "2026-10-09",
+    175.0,
+    "16:00"
+   ],
+   [
+    "2026-10-10",
+    170.0,
+    "17:42"
+   ],
+   [
+    "2026-10-11",
+    170.0,
+    "17:00"
+   ],
+   [
+    "2026-10-12",
+    182.0,
+    "17:30"
+   ],
+   [
+    "2026-10-13",
+    211.0,
+    "17:32"
+   ],
+   [
+    "2026-10-14",
+    200.0,
+    "22:00"
+   ]
+  ]
+ },
+ "parashealthcare": {
+  "lot": {
+   "lots": null,
+   "shares": null,
+   "amount": null
+  },
+  "categories": {
+   "anchor": {
+    "shares": null,
+    "pct": 75.0
+   },
+   "nii": {
+    "shares": null,
+    "pct": 15.0
+   },
+   "retail": {
+    "shares": null,
+    "pct": 10.0
+   }
+  },
+  "purposes": [
+   {
+    "text": "Prepayment or scheduled re-payment, in full or part, of certain outstanding borrowings availed by the Company",
+    "crore": 320.9
+   },
+   {
+    "text": "Investment in the wholly owned Subsidiary, PMHPL (which also operates the hospital in Srinagar), for repayment/prepayment of borrowings, in full or part, of PMHPL",
+    "crore": 54.1
+   },
+   {
+    "text": "General Corporate Purpose",
+    "crore": null
+   }
+  ],
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 1151.0,
+    "expense": 1144.0,
+    "pat": 15.33,
+    "assets": 1477.0
+   },
+   {
+    "period": "2025",
+    "revenue": 1314.0,
+    "expense": 1364.0,
+    "pat": 57.98,
+    "assets": 1810.0
+   },
+   {
+    "period": "2026",
+    "revenue": 1629.0,
+    "expense": 1553.0,
+    "pat": 43.83,
+    "assets": 2071.0
+   },
+   {
+    "period": "Jun 2026",
+    "revenue": 479.0,
+    "expense": 431.0,
+    "pat": 49.68,
+    "assets": 2203.0
+   }
+  ],
+  "peers": [
+   {
+    "name": "Aster DM Healthcare Limited",
+    "pe": 95.9
+   },
+   {
+    "name": "Apollo Hospitals Enterprise Limited",
+    "pe": 60.02
+   },
+   {
+    "name": "Fortis Healthcare Limited",
+    "pe": 67.31
+   },
+   {
+    "name": "Global Health Limited",
+    "pe": 56.55
+   },
+   {
+    "name": "Jupiter Lifeline Hospitals Limited",
+    "pe": 43.98
+   },
+   {
+    "name": "Krishna Institute of Medical Sciences Limited",
+    "pe": 124.98
+   },
+   {
+    "name": "Max Healthcare Institute Limited",
+    "pe": 63.59
+   },
+   {
+    "name": "Narayana Hrudayalaya Limited",
+    "pe": 48.0
+   },
+   {
+    "name": "Yatharth Hospital and Trauma Care Services Limited",
+    "pe": 43.56
+   }
+  ],
+  "kpi": {
+   "roe": 12.98,
+   "roce": 10.76,
+   "ebitda_margin": 20.6,
+   "pat_margin": 2.69,
+   "de": 3.53,
+   "eps": 4.34,
+   "ronw": 12.98,
+   "nav": 39.11
+  },
+  "issue": {
+   "issue size": "Approx ₹1,450 Crores",
+   "fresh issue": "Approx ₹500 Crores",
+   "offer for sale": "Approx ₹950 Crores",
+   "issue type": "Book Build Issue",
+   "ipo listing": "BSE, NSE"
+  },
+  "dates": {
+   "allotment": "2026-10-26",
+   "refund": "2026-10-27",
+   "listing": "2026-10-28"
+  },
+  "gmp_days": [
+   [
+    "2026-10-14",
+    75.0,
+    "20:00"
+   ]
+  ]
+ },
+ "bonfigliolitransmissions": {
+  "lot": {
+   "lots": 1.0,
+   "shares": 25.0,
+   "amount": 14650.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": null,
+    "pct": 50.0
+   },
+   "nii": {
+    "shares": null,
+    "pct": 15.0
+   },
+   "retail": {
+    "shares": null,
+    "pct": 35.0
+   }
+  },
+  "promoter": {
+   "pre": 100.0,
+   "post": 77.0
+  },
+  "purposes": [
+   {
+    "text": "–",
+    "crore": null
+   },
+   {
+    "text": "–",
+    "crore": null
+   },
+   {
+    "text": "–",
+    "crore": null
+   }
+  ],
+  "financials": [
+   {
+    "period": "Dec 2023",
+    "revenue": 1701.8,
+    "expense": 1493.63,
+    "pat": 148.49,
+    "assets": 1414.72
+   },
+   {
+    "period": "Dec 2024",
+    "revenue": 1861.16,
+    "expense": 1616.16,
+    "pat": 195.16,
+    "assets": 1299.08
+   },
+   {
+    "period": "Dec 2025",
+    "revenue": 2023.59,
+    "expense": 1698.36,
+    "pat": 237.87,
+    "assets": 1439.46
+   },
+   {
+    "period": "June 2026",
+    "revenue": 1139.17,
+    "expense": 939.25,
+    "pat": 148.58,
+    "assets": 1495.82
+   }
+  ],
+  "peers": [
+   {
+    "name": "Elecon Engineering Company Limited",
+    "pe": 31.63
+   },
+   {
+    "name": "Shanthi Gears Limited",
+    "pe": 63.39
+   },
+   {
+    "name": "Schaeffler India Limited",
+    "pe": 53.74
+   },
+   {
+    "name": "Timken India Limited",
+    "pe": 57.66
+   }
+  ],
+  "kpi": {
+   "roe": 25.66,
+   "roce": 34.05,
+   "ebitda_margin": 18.41,
+   "pat_margin": 11.76,
+   "de": null,
+   "eps": 12.65,
+   "ronw": 23.9,
+   "nav": 52.82
+  },
+  "issue": {
+   "issue size": "Approx ₹2,533.7 Crores",
+   "offer for sale": "Approx 4,69,98,959 Equity Shares",
+   "issue type": "Book Building Issue",
+   "ipo listing": "BSE, NSE"
+  },
+  "dates": {
+   "allotment": "2026-10-21",
+   "refund": "2026-10-22",
+   "listing": "2026-10-23"
+  },
+  "gmp_days": [
+   [
+    "2026-10-10",
+    70.0,
+    "17:39"
+   ],
+   [
+    "2026-10-11",
+    175.0,
+    "17:00"
+   ],
+   [
+    "2026-10-12",
+    150.0,
+    "17:29"
+   ],
+   [
+    "2026-10-13",
+    155.0,
+    "17:30"
+   ],
+   [
+    "2026-10-14",
+    180.0,
+    "17:10"
+   ]
+  ]
+ },
+ "tonboimaging": {
+  "kpi": {},
+  "issue": {
+   "fresh issue": "Approx ₹852.2 Crores",
+   "offer for sale": "Approx 1,21,74,046 Equity Shares",
+   "issue type": "Book Building Issue",
+   "ipo listing": "BSE, NSE"
+  },
+  "dates": {
+   "allotment": "2026-10-21",
+   "refund": "2026-10-22",
+   "listing": "2026-10-23"
+  },
+  "gmp_days": [
+   [
+    "2026-10-11",
+    270.0,
+    "17:00"
+   ],
+   [
+    "2026-10-12",
+    375.0,
+    "17:28"
+   ],
+   [
+    "2026-10-13",
+    460.0,
+    "17:34"
+   ],
+   [
+    "2026-10-14",
+    500.0,
+    "17:10"
+   ]
+  ]
+ },
+ "zetwerk": {
+  "lot": {
+   "lots": 1.0,
+   "shares": 99.0,
+   "amount": 14949.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": null,
+    "pct": 75.0
+   },
+   "nii": {
+    "shares": null,
+    "pct": 15.0
+   },
+   "retail": {
+    "shares": null,
+    "pct": 10.0
+   }
+  },
+  "promoter": {
+   "pre": 15.86,
+   "post": 11.36
+  },
+  "purposes": [
+   {
+    "text": "Repayment/prepayment, in part or full, of certain of or all of borrowings availed by the company",
+    "crore": 1250.0
+   },
+   {
+    "text": "Repayment/prepayment, in part or full, of certain of or all of borrowings availed by certain of the Subsidiaries, namely, (i) Sharp Tanks and Structurals Private Limited; (ii) Terra91International Private Limited; (iii) Smile Electronics Limited; (iv) Kryfs Power ComponentsLimited; (v) Kryfs Transformers Private Limited; (vi) Unimacts Global LLC; (vii) ZetwerkManufacturing SG Pte. Ltd.; (viii) Zap91 Solar India Private Limited; and (ix) Zet Town IndiaPrivate Limited through investments in such Subsidiaries; and",
+    "crore": 550.0
+   },
+   {
+    "text": "Funding inorganic growth through unidentified acquisitions and other strategic acquisitions, and general corporate purposes",
+    "crore": null
+   }
+  ],
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 12523.46,
+    "expense": 12847.55,
+    "pat": 917.95,
+    "assets": 10330.85
+   },
+   {
+    "period": "2025",
+    "revenue": 11492.23,
+    "expense": 11552.03,
+    "pat": 370.71,
+    "assets": 10355.43
+   },
+   {
+    "period": "2026",
+    "revenue": 16100.63,
+    "expense": 16141.73,
+    "pat": 1606.17,
+    "assets": 13384.63
+   },
+   {
+    "period": "June 2026",
+    "revenue": 4195.7,
+    "expense": 16100.63,
+    "pat": 732.98,
+    "assets": 12016.09
+   }
+  ],
+  "kpi": {
+   "roe": null,
+   "roce": null,
+   "ebitda_margin": 2.65,
+   "pat_margin": null,
+   "de": null,
+   "eps": 6.69,
+   "ronw": 21.11,
+   "nav": 31.26
+  },
+  "issue": {
+   "issue size": "Approx ₹5,012.3 Crores",
+   "fresh issue": "Approx ₹2,830 Crores",
+   "offer for sale": "Approx 14,45,25,036 Equity Shares",
+   "issue type": "Book built Issue",
+   "ipo listing": "BSE, NSE"
+  },
+  "dates": {
+   "allotment": "2026-10-21",
+   "refund": "2026-10-22",
+   "listing": "2026-10-23"
+  },
+  "gmp_days": [
+   [
+    "2026-10-11",
+    30.0,
+    "17:00"
+   ],
+   [
+    "2026-10-12",
+    13.0,
+    "17:26"
+   ],
+   [
+    "2026-10-13",
+    20.0,
+    "17:39"
+   ],
+   [
+    "2026-10-14",
+    23.0,
+    "17:09"
+   ]
+  ]
+ },
+ "sahajanandmedical": {
+  "lot": {
+   "lots": 1.0,
+   "shares": 43.0,
+   "amount": 14792.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": null,
+    "pct": 50.0
+   },
+   "nii": {
+    "shares": null,
+    "pct": 15.0
+   },
+   "retail": {
+    "shares": null,
+    "pct": 35.0
+   }
+  },
+  "promoter": {
+   "pre": 40.82,
+   "post": 36.2
+  },
+  "purposes": [
+   {
+    "text": "–",
+    "crore": null
+   },
+   {
+    "text": "–",
+    "crore": null
+   },
+   {
+    "text": "–",
+    "crore": null
+   }
+  ],
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 908.59,
+    "expense": 875.5,
+    "pat": 7.35,
+    "assets": 970.58
+   },
+   {
+    "period": "2025",
+    "revenue": 1035.96,
+    "expense": 980.12,
+    "pat": 25.15,
+    "assets": 1094.9
+   },
+   {
+    "period": "2026",
+    "revenue": 1218.73,
+    "expense": 1138.43,
+    "pat": 69.08,
+    "assets": 1276.43
+   },
+   {
+    "period": "June 2026",
+    "revenue": 354.33,
+    "expense": 330.05,
+    "pat": 15.09,
+    "assets": 1308.1
+   }
+  ],
+  "peers": [
+   {
+    "name": "Poly Medicure Limited",
+    "pe": 51.4
+   },
+   {
+    "name": "Laxmi Dental Limited",
+    "pe": 36.35
+   }
+  ],
+  "kpi": {
+   "roe": null,
+   "roce": 11.57,
+   "ebitda_margin": 14.1,
+   "pat_margin": 5.71,
+   "de": null,
+   "eps": 6.67,
+   "ronw": 10.6,
+   "nav": 62.76
+  },
+  "issue": {
+   "issue size": "Approx ₹475.5 Crores",
+   "offer for sale": "Approx 1,38,22,116 Equity Shares",
+   "issue type": "Book build Issue",
+   "ipo listing": "BSE, NSE"
+  },
+  "dates": {
+   "allotment": "2026-10-21",
+   "refund": "2026-10-22",
+   "listing": "2026-10-23"
+  },
+  "gmp_days": [
+   [
+    "2026-10-11",
+    40.0,
+    "17:00"
+   ],
+   [
+    "2026-10-12",
+    46.0,
+    "17:27"
+   ],
+   [
+    "2026-10-13",
+    42.0,
+    "17:17"
+   ],
+   [
+    "2026-10-14",
+    42.0,
+    "17:08"
+   ]
+  ]
+ },
+ "fusioncx": {
+  "lot": {
+   "lots": 1.0,
+   "shares": 51.0,
+   "amount": 14739.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": null,
+    "pct": 75.0
+   },
+   "nii": {
+    "shares": null,
+    "pct": 15.0
+   },
+   "retail": {
+    "shares": null,
+    "pct": 10.0
+   }
+  },
+  "promoter": {
+   "pre": 99.03,
+   "post": 81.82
+  },
+  "purposes": [
+   {
+    "text": "Repayment/prepayment, in full or in part, of certain outstanding borrowings availed by (i) Company; (ii) certain Subsidiaries (direct and certain step-down subsidiaries)",
+    "crore": 275.7
+   },
+   {
+    "text": "Investment in step-down subsidiaries, Omind Technologies Inc. and Omind Technologies Pvt.Ltd., for upgrading IT tools i.e. Arya and MindVoice",
+    "crore": 61.15
+   },
+   {
+    "text": "Pursuing inorganic growth through unidentified acquisitions and other strategic initiatives and general corporate purposes",
+    "crore": null
+   }
+  ],
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 1021.53,
+    "expense": 984.84,
+    "pat": 36.26,
+    "assets": 768.02
+   },
+   {
+    "period": "2025",
+    "revenue": 1352.03,
+    "expense": 1274.29,
+    "pat": 74.31,
+    "assets": 1143.25
+   },
+   {
+    "period": "2026",
+    "revenue": 1851.83,
+    "expense": 1662.53,
+    "pat": 169.84,
+    "assets": 1385.15
+   },
+   {
+    "period": "Jun 2026",
+    "revenue": 503.85,
+    "expense": 441.03,
+    "pat": 55.7,
+    "assets": 1367.85
+   }
+  ],
+  "peers": [
+   {
+    "name": "FirstSource Solutions Limited",
+    "pe": 22.27
+   },
+   {
+    "name": "eClerx Services Limited",
+    "pe": 19.65
+   },
+   {
+    "name": "Alldigi Tech Limited",
+    "pe": 14.12
+   },
+   {
+    "name": "Inventurus KnowledgeSolutions Limited",
+    "pe": 31.41
+   },
+   {
+    "name": "Sagility India Limited",
+    "pe": 21.66
+   },
+   {
+    "name": "Hinduja GlobalSolutions Limited",
+    "pe": 51.07
+   }
+  ],
+  "kpi": {
+   "roe": 30.3,
+   "roce": 71.59,
+   "ebitda_margin": 19.48,
+   "pat_margin": 9.34,
+   "de": 1.25,
+   "eps": 13.47,
+   "ronw": 30.74,
+   "nav": 43.73
+  },
+  "issue": {
+   "issue size": "Approx ₹702.00 Crores",
+   "fresh issue": "Approx ₹500 Crores",
+   "offer for sale": "Approx 69,89,619 Equity Shares",
+   "issue type": "Book Building Issue",
+   "ipo listing": "BSE, NSE"
+  },
+  "dates": {
+   "allotment": "2026-10-19",
+   "refund": "2026-10-21",
+   "listing": "2026-10-22"
+  },
+  "gmp_days": [
+   [
+    "2026-10-09",
+    55.0,
+    "16:00"
+   ],
+   [
+    "2026-10-10",
+    55.0,
+    "17:40"
+   ],
+   [
+    "2026-10-11",
+    25.0,
+    "17:00"
+   ],
+   [
+    "2026-10-12",
+    13.0,
+    "17:25"
+   ],
+   [
+    "2026-10-13",
+    25.0,
+    "17:41"
+   ],
+   [
+    "2026-10-14",
+    34.0,
+    "17:07"
+   ]
+  ]
+ },
+ "hdfireprotect": {
+  "lot": {
+   "lots": 1.0,
+   "shares": 55.0,
+   "amount": 14905.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": null,
+    "pct": 50.0
+   },
+   "nii": {
+    "shares": null,
+    "pct": 15.0
+   },
+   "retail": {
+    "shares": null,
+    "pct": 35.0
+   }
+  },
+  "promoter": {
+   "pre": 100.0,
+   "post": 86.96
+  },
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 392.02,
+    "expense": 275.67,
+    "pat": 87.92,
+    "assets": 392.63
+   },
+   {
+    "period": "2025",
+    "revenue": 450.68,
+    "expense": 303.96,
+    "pat": 109.55,
+    "assets": 4500.82
+   },
+   {
+    "period": "2026",
+    "revenue": 505.12,
+    "expense": 349.14,
+    "pat": 116.79,
+    "assets": 432.03
+   },
+   {
+    "period": "June 2026",
+    "revenue": 114.07,
+    "expense": 81.56,
+    "pat": 23.87,
+    "assets": 477.6
+   }
+  ],
+  "peers": [
+   {
+    "name": "Azad Engineering Limited",
+    "pe": 145.65
+   },
+   {
+    "name": "KSB Limited",
+    "pe": 55.68
+   },
+   {
+    "name": "Kirloskar Pneumatic Company Limited",
+    "pe": 17.18
+   },
+   {
+    "name": "Elgi Equipment Limited",
+    "pe": 44.7
+   },
+   {
+    "name": "Ingersoll-Rand (India) Limited",
+    "pe": 51.39
+   }
+  ],
+  "kpi": {
+   "roe": 30.17,
+   "roce": 40.33,
+   "ebitda_margin": 30.75,
+   "pat_margin": 23.12,
+   "de": null,
+   "eps": 6.66,
+   "ronw": 31.07,
+   "nav": 21.45
+  },
+  "issue": {
+   "issue size": "Approx ₹712.31 Crores",
+   "offer for sale": "Approx 2,62,84,500 Equity Shares",
+   "issue type": "Book build Issue",
+   "ipo listing": "BSE, NSE"
+  },
+  "dates": {
+   "allotment": "2026-10-16",
+   "refund": "2026-10-19",
+   "listing": "2026-10-20"
+  },
+  "gmp_days": [
+   [
+    "2026-10-07",
+    60.0,
+    "16:20"
+   ],
+   [
+    "2026-10-08",
+    55.0,
+    "17:09"
+   ],
+   [
+    "2026-10-09",
+    75.0,
+    "16:00"
+   ],
+   [
+    "2026-10-10",
+    75.0,
+    "17:41"
+   ],
+   [
+    "2026-10-11",
+    85.0,
+    "17:00"
+   ],
+   [
+    "2026-10-12",
+    75.0,
+    "17:24"
+   ],
+   [
+    "2026-10-13",
+    86.0,
+    "17:28"
+   ],
+   [
+    "2026-10-14",
+    91.0,
+    "17:07"
+   ]
+  ]
+ },
+ "shellzindia": {
+  "lot": {
+   "lots": 2.0,
+   "shares": 1600.0,
+   "amount": 286400.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": null,
+    "pct": 50.0
+   },
+   "nii": {
+    "shares": null,
+    "pct": 15.0
+   },
+   "retail": {
+    "shares": null,
+    "pct": 35.0
+   }
+  },
+  "promoter": {
+   "pre": 88.11,
+   "post": 63.64
+  },
+  "purposes": [
+   {
+    "text": "Repayment or prepayment, in full or in part, of certain outstanding borrowings availed by our Company",
+    "crore": 22.0
+   },
+   {
+    "text": "Funding our incremental working capital requirements and",
+    "crore": 23.0
+   },
+   {
+    "text": "General corporate purposes",
+    "crore": null
+   }
+  ],
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 162.81,
+    "expense": 154.84,
+    "pat": 5.25,
+    "assets": 147.04
+   },
+   {
+    "period": "2025",
+    "revenue": 187.39,
+    "expense": 174.77,
+    "pat": 8.3,
+    "assets": 167.36
+   },
+   {
+    "period": "2026",
+    "revenue": 193.18,
+    "expense": 173.89,
+    "pat": 13.37,
+    "assets": 213.72
+   },
+   {
+    "period": "June 2026",
+    "revenue": 47.43,
+    "expense": 41.6,
+    "pat": 4.08,
+    "assets": 229.36
+   }
+  ],
+  "peers": [
+   {
+    "name": "Annapurna Swadisht Limited",
+    "pe": 8.66
+   }
+  ],
+  "kpi": {
+   "roe": 26.87,
+   "roce": 19.11,
+   "ebitda_margin": 15.65,
+   "pat_margin": 6.94,
+   "de": 1.71,
+   "eps": 15.37,
+   "ronw": 22.68,
+   "nav": 67.63
+  },
+  "issue": {
+   "issue size": "Approx ₹59.97 Crores",
+   "fresh issue": "Approx ₹59.97 Crores",
+   "offer for sale": "Approx [.] Equity Shares",
+   "issue type": "Book Building Issue",
+   "ipo listing": "BSE SME"
+  },
+  "dates": {
+   "allotment": "2026-10-21",
+   "refund": "2026-10-22",
+   "listing": "2026-10-23"
+  },
+  "gmp_days": []
+ },
+ "ravitaengineering": {
+  "lot": {
+   "lots": 2.0,
+   "shares": 2400.0,
+   "amount": 268800.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": null,
+    "pct": 50.0
+   },
+   "nii": {
+    "shares": null,
+    "pct": 15.0
+   },
+   "retail": {
+    "shares": null,
+    "pct": 35.0
+   }
+  },
+  "promoter": {
+   "pre": 73.74,
+   "post": null
+  },
+  "purposes": [
+   {
+    "text": "To meet long-term working capital requirements of the Company",
+    "crore": 66.0
+   },
+   {
+    "text": "Funding capital expenditure requirements of our Company towards purchase of certain heavy equipment",
+    "crore": 25.09
+   },
+   {
+    "text": "General Corporate Purposes",
+    "crore": null
+   }
+  ],
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 13.53,
+    "expense": 11.44,
+    "pat": 1.51,
+    "assets": 9.8
+   },
+   {
+    "period": "2025",
+    "revenue": 109.3,
+    "expense": 93.49,
+    "pat": 11.83,
+    "assets": 9.08
+   },
+   {
+    "period": "2026",
+    "revenue": 277.82,
+    "expense": 240.35,
+    "pat": 28.04,
+    "assets": 58.24
+   },
+   {
+    "period": "June 2026",
+    "revenue": 97.45,
+    "expense": 83.92,
+    "pat": 10.13,
+    "assets": 146.68
+   }
+  ],
+  "kpi": {
+   "roe": 48.9,
+   "roce": 48.65,
+   "ebitda_margin": 14.43,
+   "pat_margin": 10.09,
+   "de": 0.19,
+   "eps": 11.05,
+   "ronw": 48.9,
+   "nav": 36.44
+  },
+  "issue": {
+   "issue size": "Approx ₹116.05 Crores",
+   "fresh issue": "Approx ₹116.05 Crores",
+   "offer for sale": "Approx [.] Equity Shares",
+   "issue type": "Book Building Issue",
+   "ipo listing": "NSE SME"
+  },
+  "dates": {
+   "allotment": "2026-10-19",
+   "refund": "2026-10-21",
+   "listing": "2026-10-22"
+  },
+  "gmp_days": [
+   [
+    "2026-10-10",
+    10.0,
+    "17:33"
+   ],
+   [
+    "2026-10-11",
+    10.0,
+    "17:00"
+   ],
+   [
+    "2026-10-12",
+    10.0,
+    "17:21"
+   ],
+   [
+    "2026-10-13",
+    4.0,
+    "17:21"
+   ],
+   [
+    "2026-10-14",
+    2.0,
+    "17:05"
+   ]
+  ]
+ },
+ "vaibhavvyapaar": {
+  "lot": {
+   "lots": 2.0,
+   "shares": 4000.0,
+   "amount": 208000.0
+  },
+  "categories": {
+   "anchor": {
+    "shares": null,
+    "pct": 50.0
+   },
+   "nii": {
+    "shares": null,
+    "pct": 15.0
+   },
+   "retail": {
+    "shares": null,
+    "pct": 35.0
+   }
+  },
+  "promoter": {
+   "pre": 99.99,
+   "post": 72.34
+  },
+  "purposes": [
+   {
+    "text": "Augment the capital base of the company",
+    "crore": 32.0
+   },
+   {
+    "text": "General Corporate Purpose",
+    "crore": null
+   }
+  ],
+  "financials": [
+   {
+    "period": "2024",
+    "revenue": 25.46,
+    "expense": 24.86,
+    "pat": 0.45,
+    "assets": 61.18
+   },
+   {
+    "period": "2025",
+    "revenue": 25.34,
+    "expense": 24.32,
+    "pat": 1.48,
+    "assets": 55.04
+   },
+   {
+    "period": "2026",
+    "revenue": 37.64,
+    "expense": 34.48,
+    "pat": 1.97,
+    "assets": 84.23
+   },
+   {
+    "period": "Jul 2026",
+    "revenue": 18.15,
+    "expense": 13.91,
+    "pat": 3.01,
+    "assets": 96.16
+   }
+  ],
+  "peers": [
+   {
+    "name": "Paisalo Digital Limited",
+    "pe": 30.53
+   },
+   {
+    "name": "Apollo Finvest (India) Limited",
+    "pe": 22.0
+   }
+  ],
+  "kpi": {
+   "roe": 6.99,
+   "roce": 26.99,
+   "ebitda_margin": 29.47,
+   "pat_margin": 5.36,
+   "de": 1.6,
+   "eps": 1.22,
+   "ronw": 6.75,
+   "nav": 18.13
+  },
+  "issue": {
+   "issue size": "Approx ₹40.54 Crores",
+   "fresh issue": "Approx ₹40.54 Crores",
+   "offer for sale": "Approx [.] Equity Shares",
+   "issue type": "Book Building Issue",
+   "ipo listing": "NSE SME"
+  },
+  "dates": {
+   "allotment": "2026-10-16",
+   "refund": "2026-10-19",
+   "listing": "2026-10-21"
+  },
+  "gmp_days": []
  }
 }
