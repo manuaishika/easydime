@@ -138,3 +138,51 @@ def test_ipo_watch_credited_once():
     arch = {"oldco": {**_rec(name="Old Co", dates="23-25 Sep", status="Closed", url="https://x.test/b"), "end": "2026-09-25"}}
     other = build.render_history(arch, {}, now) + build.render_news([_rec()], {}, arch, [], now)
     assert main.count("IPO Watch") == 1 and "IPO Watch" not in other
+
+
+NEW_LAYOUT = ("<h2>Current Mainboard IPO</h2><table><tr><th>Company</th><th>GMP*</th><th>Trend</th><th>Price Band</th>"
+              "<th>Est. Gain</th><th>Date</th></tr>"
+              "<tr><td><a href='/jio-platforms-ipo-gmp-grey-market-premium/'>Jio Platforms Upcoming</a></td><td>₹220</td><td>🟢</td>"
+              "<td>₹1,119</td><td>₹1339 (19.66%)</td><td>21-23 Oct*</td></tr>"
+              "<tr><td><a href='https://ipowatch.in/paras/'>Paras HealthcareUpcoming</a></td><td>₹0</td><td>🟡</td><td>₹-</td>"
+              "<td>₹- (0.00%)</td><td>21-23 Oct</td></tr></table>"
+              "<h2>Current SME IPO</h2><table><tr><th>Company</th><th>GMP*</th><th>Trend</th><th>Price Band</th>"
+              "<th>Est. Gain</th><th>Date</th></tr>"
+              "<tr><td><a href='/ravita/'>Ravita Engineering Open</a></td><td>₹2</td><td>🔴</td><td>₹112</td>"
+              "<td>₹114 (1.79%)</td><td>14-16 Oct</td></tr></table>")
+
+
+def test_new_table_layout_without_status_column():
+    _, ipos = build.parse(NEW_LAYOUT)
+    jio, paras, ravita = ipos
+    assert (jio["name"], jio["status"]) == ("Jio Platforms", "Upcoming")            # status split off the name
+    assert (paras["name"], paras["status"]) == ("Paras Healthcare", "Upcoming")      # even with no space before it
+    assert (ravita["name"], ravita["status"], ravita["sme"]) == ("Ravita Engineering", "Open", True)
+    assert jio["url"] == "https://ipowatch.in/jio-platforms-ipo-gmp-grey-market-premium/"   # relative link made absolute
+    assert ravita["url"] == "https://ipowatch.in/ravita/"
+    assert jio["dates"] == "21-23 Oct"                                               # trailing * removed
+    assert (jio["gain"], jio["price"], paras["price"]) == (19.66, 1119.0, None)
+
+
+def test_dates_with_a_star_still_give_an_apply_by_date():
+    assert build.parse_end("21-23 Oct*", date(2026, 10, 14)) == date(2026, 10, 23)
+    assert build.parse_end("21-23 Oct", date(2026, 10, 14)) == date(2026, 10, 23)
+
+
+def test_fetch_retries_a_network_blip(monkeypatch):
+    calls = []
+
+    class Resp:
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+        def read(self): return b"ok"
+
+    def flaky(req, timeout):
+        calls.append(1)
+        if len(calls) < 3:
+            raise TimeoutError("handshake timed out")
+        return Resp()
+
+    monkeypatch.setattr(build.urllib.request, "urlopen", flaky)
+    monkeypatch.setattr(build.time, "sleep", lambda s: None)
+    assert build.fetch("https://x.test") == "ok" and len(calls) == 3

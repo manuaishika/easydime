@@ -9,23 +9,39 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           python - <<'PY'
-          import json, re, build
-          d = json.load(open("data/ipos.json"))
-          i = next(x for x in d if x["url"])
-          html = build.fetch(i["url"])
-          links = sorted({(re.sub(r"<[^>]+>|\s+", " ", t).strip(), h) for h, t in re.findall(r'<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>', html, re.S)
-                          if re.search(r"subscri", t + h, re.I)})
-          print("subscription links on", i["name"], "page:"); [print("  ", l) for l in links[:15]]
-          for text, href in links[:4]:
-              if not href.startswith("http"): continue
-              print("=" * 70); print("FETCH", href)
-              try:
-                  page = build.fetch(href)
-              except Exception as e:
-                  print("  failed:", e); continue
-              tables, _ = build.parse(page)
-              print("bytes", len(page), "tables", len(tables))
-              for n, t in enumerate(tables[:6]):
+          import re, build, details
+          page = build.fetch()
+          _, ipos = build.parse(page)
+          print("parsed", len(ipos), "IPOs from the list page")
+          for i in ipos: print("  ", i["name"], "|", i["status"], "|", i["dates"], "|", i["url"])
+          shown = 0
+          for i in ipos:
+              try: html = build.fetch(i["url"])
+              except Exception as e: print("FAIL", i["name"], e); continue
+              tables, _ = build.parse(html)
+              d = details.parse_tables(tables)
+              found = [k for k in ("lot", "financials", "kpi", "peers", "categories", "purposes", "promoter") if d.get(k)]
+              print(f"{i['name'][:26]:26} tables={len(tables):2} details={found}")
+              if shown < 2:
+                  shown += 1
+                  text = re.sub(r"<script.*?</script>|<style.*?</style>", " ", html, flags=re.S)
+                  text = re.sub(r"<[^>]+>", " ", text); text = re.sub(r"\s+", " ", text)
+                  for m in list(re.finditer(r"[Ss]ubscri", text))[:6]:
+                      print("   [subscri]", text[max(0, m.start() - 70): m.start() + 160])
+                  for h, t in sorted({(h, re.sub(r"<[^>]+>|\s+", " ", t).strip()) for h, t in re.findall(r'<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>', html, re.S) if re.search(r"subscri", t + h, re.I)})[:10]:
+                      print("   [link]", t, "->", h)
+          # the subscription pages themselves
+          seen = set()
+          for h in re.findall(r'<a[^>]+href="([^"]*subscri[^"]*)"', page, re.I) + ["/ipo-subscription-status/"]:
+              u = build.urljoin(build.SOURCE, h)
+              if u in seen: continue
+              seen.add(u)
+              print("=" * 70); print("FETCH", u)
+              try: sp = build.fetch(u)
+              except Exception as e: print("  failed:", e); continue
+              st, _ = build.parse(sp)
+              print("bytes", len(sp), "tables", len(st))
+              for n, t in enumerate(st[:5]):
                   print(f"-- table {n}: {len(t)} rows")
-                  for r in t[:8]: print("    ", [c[0][:28] for c in r])
+                  for r in t[:7]: print("    ", [c[0][:26] for c in r])
           PY

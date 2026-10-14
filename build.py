@@ -11,7 +11,9 @@ import json
 import re
 import sys
 import time
+import urllib.error
 import urllib.request
+from urllib.parse import urljoin
 from datetime import date, datetime, timedelta, timezone
 from html.parser import HTMLParser
 from pathlib import Path
@@ -36,12 +38,20 @@ MAX_ARCHIVE = 200
 
 
 # ---------- fetch ----------
-def fetch(url=SOURCE):
+def fetch(url=SOURCE, attempts=3):
+    """GET a page. Network blips (e.g. a TLS handshake timeout) are retried with a short backoff."""
     req = urllib.request.Request(
         url, headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
                       "Accept": "text/html"})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return r.read().decode("utf-8", "replace")
+    for n in range(attempts):
+        try:
+            with urllib.request.urlopen(req, timeout=30) as r:
+                return r.read().decode("utf-8", "replace")
+        except (urllib.error.URLError, TimeoutError, ConnectionError) as ex:
+            if n == attempts - 1:
+                raise
+            print(f"fetch retry {n + 1} for {url}: {ex}", file=sys.stderr)
+            time.sleep(3 * (n + 1))
 
 
 # ---------- parse ----------
@@ -139,6 +149,10 @@ def table_to_ipos(rows, heading=""):
         raw_name = cell(r, col["name"])
         if not raw_name or len(r) < 3:
             continue
+        status = cell(r, col["status"])
+        glued = re.search(r"\s*(Upcoming|Open|Closed|Listed)\s*$", raw_name, re.I)   # layout without a Status column
+        if glued and not status:
+            status, raw_name = glued.group(1).title(), raw_name[:glued.start()]
         gmp_text = cell(r, col["gmp"])
         price_text = cell(r, col["price"])
         est_text = cell(r, col["est"])
@@ -156,8 +170,9 @@ def table_to_ipos(rows, heading=""):
             sme=bool(re.search(r"\bsme\b", heading + " " + raw_name, re.I)),
             gmp=gmp, gain=gain, price=upper, price_text=price_text,
             est_price=number(re.sub(r"\(.*?\)", "", est_text)),
-            dates=cell(r, col["date"]), status=cell(r, col["status"]), size=cell(r, col["size"]),
-            url=r[col["name"]][1]))
+            dates=re.sub(r"[^\w\s\-–]+$", "", cell(r, col["date"])).strip(),     # drop a trailing "*"
+            status=status, size=cell(r, col["size"]),
+            url=urljoin(SOURCE, r[col["name"]][1]) if r[col["name"]][1] else None))
     return out
 
 
@@ -188,7 +203,7 @@ MONTHS = {m: n for n, m in enumerate("jan feb mar apr may jun jul aug sep oct no
 
 def parse_end(dates, today):
     """'28-5 Oct' -> date(…, 10, 5); '30 Sep - 5 Oct' also works. None if unreadable."""
-    m = re.search(r"(\d{1,2})\s*([A-Za-z]{3})[A-Za-z]*\s*$", dates.strip())
+    m = re.search(r"(\d{1,2})\s*([A-Za-z]{3})[A-Za-z]*[^A-Za-z0-9]*$", dates.strip())
     if not m or m.group(2).lower() not in MONTHS:
         return None
     day, month = int(m.group(1)), MONTHS[m.group(2).lower()]
