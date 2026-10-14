@@ -1,32 +1,32 @@
 [
  {
-  "name": "Jio Platforms Upcoming",
+  "name": "Jio Platforms",
   "sme": false,
-  "gmp": 220.0,
-  "gain": 19.66,
+  "gmp": 200.0,
+  "gain": 17.87,
   "price": 1119.0,
   "price_text": "₹1,119",
-  "est_price": 1339.0,
-  "dates": "21-23 Oct*",
-  "status": "",
+  "est_price": 1319.0,
+  "dates": "21-23 Oct",
+  "status": "Upcoming",
   "size": "",
-  "url": "/jio-platforms-ipo-gmp-grey-market-premium/"
+  "url": "https://ipowatch.in/jio-platforms-ipo-gmp-grey-market-premium/"
  },
  {
-  "name": "Paras HealthcareUpcoming",
+  "name": "Paras Healthcare",
   "sme": false,
-  "gmp": 0.0,
+  "gmp": 75.0,
   "gain": 0.0,
   "price": null,
   "price_text": "₹-",
   "est_price": null,
   "dates": "21-23 Oct",
-  "status": "",
+  "status": "Upcoming",
   "size": "",
   "url": "https://ipowatch.in/paras-healthcare-ipo-gmp-grey-market-premium/"
  },
  {
-  "name": "Bonfiglioli Transmissions Upcoming",
+  "name": "Bonfiglioli Transmissions",
   "sme": false,
   "gmp": 180.0,
   "gain": 30.71,
@@ -34,12 +34,12 @@
   "price_text": "₹586",
   "est_price": 766.0,
   "dates": "15-19 Oct",
-  "status": "",
+  "status": "Upcoming",
   "size": "",
-  "url": "/bonfiglioli-transmissions-ipo-gmp-today/"
+  "url": "https://ipowatch.in/bonfiglioli-transmissions-ipo-gmp-today/"
  },
  {
-  "name": "Tonbo Imaging Upcoming",
+  "name": "Tonbo Imaging",
   "sme": false,
   "gmp": 500.0,
   "gain": 71.43,
@@ -47,12 +47,12 @@
   "price_text": "₹700",
   "est_price": 1200.0,
   "dates": "15-19 Oct",
-  "status": "",
+  "status": "Upcoming",
   "size": "",
-  "url": "/tonbo-imaging-ipo-gmp-grey-market-premium/"
+  "url": "https://ipowatch.in/tonbo-imaging-ipo-gmp-grey-market-premium/"
  },
  {
-  "name": "Zetwerk Upcoming",
+  "name": "Zetwerk",
   "sme": false,
   "gmp": 23.0,
   "gain": 15.23,
@@ -60,12 +60,12 @@
   "price_text": "₹151",
   "est_price": 174.0,
   "dates": "15-19 Oct",
-  "status": "",
+  "status": "Upcoming",
   "size": "",
-  "url": "/zetwerk-ipo-gmp-grey-market-premium/"
+  "url": "https://ipowatch.in/zetwerk-ipo-gmp-grey-market-premium/"
  },
  {
-  "name": "Sahajanand Medical Upcoming",
+  "name": "Sahajanand Medical",
   "sme": false,
   "gmp": 42.0,
   "gain": 12.21,
@@ -73,12 +73,12 @@
   "price_text": "₹344",
   "est_price": 386.0,
   "dates": "15-19 Oct",
-  "status": "",
+  "status": "Upcoming",
   "size": "",
-  "url": "/sahajanand-medical-technologies-ipo-gmp-grey-market-premium/"
+  "url": "https://ipowatch.in/sahajanand-medical-technologies-ipo-gmp-grey-market-premium/"
  },
  {
-  "name": "Fusion CX Open",
+  "name": "Fusion CX",
   "sme": false,
   "gmp": 34.0,
   "gain": 11.76,
@@ -86,12 +86,12 @@
   "price_text": "₹289",
   "est_price": 323.0,
   "dates": "14-16 Oct",
-  "status": "",
+  "status": "Open",
   "size": "",
-  "url": "/fusion-cx-ipo-gmp-grey-market-premium/"
+  "url": "https://ipowatch.in/fusion-cx-ipo-gmp-grey-market-premium/"
  },
  {
-  "name": "HD Fire Protect Open",
+  "name": "HD Fire Protect",
   "sme": false,
   "gmp": 91.0,
   "gain": 33.58,
@@ -99,12 +99,12 @@
   "price_text": "₹271",
   "est_price": 362.0,
   "dates": "13-15 Oct",
-  "status": "",
+  "status": "Open",
   "size": "",
-  "url": "/hd-fire-protect-ipo-gmp-grey-market-premium/"
+  "url": "https://ipowatch.in/hd-fire-protect-ipo-gmp-grey-market-premium/"
  },
  {
-  "name": "Shellz India Upcoming",
+  "name": "Shellz India",
   "sme": true,
   "gmp": 0.0,
   "gain": 0.0,
@@ -112,12 +112,12 @@
   "price_text": "₹179",
   "est_price": 179.0,
   "dates": "15-19 Oct",
-  "status": "",
+  "status": "Upcoming",
   "size": "",
   "url": "https://ipowatch.in/shellz-india-ipo-gmp-grey-market-premium/"
  },
  {
-  "name": "Ravita Engineering Open",
+  "name": "Ravita Engineering",
   "sme": true,
   "gmp": 2.0,
   "gain": 1.79,
@@ -125,12 +125,12 @@
   "price_text": "₹112",
   "est_price": 114.0,
   "dates": "14-16 Oct",
-  "status": "",
+  "status": "Open",
   "size": "",
-  "url": "/ravita-engineering-services-ipo-gmp-grey-market-premium/"
+  "url": "https://ipowatch.in/ravita-engineering-services-ipo-gmp-grey-market-premium/"
  },
  {
-  "name": "Vaibhav Vyapaar Open",
+  "name": "Vaibhav Vyapaar",
   "sme": true,
   "gmp": 0.0,
   "gain": 0.0,
@@ -138,8 +138,8 @@
   "price_text": "₹52",
   "est_price": 52.0,
   "dates": "13-15 Oct",
-  "status": "",
+  "status": "Open",
   "size": "",
-  "url": "/vaibhav-vyapaar-ipo-gmp-grey-market-premium/"
+  "url": "https://ipowatch.in/vaibhav-vyapaar-ipo-gmp-grey-market-premium/"
  }
 ]
