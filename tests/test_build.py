@@ -186,3 +186,51 @@ def test_fetch_retries_a_network_blip(monkeypatch):
     monkeypatch.setattr(build.urllib.request, "urlopen", flaky)
     monkeypatch.setattr(build.time, "sleep", lambda s: None)
     assert build.fetch("https://x.test") == "ok" and len(calls) == 3
+
+
+def test_detail_page_url_mapping():
+    f = build.detail_url
+    assert f("https://ipowatch.in/tonbo-imaging-ipo-gmp-grey-market-premium/") == "https://ipowatch.in/tonbo-imaging-ipo/"
+    assert f("https://ipowatch.in/bonfiglioli-transmissions-ipo-gmp-today/") == "https://ipowatch.in/bonfiglioli-transmissions-ipo/"
+    assert f("https://ipowatch.in/srit-india-ipo/") == "https://ipowatch.in/srit-india-ipo/"      # already a detail page
+    assert f("https://ipowatch.in/something-else/") == "https://ipowatch.in/something-else/"
+    assert f(None) is None
+
+
+def test_gmp_days_backfill_history_without_overwriting():
+    hist = {"acme": [["2026-10-13 09:00", 4.0], ["2026-10-14 09:00", 6.0]]}
+    dets = {"acme": {"gmp_days": [("2026-10-12", 3.0, "18:02"), ("2026-10-13", 5.0, "17:29"), ("2026-10-14", 7.0, "12:00")]}}
+    out = build.merge_gmp_days(hist, dets)["acme"]
+    assert out == [["2026-10-12 18:02", 3.0], ["2026-10-13 09:00", 4.0], ["2026-10-14 09:00", 6.0]]   # only the missing day added
+
+
+def test_subscription_matching_and_history(tmp_path, monkeypatch):
+    monkeypatch.setattr(build, "SUBS_FILE", tmp_path / "s.json")
+    now = datetime(2026, 10, 14, 18, 0)
+    ipos = [_rec(name="Ravita Engineering"), _rec(name="Fusion CX"), _rec(name="Unrelated Co")]
+    page = ("<table><tr><th>IPO</th><th>Type</th><th>Closing Date</th><th>QIB (X)</th><th>NII (X)</th><th>Retail (X)</th>"
+            "<th>Total (X)</th><th>Last Updated</th></tr>"
+            "<tr><td>Ravita Engineering</td><td>SME</td><td>October 16, 2026</td><td>1.05</td><td>1.69</td><td>0.95</td><td>1.14</td><td>17:41</td></tr>"
+            "<tr><td>Fusion CX Ltd</td><td>Mainboard</td><td>October 16, 2026</td><td>0.00</td><td>0.48</td><td>1.64</td><td>0.43</td><td>17:41</td></tr></table>")
+    subs = build.update_subscriptions(ipos, {}, now, fetch_page=lambda u: page)
+    assert subs["ravitaengineering"]["latest"]["total"] == 1.14 and subs["fusioncx"]["latest"]["retail"] == 1.64
+    assert "unrelatedco" not in subs and build.match_sub("Fusion CX", subs)["latest"]["total"] == 0.43
+    assert len(subs["fusioncx"]["history"]) == 1
+    build.SUBS_FILE.write_text(__import__("json").dumps(subs))
+    again = build.update_subscriptions(ipos, {}, now, fetch_page=lambda u: page)           # unchanged numbers: no duplicate reading
+    assert len(again["fusioncx"]["history"]) == 1
+    def boom(u): raise OSError("down")
+    kept = build.update_subscriptions(ipos, {}, now, fetch_page=boom)                      # fetch failure keeps the old copy
+    assert kept["ravitaengineering"]["latest"]["total"] == 1.14
+
+
+def test_subscription_is_shown_on_the_card_and_in_details():
+    now = datetime(2026, 10, 14, 9, 0)
+    subs = {"acmeltd": {"latest": {"qib": 1.49, "nii": 48.74, "retail": 11.39, "total": 16.53, "updated": "17:41",
+                                   "closing": "", "type": ""},
+                        "history": [["2026-10-14 09:00", 8.0, 9.0], ["2026-10-14 17:41", 11.39, 16.53]]}}
+    out = build.render([_rec(dates="14-16 Oct")], {}, now, {}, subs)
+    assert "<b>16.53×</b> subscribed" in out                                   # on the card
+    assert "<h3>Subscription</h3>" in out and "48.74×" in out and "11.39×" in out   # in the details
+    blank = build.render([_rec(dates="14-16 Oct")], {}, now, {}, {})
+    assert "× subscribed" not in blank and "<h3>Subscription</h3>" not in blank              # nothing invented when unknown

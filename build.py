@@ -30,6 +30,8 @@ HISTORY_PAGE = ROOT / "history.html"
 ARCHIVE_FILE = ROOT / "data" / "archive.json"
 NEWS_FILE = ROOT / "data" / "news.json"
 DETAILS_FILE = ROOT / "data" / "details.json"
+SUBS_FILE = ROOT / "data" / "subscriptions.json"
+SUBS_URL = "https://ipowatch.in/ipo-subscription-status-today/"
 NEWS_PAGE = ROOT / "news.html"
 MAX_NEWS = 150
 IST = timezone(timedelta(hours=5, minutes=30))
@@ -252,8 +254,15 @@ def update_archive(ipos, now):
 
 
 # ---------- per-IPO detail pages ----------
+def detail_url(url):
+    """The GMP page links to a GMP-only page; the company details live on '<name>-ipo/'."""
+    m = re.match(r"^(https?://[^/]+/[^/]*?-ipo)(?:-gmp[^/]*)?/?$", url or "")
+    return m.group(1) + "/" if m else url
+
+
 def update_details(ipos, archive, today, fetch_page=None, pause=0.4):
-    """Fetch each open IPO's own page (lot size, financials, peers...). Failures keep the previous copy."""
+    """Per open IPO: company details (lot size, financials, peers...) from its detail page, and the day-wise GMP
+    table from its GMP page. Failures keep the previous copy."""
     fetch_page = fetch_page or fetch
     store = json.loads(DETAILS_FILE.read_text()) if DETAILS_FILE.exists() else {}
     failed = []
@@ -261,20 +270,75 @@ def update_details(ipos, archive, today, fetch_page=None, pause=0.4):
         if is_closed(i, today) or not i["url"]:
             continue
         try:
-            tables, _ = parse(fetch_page(i["url"]))
-            d = details.parse_tables(tables)
-            if not details.matches(i, d):                         # the page belongs to a different IPO
+            try:
+                dtables, _ = parse(fetch_page(detail_url(i["url"])))
+            except Exception:                                      # no separate detail page: fall back to the linked one
+                dtables = []
+            gtables, _ = parse(fetch_page(i["url"])) if detail_url(i["url"]) != i["url"] or not dtables else (dtables, None)
+            d = details.parse_tables(dtables or gtables)
+            d["gmp_days"] = details.parse_gmp_days(gtables, today)
+            if not details.matches(i, d):                          # the page belongs to a different IPO
                 store.pop(key_of(i["name"]), None)
                 failed.append(f"{i['name']} (linked page is for another IPO)")
-            elif d.get("lot") or d.get("financials") or d.get("kpi"):
+            elif d.get("lot") or d.get("financials") or d.get("kpi") or d["gmp_days"]:
                 store[key_of(i["name"])] = d
             else:
                 failed.append(i["name"])
-        except Exception as ex:                                  # one bad page must not break the build
+        except Exception as ex:                                    # one bad page must not break the build
             failed.append(f"{i['name']} ({ex})")
         time.sleep(pause)
     keep = {key_of(i["name"]) for i in ipos} | set(archive)
     return {k: v for k, v in store.items() if k in keep}, failed
+
+
+def merge_gmp_days(hist, dets):
+    """Backfill days we missed with the source's own day-wise GMP table (one reading per date, never overwriting ours)."""
+    for k, d in dets.items():
+        h = hist.setdefault(k, [])
+        have = {t[:10] for t, _ in h}
+        for day, gmp, hhmm in d.get("gmp_days", []):
+            if day not in have:
+                h.append([f"{day} {hhmm.zfill(5)}", gmp])
+        h.sort(key=lambda x: x[0])
+        del h[:-MAX_HISTORY]
+    return hist
+
+
+def match_sub(name, subs):
+    """Find an IPO's row in the subscription table (exact name, else one name contains the other)."""
+    k = key_of(name)
+    if k in subs:
+        return subs[k]
+    for sk, v in subs.items():
+        if len(min(sk, k, key=len)) >= 6 and (sk in k or k in sk):
+            return v
+    return None
+
+
+def update_subscriptions(ipos, archive, now, fetch_page=None):
+    """Latest QIB / NII / retail / total subscription per IPO, with a short history. Failure keeps the old copy."""
+    store = json.loads(SUBS_FILE.read_text()) if SUBS_FILE.exists() else {}
+    try:
+        tables, _ = parse((fetch_page or fetch)(SUBS_URL))
+        rows = details.parse_subscriptions(tables)
+    except Exception as ex:
+        print(f"WARNING: subscription data unavailable ({ex})", file=sys.stderr)
+        rows = []
+    stamp = now.strftime("%Y-%m-%d %H:%M")
+    wanted = {key_of(i["name"]): i["name"] for i in ipos} | {k: v["name"] for k, v in archive.items()}
+    for r in rows:
+        k = next((wk for wk, wn in wanted.items() if wk == key_of(r["name"])), None) or \
+            next((wk for wk in wanted if len(min(wk, key_of(r["name"]), key=len)) >= 6
+                  and (wk in key_of(r["name"]) or key_of(r["name"]) in wk)), None)
+        if not k or r["total"] is None:
+            continue
+        e = store.setdefault(k, {"history": []})
+        e["latest"] = {x: r[x] for x in ("qib", "nii", "retail", "total", "updated", "closing", "type")}
+        h = e["history"]
+        if not h or (h[-1][1], h[-1][2]) != (r["retail"], r["total"]):
+            h.append([stamp, r["retail"], r["total"]])
+            del h[:-40]
+    return {k: v for k, v in store.items() if k in wanted}
 
 
 # ---------- render helpers ----------
@@ -318,13 +382,30 @@ def analysis_html(a):
             body += ("<table class='kv three'><tr><th>If retail demand is…</th><th>Chance of a lot</th><th>Expected profit</th></tr>"
                      + "".join(f"<tr><td>{n_}× the quota</td><td>{'100%' if n_ == 1 else f'1 in {n_}'}</td>"
                                f"<td>{e(signed_money(ev))}</td></tr>" for n_, _, ev in a["odds"]) + "</table>")
-        parts.append(f"<details class='sec'{' open' if n == 0 else ''}><summary>{e(title)}</summary>{body}</details>")
+        parts.append(f"<details class='sec'{' open' if n == 0 or title.startswith('Allotment odds (live') else ''}><summary>{e(title)}</summary>{body}</details>")
     if not a["has_details"]:
         parts.append("<p class='mut'>Company details (lot size, financials, peers) are not available for this IPO yet.</p>")
     parts.append(f"<div class='mut note'>Assumes the minimum one-lot application, and a {details.FD_RATE:g}% fixed deposit as the "
                  "safe alternative. Revenue and profit are in ₹ crore as listed. Allotment is a lottery when oversubscribed. "
                  "Brokerage, charges and tax are not included. GMP is unofficial.</div>")
     return "".join(parts)
+
+
+def subscription_html(sub):
+    if not sub or not sub.get("latest"):
+        return ""
+    L = sub["latest"]
+    rows = [("Total", f"{L['total']:g}×"), ("Retail", "–" if L["retail"] is None else f"{L['retail']:g}×"),
+            ("NII / HNI", "–" if L["nii"] is None else f"{L['nii']:g}×"), ("QIB", "–" if L["qib"] is None else f"{L['qib']:g}×")]
+    if L.get("updated"):
+        rows.append(("Last updated", f"{L['updated']} IST"))
+    h = sub.get("history", [])
+    tbl = ""
+    if len(h) > 1:
+        tbl = ("<table class='kv three'><tr><th>When</th><th>Retail</th><th>Total</th></tr>"
+               + "".join(f"<tr><td>{html.escape(t[5:])}</td><td>{'–' if r is None else f'{r:g}×'}</td><td>{tt:g}×</td></tr>"
+                         for t, r, tt in h[-6:]) + "</table>")
+    return f"<h3>Subscription</h3>{kv(rows)}{tbl}"
 
 
 # ---------- render ----------
@@ -432,12 +513,13 @@ def lightbox(i, h, k):
             f'({bar_for(i)}% of the issue price). {html.escape(stats)}{note}</div></div></div>')
 
 
-def row(i, hist, dets, today, live=True):
+def row(i, hist, dets, subs, today, live=True):
     e = html.escape
     k = key_of(i["name"])
     h = hist.get(k, [])
     label, why = verdict(i, today)
-    a = details.analyse(i, dets.get(k), parse_end(i["dates"], today), today)
+    sub = match_sub(i["name"], subs)
+    a = details.analyse(i, dets.get(k), parse_end(i["dates"], today), today, (sub or {}).get("latest"))
     facts = [("Price band", i["price_text"] or "–"), ("Dates", i["dates"] or "–"), ("Status", i["status"] or "–")]
     if i["est_price"] is not None:
         facts.append(("Estimated listing price", f"₹{i['est_price']:g}"))
@@ -448,6 +530,7 @@ def row(i, hist, dets, today, live=True):
     tm_html = f"<br><b>{e(tm[0])}.</b> {e(tm[1])}" if tm else ""
     bar = i["price"] * bar_for(i) / 100 if i["price"] else None
     detail = (f'<div class="det"><h3>Advice</h3>{e(label)}: {e(why)}.{tm_html}'
+              f'{subscription_html(sub)}'
               f'<h3>GMP trend</h3><a class="zoom" href="#c-{k}" title="Tap to enlarge">{charts.chart(h, bar, big=False)}</a>'
               f'<span class="zoomhint">Tap the graph to enlarge it.</span>'
               f'<h3>Financial analysis</h3>{analysis_html(a)}'
@@ -456,10 +539,12 @@ def row(i, hist, dets, today, live=True):
     if live:
         chip = f'<span class="chip {cls}">{e(label)}</span>'
         gmp = "–" if i["gmp"] is None else f"₹{i['gmp']:g}"
-        meta = f'GMP {gmp} · Apply by <b>{e(apply_by(i, today))}</b>'
+        subtxt = f' · <b>{sub["latest"]["total"]:g}×</b> subscribed' if sub and sub.get("latest") else ""
+        meta = f'GMP {gmp}{subtxt} · Apply by <b>{e(apply_by(i, today))}</b>'
     else:
         chip = f'<span class="chip">Closed {e(apply_by(i, today))}</span>'
-        meta = "Last GMP " + ("–" if i["gmp"] is None else f"₹{i['gmp']:g}")
+        subtxt = f' · {sub["latest"]["total"]:g}× subscribed' if sub and sub.get("latest") else ""
+        meta = "Last GMP " + ("–" if i["gmp"] is None else f"₹{i['gmp']:g}") + subtxt
     gain = "–" if i["gain"] is None else (f"{i['gain']:+.1f}%" if round(i["gain"], 1) else "0%")
     return (f'<details class="ipo"><summary class="card"><span class="name">{e(i["name"])}</span>{chip}'
             f'<span class="gain {color(i["gain"])}">{gain}</span><span class="sp">{sparkline(h, k)}</span>'
@@ -479,16 +564,16 @@ def page(title, active, body, now, source=False):
             f'Don\'t apply: negative or under 3%; Ignore: in between or no GMP). None of this is financial advice.</p></main></body></html>')
 
 
-def render(ipos, hist, now, dets=None):
+def render(ipos, hist, now, dets=None, subs=None):
     """Main page: only IPOs you can still apply to."""
-    today, dets = now.date(), dets or {}
+    today, dets, subs = now.date(), dets or {}, subs or {}
     live = [i for i in ipos if not is_closed(i, today)]
 
     def section(title, items):
         if not items:
             return ""
         items = sorted(items, key=lambda i: -(i["gain"] if i["gain"] is not None else -1e9))
-        return f"<h2>{title} · {len(items)}</h2>" + "".join(row(i, hist, dets, today) for i in items)
+        return f"<h2>{title} · {len(items)}</h2>" + "".join(row(i, hist, dets, subs, today) for i in items)
 
     body = (broker_links(True) + '<p class="mut" style="margin:12px 0 0">Tap an IPO for its full analysis.</p>' + section("Mainboard", [i for i in live if not i["sme"]])
             + section("SME", [i for i in live if i["sme"]]))
@@ -497,13 +582,13 @@ def render(ipos, hist, now, dets=None):
     return page("IPO GMP", "live", body, now, source=True)
 
 
-def render_history(archive, hist, now, dets=None):
+def render_history(archive, hist, now, dets=None, subs=None):
     """Past IPOs page: closed ones, newest first (end date comes from the archive)."""
-    today, dets = now.date(), dets or {}
+    today, dets, subs = now.date(), dets or {}, subs or {}
     items = list(archive.values())
     if not items:
         return page("Past IPOs", "past", "<p>Nothing here yet.</p>", now)
-    rows = "".join(row(i, hist, dets, today, live=False) for i in items)
+    rows = "".join(row(i, hist, dets, subs, today, live=False) for i in items)
     body = f"<h2>Closed IPOs · {len(items)}</h2>{rows}"
     return page("Past IPOs", "past", body, now)
 
@@ -689,27 +774,30 @@ def main(argv=None):
         print("ERROR: parsed 0 IPOs; keeping the previous site untouched", file=sys.stderr)
         return 1
     now = datetime.now(IST)
-    hist = update_history(ipos, now)
-    HISTORY_FILE.parent.mkdir(exist_ok=True)
-    HISTORY_FILE.write_text(json.dumps(hist, indent=1))
     prev = json.loads(IPOS_FILE.read_text()) if IPOS_FILE.exists() else []
+    IPOS_FILE.parent.mkdir(exist_ok=True)
     IPOS_FILE.write_text(json.dumps(ipos, indent=1, ensure_ascii=False))
     archive = update_archive(ipos, now)
+    ARCHIVE_FILE.write_text(json.dumps(archive, indent=1, ensure_ascii=False))
+    dets, failed = ({}, []) if args.html else update_details(ipos, archive, now.date())
+    subs = {} if args.html else update_subscriptions(ipos, archive, now)
+    if args.html:
+        dets = json.loads(DETAILS_FILE.read_text()) if DETAILS_FILE.exists() else {}
+        subs = json.loads(SUBS_FILE.read_text()) if SUBS_FILE.exists() else {}
+    DETAILS_FILE.write_text(json.dumps(dets, indent=1, ensure_ascii=False))
+    SUBS_FILE.write_text(json.dumps(subs, indent=1, ensure_ascii=False))
+    if failed:
+        print(f"WARNING: no detail data for {len(failed)} IPO(s): {failed[:5]}", file=sys.stderr)
+    hist = merge_gmp_days(update_history(ipos, now), dets)
+    HISTORY_FILE.write_text(json.dumps(hist, indent=1))
     feed = update_news(prev, ipos, hist, now)
     NEWS_FILE.write_text(json.dumps(feed, indent=1, ensure_ascii=False))
     NEWS_PAGE.write_text(render_news(ipos, hist, archive, feed, now))
-    ARCHIVE_FILE.write_text(json.dumps(archive, indent=1, ensure_ascii=False))
-    dets, failed = ({}, []) if args.html else update_details(ipos, archive, now.date())
-    if args.html and DETAILS_FILE.exists():
-        dets = json.loads(DETAILS_FILE.read_text())
-    DETAILS_FILE.write_text(json.dumps(dets, indent=1, ensure_ascii=False))
-    if failed:
-        print(f"WARNING: no detail data for {len(failed)} IPO(s): {failed[:5]}", file=sys.stderr)
-    OUT_FILE.write_text(render(ipos, hist, now, dets))
-    HISTORY_PAGE.write_text(render_history(archive, hist, now, dets))
+    OUT_FILE.write_text(render(ipos, hist, now, dets, subs))
+    HISTORY_PAGE.write_text(render_history(archive, hist, now, dets, subs))
     print(f"wrote {OUT_FILE.name}, {HISTORY_PAGE.name}, {NEWS_PAGE.name}: {len(ipos)} IPOs, "
           f"{len(archive)} archived, {len(feed)} news items, "
-          f"details for {len(dets)} IPOs")
+          f"details for {len(dets)} IPOs, subscription for {len(subs)}")
     return 0
 
 

@@ -88,6 +88,51 @@ def matches(i, d):
     return abs(lot["amount"] / lot["shares"] - price) / price < 0.01
 
 
+def parse_gmp_days(tables, today):
+    """Day-wise GMP table on an IPO's GMP page: Date | IPO GMP | GMP Trend | Gain | Last Updated -> [(iso date, gmp, 'HH:MM')]."""
+    out = []
+    for rows in tables:
+        head = [c[0].lower() for c in rows[0]]
+        if len(head) >= 2 and head[0] == "date" and "gmp" in head[1]:
+            upd = next((i for i, h in enumerate(head) if "updated" in h), None)
+            for r in rows[1:]:
+                gmp = num(r[1][0]) if len(r) > 1 else None
+                if gmp is None:
+                    continue
+                for fmt in ("%d %B", "%d %b"):
+                    try:
+                        d = datetime.strptime(r[0][0].strip(), fmt).replace(year=today.year).date()
+                        break
+                    except ValueError:
+                        d = None
+                if d is None:
+                    continue
+                if (d - today).days > 30:                       # a December date seen in January belongs to last year
+                    d = d.replace(year=d.year - 1)
+                t = r[upd][0].strip() if upd is not None and len(r) > upd else "00:00"
+                out.append((d.isoformat(), gmp, t if re.fullmatch(r"\d{1,2}:\d{2}", t) else "00:00"))
+            break
+    return sorted(out)
+
+
+def parse_subscriptions(tables):
+    """Subscription status table: IPO | Type | Closing Date | QIB (X) | NII (X) | Retail (X) | Total (X) | Last Updated."""
+    out = []
+    for rows in tables:
+        head = [c[0].lower() for c in rows[0]]
+        if "ipo" in head[0] and any("qib" in h for h in head) and any("retail" in h for h in head):
+            col = {k: next((i for i, h in enumerate(head) if pat in h), None)
+                   for k, pat in (("type", "type"), ("closing", "clos"), ("qib", "qib"), ("nii", "nii"),
+                                  ("retail", "retail"), ("total", "total"), ("updated", "updated"))}
+            for r in rows[1:]:
+                def g(k):
+                    return r[col[k]][0] if col[k] is not None and col[k] < len(r) else ""
+                out.append({"name": r[0][0], "type": g("type"), "closing": g("closing"), "qib": num(g("qib")),
+                            "nii": num(g("nii")), "retail": num(g("retail")), "total": num(g("total")), "updated": g("updated")})
+            break
+    return out
+
+
 # ---------- analysis ----------
 def _pct(v):
     return f"{v:+.1f}%"
@@ -103,7 +148,7 @@ def _cagr(first, last, years):
     return None
 
 
-def analyse(i, d, close, today):
+def analyse(i, d, close, today, subs=None):
     """Financial read of one IPO. Returns {sections, flags, positives, quality, bottom, has_details}.
     i: parsed row (price, gmp, gain, sme, name). d: parse_tables() output or None. close: last bidding date."""
     price, gmp = i.get("price"), i.get("gmp")
@@ -146,6 +191,21 @@ def analyse(i, d, close, today):
     elif gmp is not None and price:
         out["sections"].append(("What one application means", [(
             "Lot size", "not available yet, so rupee figures per application can't be shown")]))
+
+    # --- 1b. real demand so far ---------------------------------------------------------------
+    if subs and subs.get("retail") is not None:
+        x = subs["retail"]
+        chance = 1.0 if x <= 1 else 1 / x
+        rows = [("Retail subscription so far", f"{x:g}×"),
+                ("Chance of getting a one-lot allotment", f"{chance * 100:.0f}%" + (" (undersubscribed: everyone gets a lot)" if x <= 1 else " (lottery)"))]
+        if amount and shares and gmp is not None:
+            rows.append(("Expected profit per application at today's GMP", f"{'+' if gmp >= 0 else '−'}{_inr(abs(shares * gmp * chance))}"))
+        rows.append(("Note", "demand usually builds on the last day, so these odds will move"))
+        out["sections"].insert(1 if out["sections"] else 0, ("Allotment odds (live subscription)", rows))
+        if subs.get("total") is not None and subs["total"] >= 10:
+            pos.append(f"Strong demand: {subs['total']:g}× subscribed overall (retail {x:g}×).")
+        elif subs.get("total") is not None and subs["total"] < 1 and close and (close - today).days <= 0:
+            flags.append(f"Last day and the issue is not fully subscribed yet ({subs['total']:g}×).")
 
     # --- 2. valuation ---------------------------------------------------------------------------
     kpi = d.get("kpi", {})

@@ -25,9 +25,16 @@ LIST = ("<h2>Mainboard</h2><table><tr><th>IPO Name</th><th>IPO GMP*</th><th>Tren
         "<tr><td>Done Co</td><td>₹2</td><td>🟢</td><td>₹50</td><td>₹52 (4%)</td><td>20-22 Dec</td><td>Closed</td></tr></table>")
 
 
+SUBS_PAGE = ("<table><tr><th>IPO</th><th>Type</th><th>Closing Date</th><th>QIB (X)</th><th>NII (X)</th><th>Retail (X)</th>"
+             "<th>Total (X)</th><th>Last Updated</th></tr><tr><td>Live Co</td><td>Mainboard</td><td>December 31, 2026</td>"
+             "<td>1.5</td><td>2.5</td><td>3.5</td><td>4.5</td><td>17:41</td></tr></table>")
+
+
 def fake_fetch(url=build.SOURCE):
     if url == build.SOURCE:
         return LIST
+    if url == build.SUBS_URL:
+        return SUBS_PAGE
     if url.endswith("/live"):
         return as_html(SRIT)
     raise OSError("boom")                                     # one detail page failing must not break the build
@@ -35,7 +42,7 @@ def fake_fetch(url=build.SOURCE):
 
 def test_main_end_to_end(tmp_path, monkeypatch):
     for name, f in dict(HISTORY_FILE="h.json", IPOS_FILE="i.json", ARCHIVE_FILE="a.json", NEWS_FILE="n.json",
-                        DETAILS_FILE="d.json", OUT_FILE="index.html", HISTORY_PAGE="history.html", NEWS_PAGE="news.html").items():
+                        DETAILS_FILE="d.json", SUBS_FILE="s.json", OUT_FILE="index.html", HISTORY_PAGE="history.html", NEWS_PAGE="news.html").items():
         monkeypatch.setattr(build, name, tmp_path / f)
     monkeypatch.setattr(build, "fetch", fake_fetch)
     monkeypatch.setattr(build.time, "sleep", lambda s: None)
@@ -46,6 +53,9 @@ def test_main_end_to_end(tmp_path, monkeypatch):
     dets = json.loads((tmp_path / "d.json").read_text())
     assert "wrongpageco" not in dets                                            # page of another IPO (lot value != price)
     assert "liveco" in dets and "brokenpageco" not in dets                      # failed page skipped, build survived
+    assert "4.5×</b> subscribed" in index and "Retail subscription so far" in index        # subscription fetched and used
+    subs = json.loads((tmp_path / "s.json").read_text())
+    assert subs["liveco"]["latest"]["retail"] == 3.5
     assert "News" in news and "<script" not in index + hist + news
     assert (index + hist + news).count("IPO Watch") == 1
     assert build.main([]) == 0                                                  # a second run (with history) also works

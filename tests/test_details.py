@@ -101,3 +101,41 @@ def test_wording_and_quality():
     v = dict(next(s for s in details.analyse(dict(name="S", price=130.0, gmp=31.0, gain=23.85, sme=False), d, date(2026, 9, 30),
                                              date(2026, 9, 29))["sections"] if s[0] == "Valuation")[1])
     assert "Listed peer's P/E" in v and v["Listed peer's P/E"].endswith("(1 peer)")
+
+
+# Shapes copied from the live probe of IPO Watch's subscription page and a GMP page.
+SUBS = [T(["IPO", "Type", "Closing Date", "QIB (X)", "NII (X)", "Retail (X)", "Total (X)", "Last Updated"],
+          ["Fusion CX", "Mainboard", "October 16, 2026", "0.00", "0.48", "1.64", "0.43", "17:41"],
+          ["Ravita Engineering", "SME", "October 16, 2026", "1.05", "1.69", "0.95", "1.14", "17:41"],
+          ["HD Fire Protect", "Mainboard", "October 15, 2026", "1.49", "48.74", "11.39", "16.53", "17:41"])]
+GMPDAYS = [T(["Date", "IPO GMP", "GMP Trend", "Gain", "Last Updated"], ["14 October", "₹-", "🟡", "-%", "17:06"],
+             ["13 October", "₹5", "🟢", "4.50%", "17:29"], ["12 October", "₹3", "🟢", "2.70%", "18:02"])]
+
+
+def test_parse_subscriptions():
+    rows = details.parse_subscriptions(SUBS)
+    assert [r["name"] for r in rows] == ["Fusion CX", "Ravita Engineering", "HD Fire Protect"]
+    hd = rows[2]
+    assert (hd["qib"], hd["nii"], hd["retail"], hd["total"], hd["updated"]) == (1.49, 48.74, 11.39, 16.53, "17:41")
+    assert details.parse_subscriptions(SRIT) == []                       # other tables are ignored
+
+
+def test_parse_gmp_days_skips_blank_days_and_sorts():
+    days = details.parse_gmp_days(GMPDAYS, date(2026, 10, 14))
+    assert days == [("2026-10-12", 3.0, "18:02"), ("2026-10-13", 5.0, "17:29")]      # "₹-" day dropped
+    dec = details.parse_gmp_days([T(["Date", "IPO GMP", "x", "y", "Last Updated"], ["30 December", "₹9", "", "", "10:00"])], date(2027, 1, 2))
+    assert dec == [("2026-12-30", 9.0, "10:00")]                                       # December seen in January = last year
+
+
+def test_live_subscription_drives_allotment_odds():
+    d = details.parse_tables(SRIT)
+    i = dict(name="S", price=130.0, gmp=31.0, gain=23.85, sme=False)
+    a = details.analyse(i, d, date(2026, 9, 30), date(2026, 9, 29), {"retail": 4.0, "total": 12.5, "qib": 1, "nii": 1})
+    sec = dict(next(s for s in a["sections"] if s[0].startswith("Allotment odds (live"))[1])
+    assert sec["Retail subscription so far"] == "4×" and sec["Chance of getting a one-lot allotment"].startswith("25%")
+    assert sec["Expected profit per application at today's GMP"] == "+₹891"           # 115 × 31 × 25%
+    assert any("Strong demand" in p for p in a["positives"])
+    under = details.analyse(i, d, date(2026, 9, 30), date(2026, 9, 29), {"retail": 0.5, "total": 0.6})
+    assert dict(next(s for s in under["sections"] if s[0].startswith("Allotment odds (live"))[1])["Chance of getting a one-lot allotment"].startswith("100%")
+    last_day = details.analyse(i, d, date(2026, 9, 30), date(2026, 9, 30), {"retail": 0.5, "total": 0.6})
+    assert any("not fully subscribed" in f for f in last_day["flags"])
