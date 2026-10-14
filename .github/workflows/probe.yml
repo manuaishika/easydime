@@ -11,7 +11,7 @@ jobs:
           python - <<'PY'
           import json, re, build
           d = json.load(open("data/ipos.json"))
-          i = next(x for x in d if x["url"] and x["status"] == "Open")
+          i = next(x for x in d if x["url"])
           html = build.fetch(i["url"])
           links = sorted({(re.sub(r"<[^>]+>|\s+", " ", t).strip(), h) for h, t in re.findall(r'<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>', html, re.S)
                           if re.search(r"subscri", t + h, re.I)})
