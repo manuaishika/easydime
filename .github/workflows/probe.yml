@@ -1,0 +1,31 @@
+name: Probe subscription pages (temporary)
+on:
+  push:
+    paths: [.github/workflows/probe.yml]
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python - <<'PY'
+          import json, re, build
+          d = json.load(open("data/ipos.json"))
+          i = next(x for x in d if x["url"] and x["status"] == "Open")
+          html = build.fetch(i["url"])
+          links = sorted({(re.sub(r"<[^>]+>|\s+", " ", t).strip(), h) for h, t in re.findall(r'<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>', html, re.S)
+                          if re.search(r"subscri", t + h, re.I)})
+          print("subscription links on", i["name"], "page:"); [print("  ", l) for l in links[:15]]
+          for text, href in links[:4]:
+              if not href.startswith("http"): continue
+              print("=" * 70); print("FETCH", href)
+              try:
+                  page = build.fetch(href)
+              except Exception as e:
+                  print("  failed:", e); continue
+              tables, _ = build.parse(page)
+              print("bytes", len(page), "tables", len(tables))
+              for n, t in enumerate(tables[:6]):
+                  print(f"-- table {n}: {len(t)} rows")
+                  for r in t[:8]: print("    ", [c[0][:28] for c in r])
+          PY
