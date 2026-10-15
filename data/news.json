@@ -1,5 +1,45 @@
 [
  {
+  "t": "2026-10-15 19:05",
+  "kind": "move",
+  "text": "Paras Healthcare: GMP rising, +12.26% to +16.59% (₹85 to ₹115)."
+ },
+ {
+  "t": "2026-10-15 19:05",
+  "kind": "move",
+  "text": "Bonfiglioli Transmissions: GMP falling, +30.71% to +27.3% (₹180 to ₹160)."
+ },
+ {
+  "t": "2026-10-15 19:05",
+  "kind": "move",
+  "text": "Zetwerk: GMP falling, +15.23% to +9.93% (₹23 to ₹15)."
+ },
+ {
+  "t": "2026-10-15 19:05",
+  "kind": "verdict",
+  "text": "Zetwerk: verdict changed from Apply to Ignore (+9.93%)."
+ },
+ {
+  "t": "2026-10-15 19:05",
+  "kind": "move",
+  "text": "Fusion CX: GMP falling, +11.76% to +6.92% (₹34 to ₹20)."
+ },
+ {
+  "t": "2026-10-15 19:05",
+  "kind": "verdict",
+  "text": "Fusion CX: verdict changed from Apply to Ignore (+6.92%)."
+ },
+ {
+  "t": "2026-10-15 19:05",
+  "kind": "move",
+  "text": "Ravita Engineering: GMP falling, +6.25% to +1.79% (₹7 to ₹2)."
+ },
+ {
+  "t": "2026-10-15 19:05",
+  "kind": "verdict",
+  "text": "Ravita Engineering: verdict changed from Ignore to Don't apply (+1.79%)."
+ },
+ {
   "t": "2026-10-15 13:09",
   "kind": "move",
   "text": "Paras Healthcare: GMP rising, 0% to +12.26% (₹75 to ₹85)."
