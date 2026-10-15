@@ -1,5 +1,30 @@
 [
  {
+  "t": "2026-10-15 13:09",
+  "kind": "move",
+  "text": "Paras Healthcare: GMP rising, 0% to +12.26% (₹75 to ₹85)."
+ },
+ {
+  "t": "2026-10-15 13:09",
+  "kind": "verdict",
+  "text": "Paras Healthcare: verdict changed from Don't apply to Apply (+12.26%)."
+ },
+ {
+  "t": "2026-10-15 13:09",
+  "kind": "last-day",
+  "text": "Last day to apply: HD Fire Protect. Verdict: Apply."
+ },
+ {
+  "t": "2026-10-15 13:09",
+  "kind": "move",
+  "text": "Ravita Engineering: GMP rising, +1.79% to +6.25% (₹2 to ₹7)."
+ },
+ {
+  "t": "2026-10-15 13:09",
+  "kind": "verdict",
+  "text": "Ravita Engineering: verdict changed from Don't apply to Ignore (+6.25%)."
+ },
+ {
   "t": "2026-10-14 23:46",
   "kind": "new",
   "text": "New on the list: Jio Platforms (Mainboard), GMP ₹200 (+17.87%), apply by 23 Oct · 9d. Verdict: Apply."
