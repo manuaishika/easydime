@@ -185,7 +185,7 @@ def test_fetch_retries_a_network_blip(monkeypatch):
 
     monkeypatch.setattr(build.urllib.request, "urlopen", flaky)
     monkeypatch.setattr(build.time, "sleep", lambda s: None)
-    assert build.fetch("https://x.test") == "ok" and len(calls) == 3
+    assert build.fetch("https://x.test", attempts=3) == "ok" and len(calls) == 3
 
 
 def test_detail_page_url_mapping():
@@ -234,3 +234,79 @@ def test_subscription_is_shown_on_the_card_and_in_details():
     assert "<h3>Subscription</h3>" in out and "48.74×" in out and "11.39×" in out   # in the details
     blank = build.render([_rec(dates="14-16 Oct")], {}, now, {}, {})
     assert "× subscribed" not in blank and "<h3>Subscription</h3>" not in blank              # nothing invented when unknown
+
+
+def _http_error(code):
+    return build.urllib.error.HTTPError("https://x.test", code, "err", {}, None)
+
+
+def test_fetch_does_not_retry_404_but_retries_503(monkeypatch):
+    monkeypatch.setattr(build.time, "sleep", lambda s: None)
+    calls = []
+    monkeypatch.setattr(build.urllib.request, "urlopen", lambda req, timeout: calls.append(1) or (_ for _ in ()).throw(_http_error(404)))
+    try:
+        build.fetch("https://x.test", attempts=3)
+        assert False, "should have raised"
+    except build.urllib.error.HTTPError as ex:
+        assert ex.code == 404 and len(calls) == 1                   # gave up straight away
+
+    calls.clear()
+    monkeypatch.setattr(build.urllib.request, "urlopen", lambda req, timeout: calls.append(1) or (_ for _ in ()).throw(_http_error(503)))
+    try:
+        build.fetch("https://x.test", attempts=2)
+    except build.urllib.error.HTTPError:
+        pass
+    assert len(calls) == 2                                           # server errors are retried
+
+
+GOOD = {"lot": {"lots": 1.0, "shares": 115.0, "amount": 14950.0}, "kpi": {"eps": 9.47}, "gmp_days": [["2026-10-12", 3.0, "18:02"]]}
+PAGE_OK = ("<table><tr><td>Application</td><td>Lot Size</td><td>Shares</td><td>Amount</td></tr>"
+           "<tr><td>Retail Minimum</td><td>1</td><td>115</td><td>₹14,950</td></tr></table>")
+
+
+def _store(tmp_path, monkeypatch, content):
+    monkeypatch.setattr(build, "DETAILS_FILE", tmp_path / "d.json")
+    if content is not None:
+        (tmp_path / "d.json").write_text(__import__("json").dumps(content))
+
+
+def test_failed_pages_never_wipe_previous_good_details(tmp_path, monkeypatch):
+    _store(tmp_path, monkeypatch, {"acmeltd": GOOD})
+    ipo = _rec(price=130.0, dates="14-31 Dec", url="https://ipowatch.in/acme-ipo-gmp-grey-market-premium/")
+
+    def detail_down(url):                                           # detail page times out, GMP page loads fine
+        if url.endswith("/acme-ipo/"):
+            raise TimeoutError("handshake timed out")
+        return "<table><tr><th>Date</th><th>IPO GMP</th><th>x</th><th>y</th><th>Last Updated</th></tr>" \
+               "<tr><td>13 October</td><td>₹5</td><td></td><td></td><td>17:29</td></tr></table>"
+
+    dets, failed = build.update_details([ipo], {}, date(2026, 10, 14), fetch_page=detail_down)
+    assert dets["acmeltd"]["lot"] == GOOD["lot"] and dets["acmeltd"]["kpi"] == {"eps": 9.47}   # company data kept
+    assert [tuple(r) for r in dets["acmeltd"]["gmp_days"]] == [("2026-10-13", 5.0, "17:29")]   # GMP history refreshed
+    assert failed and "detail page" in failed[0]                                            # and the problem is reported
+
+    def everything_down(url):
+        raise TimeoutError("down")
+    dets, failed = build.update_details([ipo], {}, date(2026, 10, 14), fetch_page=everything_down)
+    assert dets["acmeltd"]["lot"] == GOOD["lot"] and dets["acmeltd"]["gmp_days"][0][0] == "2026-10-12"   # all old data intact
+
+
+def test_time_budget_stops_fetching_and_keeps_old_copy(tmp_path, monkeypatch):
+    _store(tmp_path, monkeypatch, {"acmeltd": GOOD})
+    fetched = []
+    dets, failed = build.update_details([_rec(price=130.0, dates="14-31 Dec", url="https://ipowatch.in/acme-ipo/")], {}, date(2026, 10, 14),
+                                        fetch_page=lambda u: fetched.append(u) or PAGE_OK, budget=-1)
+    assert fetched == [] and dets["acmeltd"] == GOOD and "time budget" in failed[0]
+
+
+def test_parallel_fetch_gives_each_ipo_its_own_page(tmp_path, monkeypatch):
+    _store(tmp_path, monkeypatch, None)
+    def page_for(price, shares):
+        return ("<table><tr><td>Application</td><td>Lot Size</td><td>Shares</td><td>Amount</td></tr>"
+                f"<tr><td>Retail Minimum</td><td>1</td><td>{shares}</td><td>₹{price * shares:,}</td></tr></table>")
+    names = [f"Co{n}" for n in range(9)]
+    ipos = [_rec(name=n, price=float(100 + k), dates="14-31 Dec", url=f"https://ipowatch.in/{n.lower()}-ipo/") for k, n in enumerate(names)]
+    pages = {f"https://ipowatch.in/{n.lower()}-ipo/": page_for(100 + k, 50) for k, n in enumerate(names)}
+    dets, failed = build.update_details(ipos, {}, date(2026, 10, 14), fetch_page=lambda u: pages[u])
+    assert failed == [] and len(dets) == 9
+    assert all(dets[f"co{k}"]["lot"]["amount"] == (100 + k) * 50 for k in range(9))        # nothing mixed up between threads

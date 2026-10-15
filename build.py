@@ -6,6 +6,7 @@ Usage:
     python build.py --html F   # parse a saved HTML file instead of fetching
 """
 import argparse
+import concurrent.futures
 import html
 import json
 import re
@@ -40,20 +41,25 @@ MAX_ARCHIVE = 200
 
 
 # ---------- fetch ----------
-def fetch(url=SOURCE, attempts=3):
-    """GET a page. Network blips (e.g. a TLS handshake timeout) are retried with a short backoff."""
+def fetch(url=SOURCE, attempts=2, timeout=20):
+    """GET a page. Network blips (a TLS handshake timeout, a 5xx) are retried briefly; a 4xx such as 404 is not."""
     req = urllib.request.Request(
         url, headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
                       "Accept": "text/html"})
     for n in range(attempts):
         try:
-            with urllib.request.urlopen(req, timeout=30) as r:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
                 return r.read().decode("utf-8", "replace")
+        except urllib.error.HTTPError as ex:
+            if ex.code < 500 and ex.code != 429:
+                raise                                  # 404 etc: retrying will not help
+            err = ex
         except (urllib.error.URLError, TimeoutError, ConnectionError) as ex:
-            if n == attempts - 1:
-                raise
-            print(f"fetch retry {n + 1} for {url}: {ex}", file=sys.stderr)
-            time.sleep(3 * (n + 1))
+            err = ex
+        if n == attempts - 1:
+            raise err
+        print(f"fetch retry {n + 1} for {url}: {err}", file=sys.stderr)
+        time.sleep(2 * (n + 1))
 
 
 # ---------- parse ----------
@@ -260,33 +266,59 @@ def detail_url(url):
     return m.group(1) + "/" if m else url
 
 
-def update_details(ipos, archive, today, fetch_page=None, pause=0.4):
+DETAIL_BUDGET = 240      # seconds for all optional per-IPO pages together; whatever is left undone keeps its previous copy
+DETAIL_WORKERS = 4
+
+
+def _fetch_ipo_pages(i, fetch_page, deadline):
+    """Fetch an IPO's detail page and GMP page. Never raises; reports what happened per page."""
+    def get(url):
+        if time.monotonic() > deadline:
+            raise TimeoutError("time budget used up")
+        return parse(fetch_page(url))[0]
+
+    res = {"detail": None, "gmp": None, "errors": []}
+    durl = detail_url(i["url"])
+    try:
+        res["detail"] = get(durl)
+    except Exception as ex:
+        res["errors"].append(f"detail page: {ex}")
+    if durl == i["url"]:
+        res["gmp"] = res["detail"]
+    else:
+        try:
+            res["gmp"] = get(i["url"])
+        except Exception as ex:
+            res["errors"].append(f"GMP page: {ex}")
+    return res
+
+
+def update_details(ipos, archive, today, fetch_page=None, budget=DETAIL_BUDGET):
     """Per open IPO: company details (lot size, financials, peers...) from its detail page, and the day-wise GMP
-    table from its GMP page. Failures keep the previous copy."""
+    table from its GMP page. A page that fails keeps the previous copy of what it provides, never an empty one."""
     fetch_page = fetch_page or fetch
     store = json.loads(DETAILS_FILE.read_text()) if DETAILS_FILE.exists() else {}
+    deadline = time.monotonic() + budget
+    todo = [i for i in ipos if not is_closed(i, today) and i["url"]]
+    with concurrent.futures.ThreadPoolExecutor(max_workers=DETAIL_WORKERS) as pool:
+        results = list(pool.map(lambda i: _fetch_ipo_pages(i, fetch_page, deadline), todo))
     failed = []
-    for i in ipos:
-        if is_closed(i, today) or not i["url"]:
-            continue
-        try:
-            try:
-                dtables, _ = parse(fetch_page(detail_url(i["url"])))
-            except Exception:                                      # no separate detail page: fall back to the linked one
-                dtables = []
-            gtables, _ = parse(fetch_page(i["url"])) if detail_url(i["url"]) != i["url"] or not dtables else (dtables, None)
-            d = details.parse_tables(dtables or gtables)
-            d["gmp_days"] = details.parse_gmp_days(gtables, today)
-            if not details.matches(i, d):                          # the page belongs to a different IPO
-                store.pop(key_of(i["name"]), None)
-                failed.append(f"{i['name']} (linked page is for another IPO)")
-            elif d.get("lot") or d.get("financials") or d.get("kpi") or d["gmp_days"]:
-                store[key_of(i["name"])] = d
-            else:
-                failed.append(i["name"])
-        except Exception as ex:                                    # one bad page must not break the build
-            failed.append(f"{i['name']} ({ex})")
-        time.sleep(pause)
+    for i, res in zip(todo, results):
+        k = key_of(i["name"])
+        d = dict(store.get(k, {}))                                  # start from the last good copy
+        if res["detail"] is not None:
+            d.update(details.parse_tables(res["detail"]))
+        if res["gmp"] is not None:
+            d["gmp_days"] = details.parse_gmp_days(res["gmp"], today)
+        if res["errors"]:
+            failed.append(f"{i['name']} ({'; '.join(res['errors'])[:90]})")
+        if d and not details.matches(i, d):                         # the page belongs to a different IPO
+            store.pop(k, None)
+            failed.append(f"{i['name']} (linked page is for another IPO)")
+        elif d.get("lot") or d.get("financials") or d.get("kpi") or d.get("gmp_days"):
+            store[k] = d
+        elif not res["errors"]:
+            failed.append(i["name"])
     keep = {key_of(i["name"]) for i in ipos} | set(archive)
     return {k: v for k, v in store.items() if k in keep}, failed
 
@@ -755,7 +787,7 @@ def main(argv=None):
     ap.add_argument("--html", help="parse this saved HTML file instead of fetching")
     args = ap.parse_args(argv)
 
-    page = Path(args.html).read_text() if args.html else fetch()
+    page = Path(args.html).read_text() if args.html else fetch(attempts=3)
     tables, ipos = parse(page)
     if args.debug:
         pp = TableParser()
@@ -773,14 +805,15 @@ def main(argv=None):
     if not ipos:
         print("ERROR: parsed 0 IPOs; keeping the previous site untouched", file=sys.stderr)
         return 1
+    print(f"list page: {len(ipos)} IPOs in {len(tables)} tables; first header = {[c[0] for c in tables[0][0]] if tables else None}")
     now = datetime.now(IST)
     prev = json.loads(IPOS_FILE.read_text()) if IPOS_FILE.exists() else []
     IPOS_FILE.parent.mkdir(exist_ok=True)
     IPOS_FILE.write_text(json.dumps(ipos, indent=1, ensure_ascii=False))
     archive = update_archive(ipos, now)
     ARCHIVE_FILE.write_text(json.dumps(archive, indent=1, ensure_ascii=False))
+    subs = {} if args.html else update_subscriptions(ipos, archive, now)      # first: small, and the most useful
     dets, failed = ({}, []) if args.html else update_details(ipos, archive, now.date())
-    subs = {} if args.html else update_subscriptions(ipos, archive, now)
     if args.html:
         dets = json.loads(DETAILS_FILE.read_text()) if DETAILS_FILE.exists() else {}
         subs = json.loads(SUBS_FILE.read_text()) if SUBS_FILE.exists() else {}

@@ -30,7 +30,7 @@ SUBS_PAGE = ("<table><tr><th>IPO</th><th>Type</th><th>Closing Date</th><th>QIB (
              "<td>1.5</td><td>2.5</td><td>3.5</td><td>4.5</td><td>17:41</td></tr></table>")
 
 
-def fake_fetch(url=build.SOURCE):
+def fake_fetch(url=build.SOURCE, **kw):
     if url == build.SOURCE:
         return LIST
     if url == build.SUBS_URL:
