@@ -10,14 +10,19 @@
     "2026-10-15 19:05",
     3.92,
     1.16
+   ],
+   [
+    "2026-10-16 12:54",
+    4.9,
+    1.55
    ]
   ],
   "latest": {
    "qib": 0.05,
-   "nii": 1.53,
-   "retail": 3.92,
-   "total": 1.16,
-   "updated": "18:11",
+   "nii": 2.34,
+   "retail": 4.9,
+   "total": 1.55,
+   "updated": "12:43",
    "closing": "October 16, 2026",
    "type": "Mainboard"
   }
@@ -33,61 +38,20 @@
     "2026-10-15 19:05",
     1.53,
     1.7
+   ],
+   [
+    "2026-10-16 12:54",
+    1.94,
+    2.26
    ]
   ],
   "latest": {
-   "qib": 1.33,
-   "nii": 2.57,
-   "retail": 1.53,
-   "total": 1.7,
-   "updated": "18:11",
+   "qib": 1.43,
+   "nii": 4.09,
+   "retail": 1.94,
+   "total": 2.26,
+   "updated": "12:43",
    "closing": "October 16, 2026",
-   "type": "SME"
-  }
- },
- "hdfireprotect": {
-  "history": [
-   [
-    "2026-10-14 23:50",
-    11.39,
-    16.53
-   ],
-   [
-    "2026-10-15 19:05",
-    30.55,
-    131.73
-   ]
-  ],
-  "latest": {
-   "qib": 256.65,
-   "nii": 203.21,
-   "retail": 30.55,
-   "total": 131.73,
-   "updated": "18:11",
-   "closing": "October 15, 2026",
-   "type": "Mainboard"
-  }
- },
- "vaibhavvyapaar": {
-  "history": [
-   [
-    "2026-10-14 23:50",
-    0.59,
-    0.38
-   ],
-   [
-    "2026-10-15 19:05",
-    2.7,
-    3.23
-   ]
-  ],
-  "latest": {
-   "qib": 1.61,
-   "nii": 6.65,
-   "retail": 2.7,
-   "total": 3.23,
-   "updated": "18:11",
-   "closing": "October 15, 2026",
    "type": "SME"
   }
  },
@@ -853,14 +817,19 @@
     "2026-10-15 19:05",
     0.58,
     0.48
+   ],
+   [
+    "2026-10-16 12:54",
+    0.85,
+    0.7
    ]
   ],
   "latest": {
    "qib": 0.08,
-   "nii": 0.78,
-   "retail": 0.58,
-   "total": 0.48,
-   "updated": "18:11",
+   "nii": 1.15,
+   "retail": 0.85,
+   "total": 0.7,
+   "updated": "12:43",
    "closing": "October 19, 2026",
    "type": "Mainboard"
   }
@@ -871,14 +840,19 @@
     "2026-10-15 19:05",
     3.21,
     4.01
+   ],
+   [
+    "2026-10-16 12:54",
+    5.24,
+    5.82
    ]
   ],
   "latest": {
-   "qib": 3.92,
-   "nii": 5.96,
-   "retail": 3.21,
-   "total": 4.01,
-   "updated": "18:11",
+   "qib": 3.93,
+   "nii": 9.65,
+   "retail": 5.24,
+   "total": 5.82,
+   "updated": "12:43",
    "closing": "October 19, 2026",
    "type": "Mainboard"
   }
@@ -889,14 +863,19 @@
     "2026-10-15 19:05",
     0.23,
     0.23
+   ],
+   [
+    "2026-10-16 12:54",
+    0.31,
+    0.25
    ]
   ],
   "latest": {
    "qib": 0.3,
-   "nii": 0.09,
-   "retail": 0.23,
-   "total": 0.23,
-   "updated": "18:11",
+   "nii": 0.12,
+   "retail": 0.31,
+   "total": 0.25,
+   "updated": "12:43",
    "closing": "October 19, 2026",
    "type": "Mainboard"
   }
@@ -907,14 +886,19 @@
     "2026-10-15 19:05",
     0.41,
     0.35
+   ],
+   [
+    "2026-10-16 12:54",
+    0.62,
+    0.48
    ]
   ],
   "latest": {
    "qib": 0.37,
-   "nii": 0.2,
-   "retail": 0.41,
-   "total": 0.35,
-   "updated": "18:11",
+   "nii": 0.34,
+   "retail": 0.62,
+   "total": 0.48,
+   "updated": "12:43",
    "closing": "October 19, 2026",
    "type": "Mainboard"
   }
@@ -925,15 +909,56 @@
     "2026-10-15 19:05",
     0.65,
     0.76
+   ],
+   [
+    "2026-10-16 12:54",
+    0.72,
+    0.75
    ]
   ],
   "latest": {
    "qib": 0.0,
-   "nii": 2.03,
-   "retail": 0.65,
-   "total": 0.76,
-   "updated": "18:11",
+   "nii": 1.84,
+   "retail": 0.72,
+   "total": 0.75,
+   "updated": "12:43",
    "closing": "October 19, 2026",
+   "type": "SME"
+  }
+ },
+ "hdfireprotectc": {
+  "history": [
+   [
+    "2026-10-16 12:54",
+    30.55,
+    131.73
+   ]
+  ],
+  "latest": {
+   "qib": 256.65,
+   "nii": 203.21,
+   "retail": 30.55,
+   "total": 131.73,
+   "updated": "18:11",
+   "closing": "October 15, 2026",
+   "type": "Mainboard"
+  }
+ },
+ "vaibhavvyapaarc": {
+  "history": [
+   [
+    "2026-10-16 12:54",
+    2.7,
+    3.23
+   ]
+  ],
+  "latest": {
+   "qib": 1.61,
+   "nii": 6.65,
+   "retail": 2.7,
+   "total": 3.23,
+   "updated": "18:11",
+   "closing": "October 15, 2026",
    "type": "SME"
   }
  }

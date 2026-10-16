@@ -1526,16 +1526,23 @@
     "expense": 109406.0,
     "pat": 30052.7,
     "assets": 615594.0
+   },
+   {
+    "period": "June 2026",
+    "revenue": 40197.9,
+    "expense": 29770.8,
+    "pat": 7764.1,
+    "assets": 622905.3
    }
   ],
   "peers": [
    {
     "name": "Bharti Airtel Limited",
-    "pe": 42.27
+    "pe": 40.71
    },
    {
     "name": "Vodafone Idea Limited",
-    "pe": 4.65
+    "pe": 3.99
    }
   ],
   "kpi": {
@@ -1629,6 +1636,11 @@
     "2026-10-15",
     230.0,
     "17:55"
+   ],
+   [
+    "2026-10-16",
+    225.0,
+    "12:00"
    ]
   ]
  },
@@ -1669,31 +1681,31 @@
   "financials": [
    {
     "period": "2024",
-    "revenue": 1151.0,
-    "expense": 1144.0,
+    "revenue": 1151.02,
+    "expense": 1144.39,
     "pat": 15.33,
-    "assets": 1477.0
+    "assets": 14776.58
    },
    {
     "period": "2025",
-    "revenue": 1314.0,
-    "expense": 1364.0,
-    "pat": 57.98,
-    "assets": 1810.0
+    "revenue": 1314.21,
+    "expense": 1364.24,
+    "pat": 57.99,
+    "assets": 18104.51
    },
    {
     "period": "2026",
-    "revenue": 1629.0,
-    "expense": 1553.0,
+    "revenue": 1628.79,
+    "expense": 1552.75,
     "pat": 43.83,
-    "assets": 2071.0
+    "assets": 20711.41
    },
    {
     "period": "Jun 2026",
-    "revenue": 479.0,
-    "expense": 431.0,
+    "revenue": 478.75,
+    "expense": 430.63,
     "pat": 49.68,
-    "assets": 2203.0
+    "assets": 22028.78
    }
   ],
   "peers": [
@@ -1766,6 +1778,11 @@
     "2026-10-15",
     115.0,
     "17:55"
+   ],
+   [
+    "2026-10-16",
+    90.0,
+    "12:00"
    ]
   ]
  },
@@ -1906,6 +1923,11 @@
     "2026-10-15",
     160.0,
     "17:55"
+   ],
+   [
+    "2026-10-16",
+    125.0,
+    "12:00"
    ]
   ]
  },
@@ -1947,6 +1969,11 @@
     "2026-10-15",
     500.0,
     "17:05"
+   ],
+   [
+    "2026-10-16",
+    500.0,
+    "12:00"
    ]
   ]
  },
@@ -2065,6 +2092,11 @@
     "2026-10-15",
     15.0,
     "17:55"
+   ],
+   [
+    "2026-10-16",
+    11.0,
+    "12:00"
    ]
   ]
  },
@@ -2192,6 +2224,11 @@
     "2026-10-15",
     45.0,
     "17:55"
+   ],
+   [
+    "2026-10-16",
+    40.0,
+    "12:00"
    ]
   ]
  },
@@ -2346,151 +2383,11 @@
     "2026-10-15",
     20.0,
     "18:00"
-   ]
-  ]
- },
- "hdfireprotect": {
-  "lot": {
-   "lots": 1.0,
-   "shares": 55.0,
-   "amount": 14905.0
-  },
-  "categories": {
-   "anchor": {
-    "shares": null,
-    "pct": 50.0
-   },
-   "nii": {
-    "shares": null,
-    "pct": 15.0
-   },
-   "retail": {
-    "shares": null,
-    "pct": 35.0
-   }
-  },
-  "promoter": {
-   "pre": 100.0,
-   "post": 86.96
-  },
-  "financials": [
-   {
-    "period": "2024",
-    "revenue": 392.02,
-    "expense": 275.67,
-    "pat": 87.92,
-    "assets": 392.63
-   },
-   {
-    "period": "2025",
-    "revenue": 450.68,
-    "expense": 303.96,
-    "pat": 109.55,
-    "assets": 4500.82
-   },
-   {
-    "period": "2026",
-    "revenue": 505.12,
-    "expense": 349.14,
-    "pat": 116.79,
-    "assets": 432.03
-   },
-   {
-    "period": "June 2026",
-    "revenue": 114.07,
-    "expense": 81.56,
-    "pat": 23.87,
-    "assets": 477.6
-   }
-  ],
-  "peers": [
-   {
-    "name": "Azad Engineering Limited",
-    "pe": 145.65
-   },
-   {
-    "name": "KSB Limited",
-    "pe": 55.68
-   },
-   {
-    "name": "Kirloskar Pneumatic Company Limited",
-    "pe": 17.18
-   },
-   {
-    "name": "Elgi Equipment Limited",
-    "pe": 44.7
-   },
-   {
-    "name": "Ingersoll-Rand (India) Limited",
-    "pe": 51.39
-   }
-  ],
-  "kpi": {
-   "roe": 30.17,
-   "roce": 40.33,
-   "ebitda_margin": 30.75,
-   "pat_margin": 23.12,
-   "de": null,
-   "eps": 6.66,
-   "ronw": 31.07,
-   "nav": 21.45
-  },
-  "issue": {
-   "issue size": "Approx ₹712.31 Crores",
-   "offer for sale": "Approx 2,62,84,500 Equity Shares",
-   "issue type": "Book build Issue",
-   "ipo listing": "BSE, NSE"
-  },
-  "dates": {
-   "allotment": "2026-10-16",
-   "refund": "2026-10-19",
-   "listing": "2026-10-20"
-  },
-  "gmp_days": [
-   [
-    "2026-10-07",
-    60.0,
-    "16:20"
    ],
    [
-    "2026-10-08",
-    55.0,
-    "17:09"
-   ],
-   [
-    "2026-10-09",
-    75.0,
-    "16:00"
-   ],
-   [
-    "2026-10-10",
-    75.0,
-    "17:41"
-   ],
-   [
-    "2026-10-11",
-    85.0,
-    "17:00"
-   ],
-   [
-    "2026-10-12",
-    75.0,
-    "17:24"
-   ],
-   [
-    "2026-10-13",
-    86.0,
-    "17:28"
-   ],
-   [
-    "2026-10-14",
-    91.0,
-    "17:07"
-   ],
-   [
-    "2026-10-15",
-    85.0,
-    "18:00"
+    "2026-10-16",
+    20.0,
+    "12:00"
    ]
   ]
  },
@@ -2712,105 +2609,12 @@
     "2026-10-15",
     2.0,
     "18:00"
+   ],
+   [
+    "2026-10-16",
+    2.0,
+    "12:00"
    ]
   ]
- },
- "vaibhavvyapaar": {
-  "lot": {
-   "lots": 2.0,
-   "shares": 4000.0,
-   "amount": 208000.0
-  },
-  "categories": {
-   "anchor": {
-    "shares": null,
-    "pct": 50.0
-   },
-   "nii": {
-    "shares": null,
-    "pct": 15.0
-   },
-   "retail": {
-    "shares": null,
-    "pct": 35.0
-   }
-  },
-  "promoter": {
-   "pre": 99.99,
-   "post": 72.34
-  },
-  "purposes": [
-   {
-    "text": "Augment the capital base of the company",
-    "crore": 32.0
-   },
-   {
-    "text": "General Corporate Purpose",
-    "crore": null
-   }
-  ],
-  "financials": [
-   {
-    "period": "2024",
-    "revenue": 25.46,
-    "expense": 24.86,
-    "pat": 0.45,
-    "assets": 61.18
-   },
-   {
-    "period": "2025",
-    "revenue": 25.34,
-    "expense": 24.32,
-    "pat": 1.48,
-    "assets": 55.04
-   },
-   {
-    "period": "2026",
-    "revenue": 37.64,
-    "expense": 34.48,
-    "pat": 1.97,
-    "assets": 84.23
-   },
-   {
-    "period": "Jul 2026",
-    "revenue": 18.15,
-    "expense": 13.91,
-    "pat": 3.01,
-    "assets": 96.16
-   }
-  ],
-  "peers": [
-   {
-    "name": "Paisalo Digital Limited",
-    "pe": 30.53
-   },
-   {
-    "name": "Apollo Finvest (India) Limited",
-    "pe": 22.0
-   }
-  ],
-  "kpi": {
-   "roe": 6.99,
-   "roce": 26.99,
-   "ebitda_margin": 29.47,
-   "pat_margin": 5.36,
-   "de": 1.6,
-   "eps": 1.22,
-   "ronw": 6.75,
-   "nav": 18.13
-  },
-  "issue": {
-   "issue size": "Approx ₹40.54 Crores",
-   "fresh issue": "Approx ₹40.54 Crores",
-   "offer for sale": "Approx [.] Equity Shares",
-   "issue type": "Book Building Issue",
-   "ipo listing": "NSE SME"
-  },
-  "dates": {
-   "allotment": "2026-10-16",
-   "refund": "2026-10-19",
-   "listing": "2026-10-21"
-  },
-  "gmp_days": []
  }
 }
