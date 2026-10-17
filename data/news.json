@@ -1,5 +1,15 @@
 [
  {
+  "t": "2026-10-17 17:48",
+  "kind": "move",
+  "text": "Sahajanand Medical: GMP falling, +10.17% to +4.36% (₹35 to ₹15)."
+ },
+ {
+  "t": "2026-10-17 17:48",
+  "kind": "verdict",
+  "text": "Sahajanand Medical: verdict changed from Apply to Ignore (+4.36%)."
+ },
+ {
   "t": "2026-10-16 12:54",
   "kind": "move",
   "text": "Paras Healthcare: GMP falling, +16.59% to +12.99% (₹115 to ₹90)."
@@ -738,15 +748,5 @@
   "t": "2026-10-02 14:16",
   "kind": "new",
   "text": "New on the list: Dove Soft (O) (Mainboard), GMP ₹0 (0%), apply by 5 Oct · 3d. Verdict: Don't apply."
- },
- {
-  "t": "2026-10-02 14:16",
-  "kind": "new",
-  "text": "New on the list: EverestIMS Technologies (O) (Mainboard), GMP ₹28 (+32.94%), apply by 5 Oct · 3d. Verdict: Apply."
- },
- {
-  "t": "2026-10-02 14:16",
-  "kind": "new",
-  "text": "New on the list: Shree TNB Polymers (C) (Mainboard), GMP ₹0 (0%), apply by 5 Oct · 3d. Verdict: Don't apply."
  }
 ]
