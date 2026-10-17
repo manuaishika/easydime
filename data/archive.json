@@ -1,4 +1,32 @@
 {
+ "fusioncxc": {
+  "name": "Fusion CX (C)",
+  "sme": false,
+  "gmp": 20.0,
+  "gain": 6.92,
+  "price": 289.0,
+  "price_text": "₹289",
+  "est_price": 309.0,
+  "dates": "14-16 Oct",
+  "status": "",
+  "size": "",
+  "url": "https://ipowatch.in/fusion-cx-ipo-gmp-grey-market-premium/",
+  "end": "2026-10-16"
+ },
+ "ravitaengineeringc": {
+  "name": "Ravita Engineering (C)",
+  "sme": true,
+  "gmp": 2.0,
+  "gain": 1.79,
+  "price": 112.0,
+  "price_text": "₹112",
+  "est_price": 114.0,
+  "dates": "14-16 Oct",
+  "status": "",
+  "size": "",
+  "url": "https://ipowatch.in/ravita-engineering-services-ipo-gmp-grey-market-premium/",
+  "end": "2026-10-16"
+ },
  "hdfireprotectc": {
   "name": "HD Fire Protect (C)",
   "sme": false,

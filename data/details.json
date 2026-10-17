@@ -1641,6 +1641,11 @@
     "2026-10-16",
     225.0,
     "17:12"
+   ],
+   [
+    "2026-10-17",
+    225.0,
+    "07:24"
    ]
   ]
  },
@@ -1783,6 +1788,11 @@
     "2026-10-16",
     90.0,
     "17:12"
+   ],
+   [
+    "2026-10-17",
+    95.0,
+    "07:24"
    ]
   ]
  },
@@ -1928,6 +1938,11 @@
     "2026-10-16",
     125.0,
     "17:13"
+   ],
+   [
+    "2026-10-17",
+    130.0,
+    "07:24"
    ]
   ]
  },
@@ -1974,6 +1989,11 @@
     "2026-10-16",
     500.0,
     "17:13"
+   ],
+   [
+    "2026-10-17",
+    516.0,
+    "07:24"
    ]
   ]
  },
@@ -2097,6 +2117,11 @@
     "2026-10-16",
     11.0,
     "17:14"
+   ],
+   [
+    "2026-10-17",
+    7.0,
+    "07:24"
    ]
   ]
  },
@@ -2229,165 +2254,11 @@
     "2026-10-16",
     40.0,
     "17:14"
-   ]
-  ]
- },
- "fusioncx": {
-  "lot": {
-   "lots": 1.0,
-   "shares": 51.0,
-   "amount": 14739.0
-  },
-  "categories": {
-   "anchor": {
-    "shares": null,
-    "pct": 75.0
-   },
-   "nii": {
-    "shares": null,
-    "pct": 15.0
-   },
-   "retail": {
-    "shares": null,
-    "pct": 10.0
-   }
-  },
-  "promoter": {
-   "pre": 99.03,
-   "post": 81.82
-  },
-  "purposes": [
-   {
-    "text": "Repayment/prepayment, in full or in part, of certain outstanding borrowings availed by (i) Company; (ii) certain Subsidiaries (direct and certain step-down subsidiaries)",
-    "crore": 275.7
-   },
-   {
-    "text": "Investment in step-down subsidiaries, Omind Technologies Inc. and Omind Technologies Pvt.Ltd., for upgrading IT tools i.e. Arya and MindVoice",
-    "crore": 61.15
-   },
-   {
-    "text": "Pursuing inorganic growth through unidentified acquisitions and other strategic initiatives and general corporate purposes",
-    "crore": null
-   }
-  ],
-  "financials": [
-   {
-    "period": "2024",
-    "revenue": 1021.53,
-    "expense": 984.84,
-    "pat": 36.26,
-    "assets": 768.02
-   },
-   {
-    "period": "2025",
-    "revenue": 1352.03,
-    "expense": 1274.29,
-    "pat": 74.31,
-    "assets": 1143.25
-   },
-   {
-    "period": "2026",
-    "revenue": 1851.83,
-    "expense": 1662.53,
-    "pat": 169.84,
-    "assets": 1385.15
-   },
-   {
-    "period": "Jun 2026",
-    "revenue": 503.85,
-    "expense": 441.03,
-    "pat": 55.7,
-    "assets": 1367.85
-   }
-  ],
-  "peers": [
-   {
-    "name": "FirstSource Solutions Limited",
-    "pe": 22.27
-   },
-   {
-    "name": "eClerx Services Limited",
-    "pe": 19.65
-   },
-   {
-    "name": "Alldigi Tech Limited",
-    "pe": 14.12
-   },
-   {
-    "name": "Inventurus KnowledgeSolutions Limited",
-    "pe": 31.41
-   },
-   {
-    "name": "Sagility India Limited",
-    "pe": 21.66
-   },
-   {
-    "name": "Hinduja GlobalSolutions Limited",
-    "pe": 51.07
-   }
-  ],
-  "kpi": {
-   "roe": 30.3,
-   "roce": 71.59,
-   "ebitda_margin": 19.48,
-   "pat_margin": 9.34,
-   "de": 1.25,
-   "eps": 13.47,
-   "ronw": 30.74,
-   "nav": 43.73
-  },
-  "issue": {
-   "issue size": "Approx ₹702.00 Crores",
-   "fresh issue": "Approx ₹500 Crores",
-   "offer for sale": "Approx 69,89,619 Equity Shares",
-   "issue type": "Book Building Issue",
-   "ipo listing": "BSE, NSE"
-  },
-  "dates": {
-   "allotment": "2026-10-19",
-   "refund": "2026-10-21",
-   "listing": "2026-10-22"
-  },
-  "gmp_days": [
-   [
-    "2026-10-09",
-    55.0,
-    "16:00"
    ],
    [
-    "2026-10-10",
-    55.0,
-    "17:40"
-   ],
-   [
-    "2026-10-11",
-    25.0,
-    "17:00"
-   ],
-   [
-    "2026-10-12",
-    13.0,
-    "17:25"
-   ],
-   [
-    "2026-10-13",
-    25.0,
-    "17:41"
-   ],
-   [
-    "2026-10-14",
-    34.0,
-    "17:07"
-   ],
-   [
-    "2026-10-15",
-    20.0,
-    "18:00"
-   ],
-   [
-    "2026-10-16",
-    20.0,
-    "17:15"
+    "2026-10-17",
+    35.0,
+    "07:24"
    ]
   ]
  },
@@ -2488,133 +2359,5 @@
    "listing": "2026-10-23"
   },
   "gmp_days": []
- },
- "ravitaengineering": {
-  "lot": {
-   "lots": 2.0,
-   "shares": 2400.0,
-   "amount": 268800.0
-  },
-  "categories": {
-   "anchor": {
-    "shares": null,
-    "pct": 50.0
-   },
-   "nii": {
-    "shares": null,
-    "pct": 15.0
-   },
-   "retail": {
-    "shares": null,
-    "pct": 35.0
-   }
-  },
-  "promoter": {
-   "pre": 73.74,
-   "post": null
-  },
-  "purposes": [
-   {
-    "text": "To meet long-term working capital requirements of the Company",
-    "crore": 66.0
-   },
-   {
-    "text": "Funding capital expenditure requirements of our Company towards purchase of certain heavy equipment",
-    "crore": 25.09
-   },
-   {
-    "text": "General Corporate Purposes",
-    "crore": null
-   }
-  ],
-  "financials": [
-   {
-    "period": "2024",
-    "revenue": 13.53,
-    "expense": 11.44,
-    "pat": 1.51,
-    "assets": 9.8
-   },
-   {
-    "period": "2025",
-    "revenue": 109.3,
-    "expense": 93.49,
-    "pat": 11.83,
-    "assets": 9.08
-   },
-   {
-    "period": "2026",
-    "revenue": 277.82,
-    "expense": 240.35,
-    "pat": 28.04,
-    "assets": 58.24
-   },
-   {
-    "period": "June 2026",
-    "revenue": 97.45,
-    "expense": 83.92,
-    "pat": 10.13,
-    "assets": 146.68
-   }
-  ],
-  "kpi": {
-   "roe": 48.9,
-   "roce": 48.65,
-   "ebitda_margin": 14.43,
-   "pat_margin": 10.09,
-   "de": 0.19,
-   "eps": 11.05,
-   "ronw": 48.9,
-   "nav": 36.44
-  },
-  "issue": {
-   "issue size": "Approx ₹116.05 Crores",
-   "fresh issue": "Approx ₹116.05 Crores",
-   "offer for sale": "Approx [.] Equity Shares",
-   "issue type": "Book Building Issue",
-   "ipo listing": "NSE SME"
-  },
-  "dates": {
-   "allotment": "2026-10-19",
-   "refund": "2026-10-21",
-   "listing": "2026-10-22"
-  },
-  "gmp_days": [
-   [
-    "2026-10-10",
-    10.0,
-    "17:33"
-   ],
-   [
-    "2026-10-11",
-    10.0,
-    "17:00"
-   ],
-   [
-    "2026-10-12",
-    10.0,
-    "17:21"
-   ],
-   [
-    "2026-10-13",
-    4.0,
-    "17:21"
-   ],
-   [
-    "2026-10-14",
-    2.0,
-    "17:05"
-   ],
-   [
-    "2026-10-15",
-    2.0,
-    "18:00"
-   ],
-   [
-    "2026-10-16",
-    2.0,
-    "17:17"
-   ]
-  ]
  }
 }

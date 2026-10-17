@@ -1,70 +1,4 @@
 {
- "fusioncx": {
-  "history": [
-   [
-    "2026-10-14 23:50",
-    1.64,
-    0.43
-   ],
-   [
-    "2026-10-15 19:05",
-    3.92,
-    1.16
-   ],
-   [
-    "2026-10-16 12:54",
-    4.9,
-    1.55
-   ],
-   [
-    "2026-10-16 18:54",
-    5.99,
-    4.68
-   ]
-  ],
-  "latest": {
-   "qib": 4.21,
-   "nii": 4.73,
-   "retail": 5.99,
-   "total": 4.68,
-   "updated": "18:00",
-   "closing": "October 16, 2026",
-   "type": "Mainboard"
-  }
- },
- "ravitaengineering": {
-  "history": [
-   [
-    "2026-10-14 23:50",
-    0.95,
-    1.14
-   ],
-   [
-    "2026-10-15 19:05",
-    1.53,
-    1.7
-   ],
-   [
-    "2026-10-16 12:54",
-    1.94,
-    2.26
-   ],
-   [
-    "2026-10-16 18:54",
-    3.5,
-    7.11
-   ]
-  ],
-  "latest": {
-   "qib": 13.21,
-   "nii": 7.42,
-   "retail": 3.5,
-   "total": 7.11,
-   "updated": "18:00",
-   "closing": "October 16, 2026",
-   "type": "SME"
-  }
- },
  "rkfashionopen": {
   "history": [
    [
@@ -994,6 +928,42 @@
    "total": 3.23,
    "updated": "18:11",
    "closing": "October 15, 2026",
+   "type": "SME"
+  }
+ },
+ "fusioncxc": {
+  "history": [
+   [
+    "2026-10-17 12:36",
+    5.99,
+    4.68
+   ]
+  ],
+  "latest": {
+   "qib": 4.21,
+   "nii": 4.73,
+   "retail": 5.99,
+   "total": 4.68,
+   "updated": "18:00",
+   "closing": "October 16, 2026",
+   "type": "Mainboard"
+  }
+ },
+ "ravitaengineeringc": {
+  "history": [
+   [
+    "2026-10-17 12:36",
+    3.5,
+    7.11
+   ]
+  ],
+  "latest": {
+   "qib": 13.21,
+   "nii": 7.42,
+   "retail": 3.5,
+   "total": 7.11,
+   "updated": "18:00",
+   "closing": "October 16, 2026",
    "type": "SME"
   }
  }
